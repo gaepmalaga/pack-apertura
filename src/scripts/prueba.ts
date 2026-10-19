@@ -1,7 +1,8 @@
 // Modo prueba del panel de las demos. El panel guarda los cambios en el propio
 // navegador (localStorage) y la web los aplica al abrirse con ?prueba. Nada se
 // publica: sirve para que el dueño del negocio vea cómo cambiaría su web.
-import { porDia, resumenCorto, formatoTramo, type Dia } from '../lib/horario';
+import { porDia, resumenCorto, type Dia } from '../lib/horario';
+import { htmlHorario, type VistaHorario } from '../lib/vista-horario';
 
 export type Prueba = {
   eslogan?: string;
@@ -45,9 +46,8 @@ export function aplicarPrueba(datos: { slug: string; horario: unknown[]; admin: 
     datos.horario = p.horario;
     const semana = porDia(p.horario);
     document.querySelectorAll('[data-campo="resumen"]').forEach((el) => (el.textContent = resumenCorto(semana) || 'Cerrado'));
-    document.querySelectorAll<HTMLElement>('tr[data-dia]').forEach((fila) => {
-      const tramos = semana[fila.dataset.dia as Dia] ?? [];
-      fila.querySelector('td')!.textContent = tramos.length ? tramos.map(formatoTramo).join(' · ') : 'Cerrado';
+    document.querySelectorAll<HTMLElement>('[data-vista-horario]').forEach((caja) => {
+      caja.innerHTML = htmlHorario(caja.dataset.vistaHorario as VistaHorario, semana);
     });
   }
   const grupos = document.querySelector('[data-carta-grupos]');

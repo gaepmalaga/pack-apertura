@@ -4,6 +4,8 @@
 // servicios y preguntas, y todos horario, reservas y cómo llegar.
 import Demo from '../../../layouts/Demo.astro';
 import Portada from '../../../components/Portada.astro';
+import Mapa from '../../../components/Mapa.astro';
+import { htmlHorario } from '../../../lib/vista-horario';
 import {
   negocios,
   telHref,
@@ -212,41 +214,47 @@ const secundario =
                 </p>
               )}
             </div>
-            <form class="formulario" data-reserva data-wa={waHref(n)} data-tel={tel}>
+            <form class="formulario" data-reserva data-wa={waHref(n)} data-tel={tel} novalidate>
               {(reservas.opciones?.length ?? 0) > 1 && (
-                <label>
-                  Qué necesitas
-                  <select id="r-opcion" name="opcion">
-                    {reservas.opciones!.map((o) => (
-                      <option>{o}</option>
+                <fieldset class="paso">
+                  <legend>Qué necesitas</legend>
+                  <div class="chips">
+                    {reservas.opciones!.map((o, i) => (
+                      <label class="chip">
+                        <input type="radio" name="opcion" value={o} checked={i === 0} />
+                        <span>{o}</span>
+                      </label>
                     ))}
-                  </select>
-                </label>
+                  </div>
+                </fieldset>
               )}
-              <div class="fila">
-                <label>
-                  Día
-                  <input id="r-dia" name="dia" type="date" required />
-                </label>
-                <label>
-                  Hora aproximada
-                  <input id="r-hora" name="hora" type="time" required />
-                </label>
-                {reservas.personas && (
-                  <label>
-                    Personas
-                    <input id="r-personas" name="personas" type="number" min="1" max="40" value="2" required />
-                  </label>
-                )}
-              </div>
+              <fieldset class="paso">
+                <legend>Qué día</legend>
+                <div class="chips desliza" data-dias-reserva />
+              </fieldset>
+              <fieldset class="paso" data-paso-hora hidden>
+                <legend>A qué hora</legend>
+                <div class="chips" data-horas-reserva />
+              </fieldset>
+              {reservas.personas && (
+                <fieldset class="paso">
+                  <legend>Cuántos sois</legend>
+                  <div class="contador">
+                    <button type="button" data-menos aria-label="Uno menos">−</button>
+                    <output data-personas aria-live="polite">2</output>
+                    <button type="button" data-mas aria-label="Uno más">+</button>
+                  </div>
+                </fieldset>
+              )}
               <label>
                 Tu nombre
-                <input id="r-nombre" name="nombre" autocomplete="name" required />
+                <input id="r-nombre" name="nombre" autocomplete="name" />
               </label>
               <label>
                 Algo más que debamos saber
                 <textarea id="r-nota" name="nota" placeholder="Opcional" />
               </label>
+              <p class="aviso-reserva" data-aviso-reserva role="alert" hidden />
               <button class="boton principal" type="submit">
                 {waHref(n) ? 'Enviar por WhatsApp' : 'Llamar para reservar'}
               </button>
@@ -292,9 +300,9 @@ const secundario =
       )
     }
 
-    <section class="seccion" id="donde">
+    <section class={`seccion donde-${n.tema.mapa ?? 'tarjeta'}`} id="donde">
       <div class="envoltura donde">
-        <div>
+        <div class="donde-texto">
           <div class="cabeza">
             <span class="etiqueta">Dónde estamos</span>
             <h2>Cómo llegar</h2>
@@ -307,23 +315,15 @@ const secundario =
             {tel && <a class="boton" href={tel}>{n.contacto.telefono}</a>}
           </div>
         </div>
+        <Mapa n={n} />
         {
           hayHorario && (
-            <div>
+            <div class="donde-horario">
               <div class="cabeza">
                 <span class="etiqueta">Horario</span>
                 <h2>Cuándo abrimos</h2>
               </div>
-              <table class="horario">
-                <tbody>
-                  {DIAS.map((d) => (
-                    <tr data-dia={d}>
-                      <th scope="row">{NOMBRE_DIA[d]}</th>
-                      <td>{semana[d].length ? semana[d].map(formatoTramo).join(' · ') : 'Cerrado'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div data-vista-horario={n.tema.horario ?? 'filas'} set:html={htmlHorario(n.tema.horario ?? 'filas', semana)} />
               {n.horarioNota && <p class="entradilla" style="margin-top:12px;font-size:15px">{n.horarioNota}</p>}
             </div>
           )
@@ -371,6 +371,7 @@ const secundario =
     import { iniciarLista } from '../../../scripts/lista';
     import { iniciarReserva } from '../../../scripts/reserva';
     import { aplicarPrueba } from '../../../scripts/prueba';
+    import { marcarHoy } from '../../../lib/vista-horario';
 
     const datos = JSON.parse(document.getElementById('datos-negocio')!.textContent!);
     aplicarPrueba(datos);
@@ -384,12 +385,11 @@ const secundario =
         el.querySelector('[data-estado-texto]')!.textContent = texto;
         el.hidden = false;
       });
-      const { dia } = ahoraEnMadrid();
-      document.querySelectorAll<HTMLElement>('tr[data-dia]').forEach((f) => f.classList.toggle('hoy', f.dataset.dia === dia));
+      marcarHoy(document, ahoraEnMadrid().dia, semana);
     }
     pintarEstado();
     setInterval(pintarEstado, 60_000);
     iniciarLista(datos.slug);
-    iniciarReserva(datos.nombre);
+    iniciarReserva(datos.nombre, datos.horario);
   </script>
 </Demo>

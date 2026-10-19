@@ -15,7 +15,10 @@
     "portada": "cartel",
     "adorno": "ninguno",
     "carta": "menu",
-    "forma": "recto"
+    "forma": "recto",
+    "horario": "agrupado",
+    "mapa": "enmarcado",
+    "secciones": "aire"
   },
   "contacto": {
     "telefono": "",
@@ -29,7 +32,11 @@
     "cp": "29003",
     "ciudad": "Málaga",
     "comoLlegar": "Metro: L2, parada Princesa-Huelin.",
-    "mapa": "https://maps.app.goo.gl/hGu5MMxdwgu89M5X6"
+    "mapa": "https://maps.app.goo.gl/hGu5MMxdwgu89M5X6",
+    "geo": {
+      "lat": 36.7026508,
+      "lng": -4.4414079
+    }
   },
   "horario": [],
   "combos": [

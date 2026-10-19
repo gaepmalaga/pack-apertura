@@ -1,0 +1,23 @@
+---
+// Mapa de OpenStreetMap con la chincheta del local. No usa Google (ni sus
+// cookies) y no necesita clave. Se carga cuando la persona llega a esa parte.
+import type { Negocio } from '../lib/negocios';
+interface Props {
+  n: Negocio;
+}
+const { n } = Astro.props;
+const geo = n.direccion.geo;
+const d = 0.0042;
+const src = geo
+  ? `https://www.openstreetmap.org/export/embed.html?bbox=${geo.lng - d}%2C${geo.lat - d / 1.7}%2C${geo.lng + d}%2C${geo.lat + d / 1.7}&layer=mapnik&marker=${geo.lat}%2C${geo.lng}`
+  : '';
+const estilo = n.tema.mapa ?? 'tarjeta';
+---
+
+{
+  src && (
+    <figure class={`mapa mapa-${estilo}`}>
+      <iframe src={src} title={`Mapa de ${n.nombre}`} loading="lazy" referrerpolicy="no-referrer" />
+    </figure>
+  )
+}

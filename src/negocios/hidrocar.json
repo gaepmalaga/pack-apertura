@@ -14,7 +14,10 @@
     "sobreAcento": "#ffffff",
     "portada": "ficha",
     "adorno": "cuadricula",
-    "forma": "recto"
+    "forma": "recto",
+    "horario": "filas",
+    "mapa": "grande",
+    "secciones": "bandas"
   },
   "contacto": {
     "telefono": "689 019 992",
@@ -29,7 +32,11 @@
     "cp": "29140",
     "ciudad": "Málaga",
     "comoLlegar": "Dentro del polígono industrial de El Rompedizo, muy cerca del aeropuerto. Si es tu primera vez, abre el mapa y sigue la ruta hasta la puerta.",
-    "mapa": "https://www.google.com/maps/search/?api=1&query=Taller+Hidrocar%2C+Calle+Escritor+Herrera+Santaolalla+9%2C+29140+Churriana%2C+M%C3%A1laga"
+    "mapa": "https://www.google.com/maps/search/?api=1&query=Taller+Hidrocar%2C+Calle+Escritor+Herrera+Santaolalla+9%2C+29140+Churriana%2C+M%C3%A1laga",
+    "geo": {
+      "lat": 36.6605397,
+      "lng": -4.4952883
+    }
   },
   "horario": [
     {

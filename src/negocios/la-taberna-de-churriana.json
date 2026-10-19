@@ -15,7 +15,10 @@
     "portada": "rotulo",
     "adorno": "toldo",
     "carta": "tarjetas",
-    "forma": "redondo"
+    "forma": "redondo",
+    "horario": "semana",
+    "mapa": "tarjeta",
+    "secciones": "lineas"
   },
   "contacto": {
     "telefono": "744 78 10 63",
@@ -29,7 +32,11 @@
     "cp": "29140",
     "ciudad": "Málaga",
     "comoLlegar": "En la plaza de San Antonio Abad, en el centro de Churriana.",
-    "mapa": "https://maps.app.goo.gl/PwwAS5cL1KiUmciG7"
+    "mapa": "https://maps.app.goo.gl/PwwAS5cL1KiUmciG7",
+    "geo": {
+      "lat": 36.6685401,
+      "lng": -4.5040911
+    }
   },
   "horario": [
     {

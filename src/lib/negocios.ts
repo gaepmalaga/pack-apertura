@@ -28,7 +28,12 @@ export type Negocio = {
     adorno?: 'ninguno' | 'toldo' | 'cuadricula' | 'olas';
     /** Carta en tarjetas por sección o como una carta impresa de una columna. */
     carta?: 'tarjetas' | 'menu';
-    forma?: 'redondo' | 'recto';
+    /** Esquinas: redondo (botones de píldora), suave (8 px) o recto. */
+    forma?: 'redondo' | 'suave' | 'recto';
+    horario?: 'filas' | 'semana' | 'agrupado' | 'hoy';
+    mapa?: 'tarjeta' | 'grande' | 'enmarcado';
+    /** Cómo se separan las secciones: líneas, bandas de color alternas o solo aire. */
+    secciones?: 'lineas' | 'bandas' | 'aire';
   };
   contacto: {
     telefono?: string;
@@ -44,6 +49,8 @@ export type Negocio = {
     ciudad: string;
     comoLlegar?: string;
     mapa?: string;
+    /** Coordenadas para el mapa integrado (OpenStreetMap). */
+    geo?: { lat: number; lng: number };
   };
   horario: { dia: Dia; abre: string; cierra: string }[];
   horarioNota?: string;

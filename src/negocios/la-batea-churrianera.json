@@ -14,7 +14,10 @@
     "sobreAcento": "#0f2a3a",
     "portada": "banda",
     "adorno": "olas",
-    "forma": "redondo"
+    "forma": "suave",
+    "horario": "hoy",
+    "mapa": "grande",
+    "secciones": "aire"
   },
   "contacto": {
     "telefono": "656 67 24 40",
@@ -29,7 +32,11 @@
     "cp": "29140",
     "ciudad": "Málaga",
     "comoLlegar": "En la carretera de Coín, a unos 500 metros del centro comercial Plaza Mayor y de Ikea. Hay aparcamiento gratuito en la calle.",
-    "mapa": "https://www.google.com/maps/search/?api=1&query=La+Batea+Churrianera%2C+Ctra.+Co%C3%ADn+14%2C+29140+Churriana%2C+M%C3%A1laga"
+    "mapa": "https://www.google.com/maps/search/?api=1&query=La+Batea+Churrianera%2C+Ctra.+Co%C3%ADn+14%2C+29140+Churriana%2C+M%C3%A1laga",
+    "geo": {
+      "lat": 36.6583835,
+      "lng": -4.4888424
+    }
   },
   "horario": [
     {
