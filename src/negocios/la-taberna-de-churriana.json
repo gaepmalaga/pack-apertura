@@ -1,0 +1,378 @@
+{
+  "demo": true,
+  "sector": "bar",
+  "nombre": "La Taberna de Churriana",
+  "rotulo": "La Taberna",
+  "bajoRotulo": "de Churriana",
+  "eslogan": "Buen tapeo en Churriana.",
+  "descripcion": "Raciones para poner en medio, tostas que crujen, mini-burgers de Angus y carne a la plancha. Sabor de verdad, y a precio de taberna. Huevos rotos con secreto, albóndigas de las de siempre, croquetas de cocido y de rabo de toro.",
+  "tema": {
+    "estilo": "taberna",
+    "fondo": "#0e0e0e",
+    "tinta": "#f5f1e8",
+    "acento": "#f7e27c",
+    "sobreAcento": "#111111"
+  },
+  "contacto": {
+    "telefono": "744 78 10 63",
+    "whatsapp": "",
+    "email": "",
+    "instagram": "latabernadechurriana"
+  },
+  "direccion": {
+    "calle": "Pl. San Antonio Abad, 7",
+    "zona": "Churriana",
+    "cp": "29140",
+    "ciudad": "Málaga",
+    "comoLlegar": "En la plaza de San Antonio Abad, en el centro de Churriana.",
+    "mapa": "https://maps.app.goo.gl/PwwAS5cL1KiUmciG7"
+  },
+  "horario": [
+    {
+      "dia": "domingo",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "lunes",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "martes",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "miercoles",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "jueves",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "viernes",
+      "abre": "12:00",
+      "cierra": "01:00"
+    },
+    {
+      "dia": "sabado",
+      "abre": "12:00",
+      "cierra": "01:00"
+    }
+  ],
+  "combos": [
+    {
+      "nombre": "Una caña y un pincho",
+      "descripcion": "Caña y pincho de langostinos. Lo que se entra a tomar sin pensarlo.",
+      "precio": 4.5
+    },
+    {
+      "nombre": "Picoteo para dos",
+      "descripcion": "Ensaladilla, bravas y un surtido de croquetas, con sus dos cañas.",
+      "precio": 25.5
+    },
+    {
+      "nombre": "Mesa para dos, sin mirar",
+      "descripcion": "Huevos rotos con secreto, una tosta serrana, mini-burgers de la casa y dos cañas.",
+      "precio": 27.5
+    }
+  ],
+  "carta": [
+    {
+      "titulo": "Raciones",
+      "tipo": "comer",
+      "platos": [
+        {
+          "id": "pincho-langostinos",
+          "nombre": "Pincho de langostinos",
+          "descripcion": "Langostinos seleccionados, marinados en nuestro adobo de perejil con suave alioli.",
+          "precio": 2.5
+        },
+        {
+          "id": "ensaladilla",
+          "nombre": "Ensaladilla rusa",
+          "descripcion": "Nuestra ensaladilla rusa clásica con el toque especial y secreto de la Taberna.",
+          "precio": 7
+        },
+        {
+          "id": "bravas",
+          "nombre": "Patatas bravas",
+          "descripcion": "Patatas de corte «teja» extra crujientes, servidas con nuestra salsa brava artesanal.",
+          "precio": 7
+        },
+        {
+          "id": "patatas-queso-bacon",
+          "nombre": "Patatas queso y bacon",
+          "descripcion": "Un festín de patatas tejas con queso y tropezones de bacon ahumado.",
+          "precio": 7
+        },
+        {
+          "id": "albondigas",
+          "nombre": "Albóndigas caseras",
+          "descripcion": "Receta tradicional, cocinadas a fuego lento en salsa de tomate natural.",
+          "precio": 7
+        },
+        {
+          "id": "langostinos-crujientes",
+          "nombre": "Langostinos crujientes",
+          "descripcion": "Langostinos envueltos en panko japonés y acompañados de nuestra salsa especial.",
+          "precio": 7
+        },
+        {
+          "id": "huevos-secreto",
+          "nombre": "Huevos rotos con secreto",
+          "descripcion": "La combinación perfecta de patatas fritas, huevos de corral y finas tiras de secreto ibérico.",
+          "precio": 8
+        },
+        {
+          "id": "huevos-langostinos",
+          "nombre": "Huevos rotos con langostinos",
+          "descripcion": "Una variante marinera de nuestro clásico, con langostinos salteados al punto.",
+          "precio": 8
+        }
+      ]
+    },
+    {
+      "titulo": "Mini-burgers",
+      "tipo": "comer",
+      "platos": [
+        {
+          "id": "burger-cabra",
+          "nombre": "Cabra",
+          "descripcion": "Carne Angus, queso de cabra, cebolla caramelizada y un toque de alioli.",
+          "precio": 3.5
+        },
+        {
+          "id": "burger-taberna",
+          "nombre": "Taberna",
+          "descripcion": "Con carne Angus, queso Edam, rúcula fresca y salsa especial Taberna.",
+          "precio": 3.5
+        },
+        {
+          "id": "burger-baconesa",
+          "nombre": "Baconesa",
+          "descripcion": "Carne Angus, queso Edam, bacon crujiente y mayonesa de bacon.",
+          "precio": 3.5
+        },
+        {
+          "id": "burger-pollo",
+          "nombre": "Pollo",
+          "descripcion": "Para los que prefieren el pollo rebozado, acompañado de lechuga y mayo.",
+          "precio": 3.5
+        },
+        {
+          "id": "burger-cheddar",
+          "nombre": "Cheddar Boom",
+          "descripcion": "La estrella de la casa. Carne Angus bañada en una cascada de cheddar, bacon y cebolla crujiente.",
+          "precio": 4
+        }
+      ]
+    },
+    {
+      "titulo": "Croquetas",
+      "tipo": "comer",
+      "platos": [
+        {
+          "id": "croquetas-tradicion",
+          "nombre": "Tradición y sabor",
+          "descripcion": "Elige entre nuestras croquetas de cocido, el intenso rabo de toro o las melosas de al pil pil.",
+          "precio": 6.8
+        },
+        {
+          "id": "croquetas-surtido",
+          "nombre": "Surtido degustación",
+          "descripcion": "Si quieres probar todas nuestras croquetas, esta es tu elección.",
+          "precio": 7.5
+        }
+      ]
+    },
+    {
+      "titulo": "Tostas crujientes",
+      "tipo": "comer",
+      "platos": [
+        {
+          "id": "tosta-filetitos",
+          "nombre": "Filetitos",
+          "descripcion": "Finos filetes con nuestro aliño especial, queso Edam fundido y alioli sobre pan tostado.",
+          "precio": 7
+        },
+        {
+          "id": "tosta-serrana",
+          "nombre": "Serrana",
+          "descripcion": "Un clásico infalible con cinta de lomo, jamón serrano de calidad, pimiento frito y alioli.",
+          "precio": 7.5
+        },
+        {
+          "id": "tosta-cabrera",
+          "nombre": "Cabrera",
+          "descripcion": "Sabroso lomo combinado con la intensidad del queso de cabra, dulzor de cebolla caramelizada y alioli.",
+          "precio": 7.5
+        },
+        {
+          "id": "tosta-solomillo",
+          "nombre": "De solomillo",
+          "descripcion": "Solomillo de cerdo premium coronado con huevo de codorniz y nuestro alioli artesano.",
+          "precio": 8.5
+        }
+      ]
+    },
+    {
+      "titulo": "Ensaladas",
+      "tipo": "comer",
+      "platos": [
+        {
+          "id": "ensalada-cesar",
+          "nombre": "César",
+          "descripcion": "Mix de lechugas, queso parmesano, pollo rebozado, picatostes y salsa César.",
+          "precio": 7.5
+        },
+        {
+          "id": "ensalada-mostaza",
+          "nombre": "Mostaza y miel",
+          "descripcion": "Mix de lechugas, queso de cabra, bacon, cebolla crujiente y salsa mostaza y miel.",
+          "precio": 7.5
+        }
+      ]
+    },
+    {
+      "titulo": "Nuestras carnes",
+      "tipo": "comer",
+      "platos": [
+        {
+          "id": "flamenquin",
+          "nombre": "Flamenquín casero",
+          "descripcion": "Cinta de lomo, jamón serrano y queso.",
+          "precio": 8
+        },
+        {
+          "id": "secreto",
+          "nombre": "Secreto",
+          "descripcion": "Corte seleccionado de secreto, tierno y jugoso, servido con patatas fritas.",
+          "precio": 8.5
+        },
+        {
+          "id": "solomillo",
+          "nombre": "Solomillo",
+          "descripcion": "Solomillo de cerdo de primera calidad con guarnición de patatas fritas.",
+          "precio": 9
+        },
+        {
+          "id": "pinchitos-pollo",
+          "nombre": "Pinchitos de pollo",
+          "descripcion": "Con aliño «Taberna» y acompañados de patatas fritas.",
+          "precio": 6.5
+        },
+        {
+          "id": "nuggets",
+          "nombre": "Nuggets",
+          "descripcion": "Nuggets de pollo con patatas fritas.",
+          "precio": 6.5
+        },
+        {
+          "id": "lagrimitas",
+          "nombre": "Lagrimitas",
+          "descripcion": "Lagrimitas de pollo al estilo taberna, con guarnición de patatas fritas.",
+          "precio": 6.5
+        },
+        {
+          "id": "alitas",
+          "nombre": "Alitas",
+          "descripcion": "Alitas de pollo acompañadas de patatas fritas al estilo «Taberna» y nuestra salsa.",
+          "precio": 6.5
+        },
+        {
+          "id": "brochetitas",
+          "nombre": "Brochetitas de pollo",
+          "descripcion": "Brochetas de pollo con toque de chimichurri, verduras y patatas fritas.",
+          "precio": 8
+        },
+        {
+          "id": "plato-taberna",
+          "nombre": "El plato de la Taberna",
+          "descripcion": "El festín definitivo: cinta de lomo, pimentitos fritos, huevo, chorizo y una montaña de patatas fritas.",
+          "precio": 10
+        }
+      ]
+    },
+    {
+      "titulo": "Bebidas",
+      "tipo": "beber",
+      "platos": [
+        {
+          "id": "cana",
+          "nombre": "Caña",
+          "descripcion": "",
+          "precio": 2
+        },
+        {
+          "id": "tercio",
+          "nombre": "Tercio",
+          "descripcion": "",
+          "precio": 2.3
+        },
+        {
+          "id": "jarra",
+          "nombre": "Jarra",
+          "descripcion": "",
+          "precio": 3.2
+        },
+        {
+          "id": "verde",
+          "nombre": "Verde",
+          "descripcion": "",
+          "precio": 3
+        },
+        {
+          "id": "refrescos",
+          "nombre": "Refrescos",
+          "descripcion": "",
+          "precio": 2.2
+        },
+        {
+          "id": "agua",
+          "nombre": "Agua",
+          "descripcion": "",
+          "precio": 1
+        },
+        {
+          "id": "rioja",
+          "nombre": "Rioja",
+          "descripcion": "",
+          "precio": 3.2
+        },
+        {
+          "id": "ribera",
+          "nombre": "Ribera",
+          "descripcion": "",
+          "precio": 3.5
+        },
+        {
+          "id": "verdejo",
+          "nombre": "Verdejo",
+          "descripcion": "",
+          "precio": 3.2
+        },
+        {
+          "id": "tinto-verano",
+          "nombre": "Tinto de verano",
+          "descripcion": "",
+          "precio": 3
+        }
+      ]
+    }
+  ],
+  "cartaNota": "IVA incluido.",
+  "reservas": {
+    "activas": true,
+    "titulo": "Reservar mesa",
+    "texto": "Para mesa, para grupo, o para preguntar qué hay hoy fuera de carta.",
+    "opciones": [
+      "Mesa"
+    ],
+    "personas": true
+  }
+}

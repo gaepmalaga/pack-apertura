@@ -1,0 +1,24 @@
+{
+  "marca": "Pack Apertura",
+  "ciudad": "Málaga",
+  "contacto": {
+    "nombre": "[Tu nombre]",
+    "telefono": "[teléfono]",
+    "whatsapp": ""
+  },
+  "precio": { "entrada": 350, "cuota": 25 },
+  "cliente": {
+    "nombre": "El descanso que mereces",
+    "url": "https://eldescansoquemereces.com/",
+    "texto": "Asesoría de sueño infantil en Málaga, con consultas online y presenciales. Web publicada y en uso.",
+    "puntos": ["Reserva de cita gratuita desde la web", "Botón de WhatsApp siempre a mano", "Blog y páginas de servicios para aparecer en Google"]
+  },
+  "muestrasExternas": [
+    {
+      "titulo": "Óptica y audífonos",
+      "texto": "Citas online con horas libres, test de audición y panel para editar.",
+      "url": "https://gaepmalaga.github.io/siente/",
+      "imagen": "img/siente.jpg"
+    }
+  ]
+}

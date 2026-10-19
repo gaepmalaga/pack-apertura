@@ -1,0 +1,55 @@
+{
+  "demo": true,
+  "sector": "taller",
+  "nombre": "Taller Hidrocar",
+  "rotulo": "Hidrocar",
+  "bajoRotulo": "Mecánica, chapa y pintura",
+  "eslogan": "Mecánica, chapa y pintura en Churriana.",
+  "descripcion": "Coches y motos en el mismo taller. Diagnosis con equipo propio, recambios de primeras marcas y asesoramiento personalizado.",
+  "tema": { "estilo": "moderno", "fondo": "#16181a", "tinta": "#f2f2f0", "acento": "#ff4d1f", "sobreAcento": "#ffffff" },
+  "contacto": { "telefono": "689 019 992", "whatsapp": "689 019 992", "email": "", "instagram": "", "facebook": "" },
+  "direccion": {
+    "calle": "C/ Escritor Herrera Santaolalla, 9",
+    "zona": "Pol. Ind. El Rompedizo, Churriana",
+    "cp": "29140",
+    "ciudad": "Málaga",
+    "comoLlegar": "Dentro del polígono industrial de El Rompedizo, muy cerca del aeropuerto. Si es tu primera vez, abre el mapa y sigue la ruta hasta la puerta.",
+    "mapa": "https://www.google.com/maps/search/?api=1&query=Taller+Hidrocar%2C+Calle+Escritor+Herrera+Santaolalla+9%2C+29140+Churriana%2C+M%C3%A1laga"
+  },
+  "horario": [
+    { "dia": "lunes", "abre": "09:30", "cierra": "20:00" },
+    { "dia": "martes", "abre": "09:30", "cierra": "20:00" },
+    { "dia": "miercoles", "abre": "09:30", "cierra": "20:00" },
+    { "dia": "jueves", "abre": "09:30", "cierra": "20:00" },
+    { "dia": "viernes", "abre": "09:30", "cierra": "20:00" },
+    { "dia": "sabado", "abre": "09:30", "cierra": "14:00" }
+  ],
+  "horarioNota": "En agosto y en vísperas de festivo el horario puede cambiar. Si vienes de lejos, llama antes.",
+  "destacados": [
+    { "titulo": "Coches y motos", "texto": "El mismo taller lleva las dos cosas, así que no hay que buscar dos sitios distintos." },
+    { "titulo": "Diagnosis propia", "texto": "La avería se lee aquí mismo, sin mandar el coche a ningún otro sitio." },
+    { "titulo": "Recambios de primeras marcas", "texto": "En frenos o distribución, la marca del recambio es la diferencia entre una reparación que dura y otra que vuelve." }
+  ],
+  "servicios": [
+    { "nombre": "Mecánica rápida y mantenimiento", "descripcion": "Aceite y filtros, pastillas y discos, correas y revisión antes de la ITV." },
+    { "nombre": "Diagnosis electrónica", "descripcion": "Lectura de centralita cuando se enciende un testigo y control de gases." },
+    { "nombre": "Neumáticos", "descripcion": "Cambio y montaje. La medida viene en el lateral de la rueda y en la ficha técnica." },
+    { "nombre": "Chapa y pintura", "descripcion": "Golpes, abolladuras, arañazos y repintado. Reparamos o sustituimos según convenga." },
+    { "nombre": "Electricidad del automóvil", "descripcion": "Baterías, alternador, motor de arranque, luces y averías eléctricas." },
+    { "nombre": "Aire acondicionado", "descripcion": "Revisión del circuito y recarga de gas, buscando primero la fuga." },
+    { "nombre": "Motos", "descripcion": "Mecánica, electricidad y puesta a punto de motocicletas." },
+    { "nombre": "Lavado y limpieza", "descripcion": "A mano, por dentro y por fuera: cristales, alfombrillas, asientos y llantas." }
+  ],
+  "reservas": {
+    "activas": true,
+    "titulo": "Pedir cita en el taller",
+    "texto": "Elige el día y qué le pasa al coche. Te confirmamos la hora por WhatsApp.",
+    "opciones": ["Revisión o mantenimiento", "Diagnosis (testigo encendido)", "Neumáticos", "Chapa y pintura", "Aire acondicionado", "Moto", "Otra cosa"],
+    "personas": false
+  },
+  "faq": [
+    { "pregunta": "No arranca, ¿qué puede ser?", "respuesta": "Si al girar la llave solo oyes un «clac» o el motor gira muy despacio, casi siempre es la batería. Llámanos y te decimos si merece la pena acercarlo." },
+    { "pregunta": "Se ha encendido un testigo", "respuesta": "Naranja o amarillo: hay que mirarlo, pero normalmente puedes venir conduciendo. Rojo (aceite, temperatura, freno): para en cuanto puedas y llama." },
+    { "pregunta": "Me han dado un golpe", "respuesta": "Tráelo y te decimos si sale mejor reparar o sustituir. Si va por el seguro, trae el número de siniestro. Una foto por WhatsApp antes de venir ahorra tiempo." }
+  ]
+}

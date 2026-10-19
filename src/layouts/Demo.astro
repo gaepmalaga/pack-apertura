@@ -1,0 +1,47 @@
+---
+// Marco de la web de un negocio: tipografías, colores del tema y metadatos.
+// Los colores salen de negocio.tema, así cada demo tiene su propia cara.
+import '@fontsource-variable/figtree';
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/fraunces';
+import '../styles/demo.css';
+import type { Negocio } from '../lib/negocios';
+
+interface Props {
+  negocio: Negocio;
+  titulo: string;
+  descripcion: string;
+}
+const { negocio, titulo, descripcion } = Astro.props;
+const t = negocio.tema;
+const display = {
+  taberna: "'Bricolage Grotesque Variable', 'Arial Black', sans-serif",
+  elegante: "'Fraunces Variable', Georgia, serif",
+  moderno: "'Bricolage Grotesque Variable', 'Arial Black', sans-serif",
+}[t.estilo];
+const estilo = [
+  `--fondo:${t.fondo}`,
+  `--tinta:${t.tinta}`,
+  `--acento:${t.acento}`,
+  `--sobre-acento:${t.sobreAcento || t.fondo}`,
+  `--display:${display}`,
+].join(';');
+---
+
+<!doctype html>
+<html lang="es" style={estilo} data-estilo={t.estilo}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    {negocio.demo && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content={t.fondo} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <link rel="icon" href={`data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='${t.acento}'/><text x='32' y='44' font-size='36' font-family='Arial' font-weight='700' text-anchor='middle' fill='${t.sobreAcento || t.fondo}'>${(negocio.rotulo || negocio.nombre).trim()[0]}</text></svg>`)}`} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

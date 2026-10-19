@@ -1,0 +1,250 @@
+---
+// Landing del Pack Apertura: la oferta, un cliente real y todas las demos de
+// src/negocios, que aparecen solas en cuanto se añade su JSON.
+import '@fontsource-variable/figtree';
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/fraunces';
+import landing from '../datos/landing.json';
+import { negocios, url, NOMBRE_SECTOR, soloDigitos } from '../lib/negocios';
+
+const demos = negocios.filter((n) => n.demo);
+const { contacto, precio, cliente } = landing;
+const wa = soloDigitos(contacto.whatsapp);
+const fuente = { taberna: "'Bricolage Grotesque Variable', sans-serif", elegante: "'Fraunces Variable', serif", moderno: "'Bricolage Grotesque Variable', sans-serif" };
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{landing.marca} · {landing.ciudad}</title>
+    <meta name="description" content="Ficha de Google, web o carta con QR, reservas y reseñas, listos en una semana para negocios que acaban de abrir." />
+    <meta name="theme-color" content="#1f3a3d" />
+  </head>
+  <body>
+    <header class="envoltura portada">
+      <div>
+        <span class="etiqueta">{landing.marca} · {landing.ciudad}</span>
+        <h1>Que te encuentren <em>desde el día que abres.</em></h1>
+        <p class="entradilla">Web o carta con QR, ficha de Google Maps, reservas online y tarjeta de reseñas, listos en una semana. Para bares, restaurantes, talleres y centros de estética que acaban de abrir.</p>
+        <div class="botones">
+          <a class="boton principal" href="#contacto">Quiero el pack</a>
+          <a class="boton" href="#muestras">Ver ejemplos</a>
+        </div>
+      </div>
+      <div class="moviles" aria-hidden="true">
+        {
+          demos.slice(0, 2).map((n, i) => (
+            <div class={`movil m${i}`} style={`background:${n.tema.fondo};color:${n.tema.tinta}`}>
+              <span class="mini-aviso" style={`background:${n.tema.acento};color:${n.tema.sobreAcento || n.tema.fondo}`}>{NOMBRE_SECTOR[n.sector]}</span>
+              <strong style={`font-family:${fuente[n.tema.estilo]}`}>{n.rotulo || n.nombre}</strong>
+              <span>{n.eslogan}</span>
+              <span class="mini-boton" style={`background:${n.tema.acento};color:${n.tema.sobreAcento || n.tema.fondo}`}>{n.carta?.length ? 'Ver la carta' : 'Pedir cita'}</span>
+            </div>
+          ))
+        }
+      </div>
+    </header>
+
+    <section class="envoltura seccion">
+      <div class="cabeza">
+        <span class="etiqueta">Qué incluye</span>
+        <h2>Lo que necesita un negocio nuevo, y nada más.</h2>
+      </div>
+      <div class="pack">
+        <div class="item"><span class="n">1</span><div><h3>Web o carta con QR</h3><p>Rápida en el móvil, con «abierto ahora», horario y cómo llegar. En un bar, un QR en cada mesa con la carta y sus precios.</p></div></div>
+        <div class="item"><span class="n">2</span><div><h3>Ficha de Google Maps completa</h3><p>Fotos, horario, categoría y teléfono. Es por donde llegan casi todos los clientes nuevos.</p></div></div>
+        <div class="item"><span class="n">3</span><div><h3>Reservas online</h3><p>Mesa, cita o hueco en el taller desde la web. El aviso llega a tu WhatsApp, sin cuotas ni aplicaciones.</p></div></div>
+        <div class="item"><span class="n">4</span><div><h3>Tú cambias precios y horario</h3><p>Cada web trae su panel: cambias un plato o el horario desde el móvil y en dos minutos está publicado.</p></div></div>
+      </div>
+    </section>
+
+    <section class="banda">
+      <div class="envoltura cliente">
+        <a class="captura" href={cliente.url} target="_blank" rel="noopener"><img src={url('/img/descanso.jpg')} alt={`Portada de la web de ${cliente.nombre}`} /></a>
+        <div>
+          <span class="sello">Cliente</span>
+          <h2>{cliente.nombre}</h2>
+          <p class="entradilla">{cliente.texto}</p>
+          <ul class="ticks">{cliente.puntos.map((p) => <li>{p}</li>)}</ul>
+          <a class="boton" href={cliente.url} target="_blank" rel="noopener">Ver la web</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="envoltura seccion" id="muestras">
+      <div class="cabeza">
+        <span class="etiqueta">Webs de muestra</span>
+        <h2>Así quedaría la de tu negocio.</h2>
+        <p class="nota">Estas webs están preparadas como ejemplo con datos públicos de cada negocio, para enseñar cómo quedaría una web de su sector. No son trabajos encargados por ellos.</p>
+      </div>
+      <div class="muestras">
+        {
+          demos.map((n) => (
+            <a class="muestra" href={url(`/demo/${n.slug}/`)}>
+              <div class="tarjeta-marca" style={`background:${n.tema.fondo};color:${n.tema.tinta}`}>
+                <span class="mini-aviso" style={`background:${n.tema.acento};color:${n.tema.sobreAcento || n.tema.fondo}`}>{NOMBRE_SECTOR[n.sector]}</span>
+                <strong style={`font-family:${fuente[n.tema.estilo]}`}>{n.rotulo || n.nombre}</strong>
+                {n.bajoRotulo && <span class="bajo">{n.bajoRotulo}</span>}
+              </div>
+              <h3>{n.nombre}</h3>
+              <p>{n.eslogan}</p>
+              <span class="ir">Ver la demo →</span>
+            </a>
+          ))
+        }
+        {
+          landing.muestrasExternas.map((m) => (
+            <a class="muestra" href={m.url} target="_blank" rel="noopener">
+              <div class="tarjeta-marca foto"><img src={url('/' + m.imagen)} alt="" loading="lazy" /></div>
+              <h3>{m.titulo}</h3>
+              <p>{m.texto}</p>
+              <span class="ir">Ver la demo →</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="envoltura seccion">
+      <div class="cabeza">
+        <span class="etiqueta">Cómo funciona</span>
+        <h2>Una semana, y tú solo pones la información.</h2>
+      </div>
+      <div class="pasos">
+        <div class="paso"><span class="dia">Día 1</span><h3>Me cuentas tu negocio</h3><p>Una llamada de 15 minutos: horario, carta o servicios, fotos y lo que te hace diferente.</p></div>
+        <div class="paso"><span class="dia">Días 2 a 6</span><h3>Lo preparo todo</h3><p>Web o carta, ficha de Google, reservas y tarjeta de reseñas. Te lo enseño antes de publicarlo.</p></div>
+        <div class="paso"><span class="dia">Día 7</span><h3>Funcionando</h3><p>Todo publicado, con los QR listos para imprimir y tu panel para cambiar lo que quieras.</p></div>
+      </div>
+    </section>
+
+    <section class="envoltura seccion">
+      <div class="cabeza">
+        <span class="etiqueta">Precio</span>
+        <h2>Cerrado y sin sorpresas.</h2>
+      </div>
+      <div class="precios">
+        <div class="caja">
+          <h3>{landing.marca}</h3>
+          <div class="importe">{precio.entrada} € <small>una vez</small></div>
+          <p>Todo lo del pack, entregado en una semana. Opcional: mantenimiento por {precio.cuota} €/mes, con cambios, alojamiento y dominio incluidos.</p>
+        </div>
+        <div class="caja gestoria">
+          <h3>¿Eres gestoría o asesoría?</h3>
+          <p>Si das de alta negocios que abren, puedes recomendar el pack a tus clientes y llevarte una comisión por cada uno que lo contrate.</p>
+          <a class="boton principal" href="#contacto">Hablemos</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="banda" id="contacto">
+      <div class="envoltura contacto">
+        <span class="etiqueta">Contacto</span>
+        <h2>¿Abres pronto? Hablamos 10 minutos.</h2>
+        <p class="linea">{contacto.nombre} · {contacto.telefono}</p>
+        {wa && <a class="boton principal" href={`https://wa.me/${wa}`} target="_blank" rel="noopener">Escribir por WhatsApp</a>}
+      </div>
+    </section>
+
+    <footer class="envoltura pie">
+      <p>{landing.marca} · {landing.ciudad}. Las webs de muestra son ejemplos preparados con datos públicos y no implican relación comercial con esos negocios.</p>
+    </footer>
+
+    <style is:global>
+      :root {
+        --bg: #fbfaf7; --surface: #fff; --ink: #14201f; --muted: #5b6765; --line: #e3e1db;
+        --accent: #c9822f; --accent-ink: #2b1a05; --deep: #1f3a3d; --on-deep: #eef3f2;
+        --display: 'Bricolage Grotesque Variable', 'Arial Black', sans-serif;
+        --body: 'Figtree Variable', system-ui, sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root { --bg: #101716; --surface: #18211f; --ink: #edf1ef; --muted: #a3afac; --line: #2a3533; --accent: #e09a48; --accent-ink: #1e1204; --deep: #0b1514; --on-deep: #dfe8e6; color-scheme: dark; }
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+      img { max-width: 100%; }
+      a { color: inherit; }
+      :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+      h1, h2, h3 { font-family: var(--display); line-height: 1.05; margin: 0; text-wrap: balance; }
+      h2 { font-size: clamp(30px, 4.4vw, 48px); font-weight: 800; }
+      h3 { font-size: 21px; font-weight: 700; }
+      p { margin: 0; }
+      .envoltura { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+      .seccion { padding-block: 72px; }
+      .cabeza { display: grid; gap: 14px; margin-bottom: 36px; }
+      .etiqueta { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+      .entradilla { color: var(--muted); max-width: 60ch; font-size: 18px; }
+      .botones { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+      .boton { display: inline-flex; align-items: center; text-decoration: none; font-weight: 700; padding: 14px 22px; border-radius: 999px; border: 2px solid currentColor; }
+      .boton.principal { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+      .portada { padding-block: 56px 64px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 40px; align-items: center; }
+      .portada h1 { font-size: clamp(42px, 7vw, 84px); font-weight: 800; margin: 14px 0 20px; }
+      .portada h1 em { font-style: normal; color: var(--accent); }
+      .moviles { position: relative; height: 470px; }
+      .movil { position: absolute; width: 220px; height: 420px; border-radius: 30px; border: 8px solid var(--ink); padding: 26px 18px; display: grid; align-content: center; gap: 14px; box-shadow: 0 24px 50px rgb(20 32 31 / .25); }
+      .movil strong { font-size: 40px; line-height: .95; text-transform: uppercase; }
+      .movil span { font-size: 14px; opacity: .85; }
+      .movil.m0 { left: 0; top: 40px; transform: rotate(-5deg); }
+      .movil.m1 { right: 0; top: 0; transform: rotate(4deg); }
+      .mini-aviso { justify-self: start; font-size: 11px !important; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; opacity: 1 !important; }
+      .mini-boton { justify-self: start; font-weight: 700; padding: 8px 14px; border-radius: 999px; opacity: 1 !important; }
+      .pack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 2px solid var(--ink); }
+      .item { padding: 28px 28px 28px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 14px; }
+      .item:nth-child(odd) { border-right: 1px solid var(--line); }
+      .item:nth-child(even) { padding-left: 28px; }
+      .item .n { font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--accent); line-height: 1; }
+      .item p { color: var(--muted); margin-top: 8px; }
+      .banda { background: var(--deep); color: var(--on-deep); padding-block: 72px; }
+      .banda .entradilla { color: color-mix(in srgb, var(--on-deep) 75%, transparent); }
+      .cliente { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+      .captura { display: block; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 50px rgb(0 0 0 / .35); }
+      .captura img { display: block; width: 100%; }
+      .cliente h2 { margin: 14px 0; }
+      .sello { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); }
+      .ticks { list-style: none; padding: 0; margin: 20px 0 24px; display: grid; gap: 8px; }
+      .ticks li::before { content: '✓'; color: var(--accent); font-weight: 700; margin-right: 10px; }
+      .nota { border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; color: var(--muted); max-width: 70ch; }
+      .muestras { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+      .muestra { display: grid; gap: 10px; align-content: start; text-decoration: none; }
+      .tarjeta-marca { aspect-ratio: 4 / 5; max-width: 100%; border-radius: 18px; padding: 20px; display: grid; align-content: end; gap: 6px; overflow: hidden; transition: transform .3s ease; }
+      .tarjeta-marca strong { font-size: 34px; line-height: .95; text-transform: uppercase; }
+      .tarjeta-marca .bajo { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; opacity: .8; }
+      .tarjeta-marca .mini-aviso { align-self: start; margin-bottom: auto; }
+      .tarjeta-marca.foto { padding: 0; border: 5px solid var(--ink); }
+      .tarjeta-marca.foto img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+      .muestra:hover .tarjeta-marca { transform: translateY(-4px); }
+      .muestra p { color: var(--muted); font-size: 15px; }
+      .muestra .ir { font-weight: 700; color: var(--accent); font-size: 15px; }
+      .pasos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+      .paso { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+      .paso .dia { font-family: var(--display); font-weight: 700; color: var(--accent); }
+      .paso h3 { margin: 6px 0 8px; }
+      .paso p { color: var(--muted); font-size: 16px; }
+      .precios { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+      .caja { border: 2px solid var(--ink); border-radius: 16px; padding: 28px; background: var(--surface); display: grid; gap: 12px; align-content: start; }
+      .caja p { color: var(--muted); }
+      .caja .boton { justify-self: start; }
+      .importe { font-family: var(--display); font-weight: 800; font-size: clamp(44px, 6vw, 64px); line-height: 1; }
+      .importe small { font-size: 20px; color: var(--muted); }
+      .gestoria { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, var(--surface)); }
+      .contacto { display: grid; gap: 18px; justify-items: start; }
+      .linea { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 700; }
+      .pie { padding-block: 24px 40px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+      @media (max-width: 900px) {
+        .portada, .cliente, .pasos, .precios { grid-template-columns: minmax(0, 1fr); }
+        .moviles { height: 400px; max-width: 420px; }
+        .movil { width: 180px; height: 350px; }
+        .movil strong { font-size: 30px; }
+      }
+      @media (max-width: 640px) {
+        .seccion, .banda { padding-block: 52px; }
+        .pack { grid-template-columns: minmax(0, 1fr); }
+        .item, .item:nth-child(n) { padding: 22px 0; border-right: 0; }
+        .muestras { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+        .tarjeta-marca strong { font-size: 24px; }
+      }
+      @media (prefers-reduced-motion: reduce) { .tarjeta-marca { transition: none; } }
+    </style>
+  </body>
+</html>

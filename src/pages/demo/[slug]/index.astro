@@ -1,0 +1,401 @@
+---
+// La web de un negocio, generada entera desde su JSON. Cada bloque aparece solo
+// si el negocio tiene datos para él: un bar enseña carta y combos, un taller
+// servicios y preguntas, y todos horario, reservas y cómo llegar.
+import Demo from '../../../layouts/Demo.astro';
+import {
+  negocios,
+  telHref,
+  waHref,
+  mapaHref,
+  direccionTexto,
+  euros,
+  url,
+  type Negocio,
+} from '../../../lib/negocios';
+import { porDia, agrupar, resumenCorto, DIAS, NOMBRE_DIA, formatoTramo } from '../../../lib/horario';
+
+export function getStaticPaths() {
+  return negocios.map((negocio) => ({ params: { slug: negocio.slug }, props: { negocio } }));
+}
+
+interface Props {
+  negocio: Negocio;
+}
+const { negocio: n } = Astro.props;
+const semana = porDia(n.horario);
+const grupos = agrupar(semana);
+const hayHorario = n.horario.length > 0;
+const tel = telHref(n);
+const wa = waHref(n, `Hola, vengo de vuestra web. `);
+const reservas = n.reservas?.activas && (n.contacto.whatsapp || n.contacto.telefono) ? n.reservas : null;
+const carta = (n.carta ?? []).filter((g) => g.platos.length);
+const idGrupo = (t: string) => 'g-' + t.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const titulo = `${n.nombre} · ${n.eslogan.replace(/\.$/, '')}`;
+const verCarta = carta.length ? '#carta' : n.servicios?.length ? '#servicios' : '#donde';
+---
+
+<Demo negocio={n} titulo={titulo} descripcion={n.descripcion}>
+  {
+    n.demo && (
+      <p class="aviso-demo">
+        Propuesta de web preparada como ejemplo. No es la web oficial de {n.nombre}. <a href={url('/')}>¿Quieres una así?</a>
+      </p>
+    )
+  }
+
+  <header class="cabecera">
+    <div class="envoltura">
+      <a class="marca" href="#inicio">{n.rotulo || n.nombre}</a>
+      <nav class="menu" aria-label="Secciones">
+        {carta.length > 0 && <a href="#carta">Carta</a>}
+        {(n.servicios?.length ?? 0) > 0 && <a href="#servicios">Servicios</a>}
+        {reservas && <a href="#reservar">Reservar</a>}
+        {hayHorario && <a href="#donde">Horario</a>}
+        <a href="#donde">Cómo llegar</a>
+      </nav>
+      {tel && <a class="boton principal" href={tel}>Llamar</a>}
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="envoltura portada">
+      <h1 class="rotulo">
+        {n.rotulo || n.nombre}
+        {n.bajoRotulo && <span class="bajo-rotulo">{n.bajoRotulo}</span>}
+      </h1>
+      <p class="eslogan">{n.eslogan}</p>
+      <div class="datos-portada">
+        {
+          hayHorario && (
+            <span class="estado" data-estado hidden>
+              <span class="punto" aria-hidden="true" />
+              <span data-estado-texto />
+            </span>
+          )
+        }
+        {hayHorario && <span>{resumenCorto(semana)}</span>}
+        <span>{direccionTexto(n)}</span>
+      </div>
+      <div class="botones">
+        <a class="boton principal" href={verCarta}>{carta.length ? 'Ver la carta' : n.servicios?.length ? 'Ver servicios' : 'Cómo llegar'}</a>
+        {reservas && <a class="boton" href="#reservar">{reservas.titulo || 'Reservar'}</a>}
+        {!reservas && tel && <a class="boton" href={tel}>Llamar · {n.contacto.telefono}</a>}
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="envoltura">
+        <div class="cabeza">
+          <span class="etiqueta">{n.sector === 'bar' ? 'La casa' : 'Quiénes somos'}</span>
+          <p class="entradilla" style="font-size:20px">{n.descripcion}</p>
+        </div>
+        {
+          (n.destacados?.length ?? 0) > 0 && (
+            <div class="rejilla">
+              {n.destacados.map((d) => (
+                <div class="tarjeta">
+                  <h3>{d.titulo}</h3>
+                  <p>{d.texto}</p>
+                </div>
+              ))}
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    {
+      (n.combos?.length ?? 0) > 0 && (
+        <section class="seccion">
+          <div class="envoltura">
+            <div class="cabeza">
+              <span class="etiqueta">Para indecisos</span>
+              <h2>Por dónde empezar</h2>
+            </div>
+            <div class="combos">
+              {n.combos.map((c) => (
+                <div class="combo">
+                  <h3>{c.nombre}</h3>
+                  <p>{c.descripcion}</p>
+                  {c.precio ? <span class="precio">{euros(c.precio)}</span> : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      carta.length > 0 && (
+        <section class="seccion" id="carta">
+          <div class="envoltura">
+            <div class="cabeza">
+              <span class="etiqueta">La carta</span>
+              <h2>Qué hay hoy</h2>
+              <p class="entradilla">Toca lo que te apetezca y se te queda apuntado, para que no se te olvide nada al pedir.</p>
+            </div>
+            <nav class="saltos" aria-label="Secciones de la carta">
+              {carta.map((g) => (
+                <a href={`#${idGrupo(g.titulo)}`}>{g.titulo}</a>
+              ))}
+            </nav>
+            <div class="grupos">
+              {carta.map((g) => (
+                <div class="grupo" id={idGrupo(g.titulo)}>
+                  <h3>{g.titulo}</h3>
+                  <ul class="platos">
+                    {g.platos.map((p) => (
+                      <li>
+                        <button type="button" class="plato" data-plato={p.nombre} data-precio={p.precio ?? 0} data-cuantos="0">
+                          <span class="n">{p.nombre}</span>
+                          <span class="p">{euros(p.precio)}</span>
+                          {p.descripcion && <span class="d">{p.descripcion}</span>}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            {n.cartaNota && <p class="nota-carta">{n.cartaNota}</p>}
+          </div>
+          <button type="button" class="tira" data-abrir-lista hidden>
+            <span data-tira-texto>Tu lista</span>
+          </button>
+          <dialog class="lista-dialogo" data-lista>
+            <div class="lista-cuerpo">
+              <h3>Lo que te vas a pedir</h3>
+              <ul data-lista-items />
+              <div class="lista-total">
+                <span>Llevas</span>
+                <span data-lista-total>0,00 €</span>
+              </div>
+              <p class="lista-nota">Esta lista no se manda a ningún sitio: se queda en tu móvil para enseñársela al camarero.</p>
+              <div class="botones">
+                <button type="button" class="boton" data-borrar-lista>Borrar la lista</button>
+                <button type="button" class="boton principal" data-cerrar-lista>Seguir mirando</button>
+              </div>
+            </div>
+          </dialog>
+        </section>
+      )
+    }
+
+    {
+      (n.servicios?.length ?? 0) > 0 && (
+        <section class="seccion" id="servicios">
+          <div class="envoltura">
+            <div class="cabeza">
+              <span class="etiqueta">Servicios</span>
+              <h2>Qué hacemos</h2>
+            </div>
+            <div class="rejilla">
+              {n.servicios.map((s, i) => (
+                <div class="tarjeta">
+                  <span class="num">{String(i + 1).padStart(2, '0')}</span>
+                  <h3>{s.nombre}</h3>
+                  <p>{s.descripcion}</p>
+                  {s.precio && <span class="precio">{s.precio}</span>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      reservas && (
+        <section class="seccion" id="reservar">
+          <div class="envoltura reserva">
+            <div class="cabeza">
+              <span class="etiqueta">Reservas</span>
+              <h2>{reservas.titulo || 'Reservar'}</h2>
+              <p class="entradilla">{reservas.texto || 'Dinos cuándo vienes y te lo confirmamos.'}</p>
+              {tel && (
+                <p class="entradilla">
+                  ¿Prefieres hablar? <a href={tel}>Llama al {n.contacto.telefono}</a>.
+                </p>
+              )}
+            </div>
+            <form class="formulario" data-reserva data-wa={waHref(n)} data-tel={tel}>
+              {(reservas.opciones?.length ?? 0) > 1 && (
+                <label>
+                  Qué necesitas
+                  <select id="r-opcion" name="opcion">
+                    {reservas.opciones!.map((o) => (
+                      <option>{o}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              <div class="fila">
+                <label>
+                  Día
+                  <input id="r-dia" name="dia" type="date" required />
+                </label>
+                <label>
+                  Hora aproximada
+                  <input id="r-hora" name="hora" type="time" required />
+                </label>
+                {reservas.personas && (
+                  <label>
+                    Personas
+                    <input id="r-personas" name="personas" type="number" min="1" max="40" value="2" required />
+                  </label>
+                )}
+              </div>
+              <label>
+                Tu nombre
+                <input id="r-nombre" name="nombre" autocomplete="name" required />
+              </label>
+              <label>
+                Algo más que debamos saber
+                <textarea id="r-nota" name="nota" placeholder="Opcional" />
+              </label>
+              <button class="boton principal" type="submit">
+                {waHref(n) ? 'Enviar por WhatsApp' : 'Llamar para reservar'}
+              </button>
+              <p class="ayuda">
+                {waHref(n)
+                  ? 'Se abre WhatsApp con el mensaje ya escrito. La reserva queda hecha cuando te contestemos.'
+                  : 'Te llevamos al teléfono para cerrar la reserva.'}
+              </p>
+            </form>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      ((n.resenas?.length ?? 0) > 0 || !!n.enlaceResenas) && (
+        <section class="seccion">
+          <div class="envoltura">
+            <div class="cabeza">
+              <span class="etiqueta">Opiniones</span>
+              <h2>Lo que dicen</h2>
+            </div>
+            {(n.resenas?.length ?? 0) > 0 && (
+              <div class="rejilla">
+                {n.resenas.map((r) => (
+                  <figure class="tarjeta resena" style="margin:0">
+                    {r.estrellas && <span class="estrellas" aria-label={`${r.estrellas} de 5`}>{'★'.repeat(r.estrellas)}</span>}
+                    <blockquote style="margin:0">{r.texto}</blockquote>
+                    <figcaption class="entradilla">{r.autor}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
+            {n.enlaceResenas && (
+              <p style="margin-top:20px">
+                <a class="boton" href={n.enlaceResenas} target="_blank" rel="noopener">
+                  Ver todas en Google
+                </a>
+              </p>
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    <section class="seccion" id="donde">
+      <div class="envoltura donde">
+        <div>
+          <div class="cabeza">
+            <span class="etiqueta">Dónde estamos</span>
+            <h2>Cómo llegar</h2>
+          </div>
+          <p class="direccion">{n.direccion.calle}</p>
+          <p class="entradilla">{[n.direccion.cp, n.direccion.zona, n.direccion.ciudad].filter(Boolean).join(' · ')}</p>
+          {n.direccion.comoLlegar && <p class="entradilla" style="margin-top:12px">{n.direccion.comoLlegar}</p>}
+          <div class="botones" style="margin-top:20px">
+            <a class="boton principal" href={mapaHref(n)} target="_blank" rel="noopener">Abrir en Google Maps</a>
+            {tel && <a class="boton" href={tel}>{n.contacto.telefono}</a>}
+          </div>
+        </div>
+        {
+          hayHorario && (
+            <div>
+              <div class="cabeza">
+                <span class="etiqueta">Horario</span>
+                <h2>Cuándo abrimos</h2>
+              </div>
+              <table class="horario">
+                <tbody>
+                  {DIAS.map((d) => (
+                    <tr data-dia={d}>
+                      <th scope="row">{NOMBRE_DIA[d]}</th>
+                      <td>{semana[d].length ? semana[d].map(formatoTramo).join(' · ') : 'Cerrado'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {n.horarioNota && <p class="entradilla" style="margin-top:12px;font-size:15px">{n.horarioNota}</p>}
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    {
+      (n.faq?.length ?? 0) > 0 && (
+        <section class="seccion faq">
+          <div class="envoltura">
+            <div class="cabeza">
+              <span class="etiqueta">Dudas</span>
+              <h2>Preguntas rápidas</h2>
+            </div>
+            {n.faq.map((f) => (
+              <details>
+                <summary>{f.pregunta}</summary>
+                <p>{f.respuesta}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </main>
+
+  <footer class="envoltura pie">
+    <strong>{n.nombre}</strong>
+    <span>{direccionTexto(n)}{n.contacto.telefono && ` · ${n.contacto.telefono}`}</span>
+    {n.contacto.instagram && <a href={`https://instagram.com/${n.contacto.instagram}`} target="_blank" rel="noopener">Instagram @{n.contacto.instagram}</a>}
+    {n.demo && <span>Web de muestra preparada con datos públicos. No es la web oficial del negocio ni implica relación con él.</span>}
+    <a href={url(`/demo/${n.slug}/admin/`)}>Panel de edición</a>
+  </footer>
+
+  <nav class="barra-movil" aria-label="Contacto rápido">
+    {tel ? <a href={tel}>Llamar</a> : <a href={verCarta}>{carta.length ? 'Carta' : 'Info'}</a>}
+    {wa ? <a href={wa} target="_blank" rel="noopener">WhatsApp</a> : <a href={mapaHref(n)} target="_blank" rel="noopener">Cómo llegar</a>}
+    {reservas ? <a class="fuerte" href="#reservar">Reservar</a> : <a class="fuerte" href={mapaHref(n)} target="_blank" rel="noopener">Llegar</a>}
+  </nav>
+
+  <script type="application/json" id="datos-negocio" set:html={JSON.stringify({ slug: n.slug, horario: n.horario, nombre: n.nombre })} />
+  <script>
+    import { porDia, estadoApertura, ahoraEnMadrid } from '../../../lib/horario';
+    import { iniciarLista } from '../../../scripts/lista';
+    import { iniciarReserva } from '../../../scripts/reserva';
+
+    const datos = JSON.parse(document.getElementById('datos-negocio')!.textContent!);
+    const semana = porDia(datos.horario);
+
+    function pintarEstado() {
+      if (!datos.horario.length) return;
+      const { abierto, texto } = estadoApertura(semana);
+      document.querySelectorAll<HTMLElement>('[data-estado]').forEach((el) => {
+        el.dataset.abierto = String(abierto);
+        el.querySelector('[data-estado-texto]')!.textContent = texto;
+        el.hidden = false;
+      });
+      const { dia } = ahoraEnMadrid();
+      document.querySelectorAll<HTMLElement>('tr[data-dia]').forEach((f) => f.classList.toggle('hoy', f.dataset.dia === dia));
+    }
+    pintarEstado();
+    setInterval(pintarEstado, 60_000);
+    iniciarLista(datos.slug);
+    iniciarReserva(datos.nombre);
+  </script>
+</Demo>
