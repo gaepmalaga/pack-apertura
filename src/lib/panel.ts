@@ -4,7 +4,7 @@
 // Se entra con un token de GitHub («Sign In with Token»), sin servidor propio.
 import type { Negocio } from './negocios';
 
-const REPO = process.env.PANEL_REPO || 'gaepmalaga/personal';
+const REPO = process.env.PANEL_REPO || 'gaepmalaga/pack-apertura';
 const RAMA = process.env.PANEL_RAMA || 'main';
 const BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 

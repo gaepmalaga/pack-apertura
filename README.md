@@ -9,7 +9,7 @@ Una sola plantilla de [Astro](https://astro.build) que genera:
 | `/demo/<negocio>/admin/` | El panel para que el dueño cambie carta, precios, horario… |
 | `/admin/` | Tu panel, con todos los negocios a la vez |
 
-Publicada en GitHub Pages: `https://gaepmalaga.github.io/<este-repo>/`.
+Publicada en GitHub Pages: `https://https://gaepmalaga.github.io/pack-apertura/`.
 
 ## Añadir una demo nueva
 
@@ -67,7 +67,7 @@ En local:
 
 ```sh
 npm install
-npm run dev      # http://localhost:4321/personal/
+npm run dev      # http://localhost:4321/pack-apertura/
 npm run build
 ```
 
