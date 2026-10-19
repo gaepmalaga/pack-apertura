@@ -58,7 +58,7 @@ export const camposNegocio = (slug: string) => [
     name: 'contacto',
     label: 'Contacto',
     widget: 'object',
-    fields: [texto('telefono', 'Teléfono'), texto('whatsapp', 'WhatsApp'), texto('email', 'Correo'), texto('instagram', 'Instagram (sin @)'), texto('facebook', 'Facebook')],
+    fields: [texto('telefono', 'Teléfono'), texto('whatsapp', 'WhatsApp'), texto('email', 'Correo'), texto('instagram', 'Instagram (sin @)'), texto('facebook', 'Facebook'), texto('comunidad', 'Comunidad o canal de WhatsApp (enlace)')],
   },
   {
     name: 'direccion',

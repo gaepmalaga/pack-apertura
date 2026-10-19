@@ -205,6 +205,21 @@ const secundario =
     }
 
     {
+      n.contacto.comunidad && (
+        <section class="seccion comunidad">
+          <div class="envoltura comunidad-caja">
+            <div class="cabeza">
+              <span class="etiqueta">No te pierdas nada</span>
+              <h2>Únete a la comunidad</h2>
+              <p class="entradilla">En el WhatsApp de {n.rotulo || n.nombre} avisamos de horarios especiales, talleres, cumpleaños y eventos. Solo avisos, sin ruido.</p>
+            </div>
+            <a class="boton principal" href={n.contacto.comunidad} target="_blank" rel="noopener">Unirme por WhatsApp</a>
+          </div>
+        </section>
+      )
+    }
+
+    {
       (n.etapas?.length ?? 0) > 0 && (
         <section class="seccion" id="etapas">
           <div class="envoltura">

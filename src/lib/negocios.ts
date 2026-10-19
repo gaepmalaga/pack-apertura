@@ -24,8 +24,8 @@ export type Negocio = {
     sobreAcento?: string;
     /** Composición de la portada (ver components/Portada.astro). */
     portada?: 'rotulo' | 'cartel' | 'ficha' | 'banda' | 'dividida';
-    /** Detalle decorativo propio: toldo de rayas, cuadrícula de taller u olas. */
-    adorno?: 'ninguno' | 'toldo' | 'cuadricula' | 'olas';
+    /** Detalle decorativo propio: toldo de rayas, cuadrícula de taller, olas o festones (el borde ondulado de pared infantil). */
+    adorno?: 'ninguno' | 'toldo' | 'cuadricula' | 'olas' | 'festones';
     /** Carta en tarjetas por sección o como una carta impresa de una columna. */
     carta?: 'tarjetas' | 'menu';
     /** Esquinas: redondo (botones de píldora), suave (8 px) o recto. */
@@ -41,6 +41,8 @@ export type Negocio = {
     email?: string;
     instagram?: string;
     facebook?: string;
+    /** Enlace de invitación a su comunidad o canal de WhatsApp (avisos de horarios, talleres…). */
+    comunidad?: string;
   };
   direccion: {
     calle: string;

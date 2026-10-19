@@ -1,0 +1,95 @@
+{
+  "demo": true,
+  "sector": "bar",
+  "nombre": "Grace Play Café",
+  "rotulo": "Grace",
+  "bajoRotulo": "Play Café · Alhaurín de la Torre",
+  "eslogan": "Tú con tu café, ellos jugando a la vista.",
+  "descripcion": "Cafetería con zona de juego en Alhaurín de la Torre. Mientras te tomas el café o un bowl con calma, los peques tienen su cocinita, su tren y sus rincones para jugar. Y cuando toca celebrar, cumpleaños y talleres.",
+  "tema": {
+    "estilo": "elegante",
+    "fondo": "#fbf6f2",
+    "tinta": "#4a3a3a",
+    "acento": "#b0556a",
+    "sobreAcento": "#ffffff",
+    "portada": "banda",
+    "adorno": "festones",
+    "forma": "redondo",
+    "horario": "hoy",
+    "mapa": "enmarcado",
+    "secciones": "bandas"
+  },
+  "contacto": {
+    "telefono": "633 158 153",
+    "whatsapp": "633 158 153",
+    "email": "",
+    "instagram": "graceplaycafe_",
+    "facebook": "",
+    "comunidad": "https://chat.whatsapp.com/Iikwgw55eHPBr0OmKf8PLP"
+  },
+  "direccion": {
+    "calle": "Calle Álamos, 37",
+    "zona": "Los Tomillares",
+    "cp": "29130",
+    "ciudad": "Alhaurín de la Torre",
+    "mapa": "https://www.google.com/maps/search/?api=1&query=Grace+Play+Caf%C3%A9%2C+Calle+%C3%81lamos+37%2C+Alhaur%C3%ADn+de+la+Torre",
+    "geo": {
+      "lat": 36.6612627,
+      "lng": -4.5628607
+    }
+  },
+  "horario": [],
+  "destacados": [
+    {
+      "titulo": "Zona de juego",
+      "texto": "Cocinita, circuito de tren, espejo y rincones sensoriales para los más pequeños, a la vista desde las mesas."
+    },
+    {
+      "titulo": "Cafés y bowls",
+      "texto": "Café de verdad, meriendas y bowls para que el rato sea tuyo también, no solo de ellos."
+    },
+    {
+      "titulo": "Cumpleaños y talleres",
+      "texto": "Celebraciones en un sitio pensado para niños y talleres de juego sensorial, manualidades y temporada."
+    }
+  ],
+  "servicios": [
+    {
+      "nombre": "Cafetería",
+      "descripcion": "Cafés, meriendas y bowls. Se puede venir solo a tomar algo y quedarse lo que haga falta."
+    },
+    {
+      "nombre": "Zona de juego",
+      "descripcion": "Un espacio cuidado para bebés y peques, con juguetes de madera y material sensorial."
+    },
+    {
+      "nombre": "Cumpleaños",
+      "descripcion": "Dinos la fecha, cuántos niños vienen y qué edad tienen, y te mandamos las opciones por WhatsApp."
+    },
+    {
+      "nombre": "Talleres",
+      "descripcion": "Actividades por temporada para hacer en familia. Las plazas son limitadas, mejor reservar."
+    }
+  ],
+  "reservas": {
+    "activas": true,
+    "titulo": "Reservar",
+    "texto": "Para un cumpleaños, un taller o una merienda en grupo. Elige el día y te confirmamos por WhatsApp.",
+    "opciones": [
+      "Cumpleaños",
+      "Taller",
+      "Merienda en grupo"
+    ],
+    "personas": true
+  },
+  "faq": [
+    {
+      "pregunta": "¿Cómo reservo un cumpleaños?",
+      "respuesta": "Desde aquí mismo: elige «Cumpleaños», el día y cuántos sois. Te escribimos por WhatsApp con lo que incluye y los horarios libres."
+    },
+    {
+      "pregunta": "¿Cómo me entero de los próximos talleres?",
+      "respuesta": "Los avisamos en nuestra comunidad de WhatsApp y en Instagram (@graceplaycafe_). Para apuntarte, reserva aquí eligiendo «Taller»."
+    }
+  ]
+}

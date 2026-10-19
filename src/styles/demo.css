@@ -72,7 +72,7 @@ p { margin: 0; }
 .rotulo { font-family: var(--display); font-weight: 800; font-size: clamp(56px, 13vw, 140px); line-height: .9; letter-spacing: -0.02em; margin: 0; }
 [data-estilo='taberna'] .rotulo, [data-estilo='moderno'] .rotulo { text-transform: uppercase; }
 [data-estilo='elegante'] .rotulo { font-weight: 400; letter-spacing: -0.03em; }
-.bajo-rotulo { display: block; font-family: var(--texto); font-size: clamp(13px, 2vw, 16px); font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--acento); margin-top: 12px; }
+.bajo-rotulo { display: block; line-height: 1.6; font-family: var(--texto); font-size: clamp(13px, 2vw, 16px); font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--acento); margin-top: 12px; }
 .eslogan { font-size: clamp(20px, 3vw, 28px); max-width: 30ch; color: var(--suave); }
 .datos-portada { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14px; color: var(--suave); }
 .estado { display: inline-flex; align-items: center; gap: 9px; font-weight: 700; color: var(--tinta); }
@@ -317,3 +317,14 @@ p { margin: 0; }
 /* Reserva de muestra: el mensaje que llegaría, con aspecto de burbuja de chat */
 .muestra-mensaje { display: grid; gap: 10px; }
 .muestra-mensaje pre { margin: 0; padding: 14px 16px; border-radius: 14px 14px 14px 4px; background: #e7f8dc; color: #1d2a1a; font: 15px/1.5 var(--texto); white-space: pre-wrap; max-width: 34ch; box-shadow: 0 1px 2px rgb(0 0 0 / .12); }
+
+/* Adorno «festones»: el borde de la banda en semicírculos, como el zócalo
+   pintado de las salas infantiles, en lugar de la ola */
+[data-adorno='festones'] .portada-banda .olas { display: none; }
+[data-adorno='festones'] .portada-banda::after { content: ''; display: block; height: 28px; background: radial-gradient(circle at 50% 100%, var(--fondo) 27px, transparent 28px) 0 0 / 56px 28px repeat-x; }
+
+/* Comunidad de WhatsApp: llamada a unirse, con el botón al lado del texto en escritorio */
+.comunidad-caja { display: grid; gap: 4px; align-items: center; }
+.comunidad-caja .cabeza { margin-bottom: 12px; }
+.comunidad-caja .boton { justify-self: start; }
+@media (min-width: 900px) { .comunidad-caja { grid-template-columns: minmax(0, 1fr) auto; gap: 40px; } .comunidad-caja .cabeza { margin-bottom: 0; } }
