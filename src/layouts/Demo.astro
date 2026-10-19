@@ -39,7 +39,7 @@ const estilo = [
     <meta name="theme-color" content={t.fondo} />
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descripcion} />
-    <link rel="icon" href={`data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='${t.acento}'/><text x='32' y='44' font-size='36' font-family='Arial' font-weight='700' text-anchor='middle' fill='${t.sobreAcento || t.fondo}'>${(negocio.rotulo || negocio.nombre).trim()[0]}</text></svg>`)}`} />
+    <link rel="icon" href={negocio.logo ? `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${negocio.logo}` : `data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='${t.acento}'/><text x='32' y='44' font-size='36' font-family='Arial' font-weight='700' text-anchor='middle' fill='${t.sobreAcento || t.fondo}'>${(negocio.rotulo || negocio.nombre).trim()[0]}</text></svg>`)}`} />
   </head>
   <body>
     <slot />

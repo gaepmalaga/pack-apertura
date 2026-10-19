@@ -8,7 +8,7 @@
 //   dividida · texto a la izquierda y, a la derecha, un panel del color de la
 //              casa con las etapas de la vida (pensada para clínicas)
 import { resumenCorto, type HorarioSemana } from '../lib/horario';
-import { direccionTexto, type Negocio } from '../lib/negocios';
+import { direccionTexto, url, type Negocio } from '../lib/negocios';
 
 interface Props {
   n: Negocio;
@@ -108,8 +108,9 @@ const hayHorario = n.horario.length > 0;
       </div>
     </section>
   ) : (
-    <section class={`portada portada-${tipo}`}>
+    <section class={`portada portada-${tipo}${n.logo ? ' con-logo' : ''}`}>
       <div class="envoltura portada-cuerpo">
+        {n.logo && <img class="logo-portada" src={url(`/${n.logo}`)} alt={`Logo de ${n.nombre}`} width="360" height="360" />}
         {tipo === 'cartel' && <span class="ornamento" aria-hidden="true">— ✦ —</span>}
         <h1 class="rotulo">
           {n.rotulo || n.nombre}

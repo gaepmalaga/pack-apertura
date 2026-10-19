@@ -5,7 +5,7 @@
   "rotulo": "Grace",
   "bajoRotulo": "Play Café · Alhaurín de la Torre",
   "eslogan": "Tú con tu café, ellos jugando a la vista.",
-  "descripcion": "Cafetería con zona de juego en Alhaurín de la Torre. Mientras te tomas el café o un bowl con calma, los peques tienen su cocinita, su tren y sus rincones para jugar. Y cuando toca celebrar, cumpleaños y talleres.",
+  "descripcion": "Cafetería con zona de juego en Alhaurín de la Torre. Mientras te tomas el café o un bowl con calma, los peques tienen su cocinita, su mercadito, su piscina de bolas y rincones para jugar a la vista. Y cuando toca celebrar, cumpleaños y talleres. Detrás está Lucy, que ha montado cada rincón con mimo.",
   "tema": {
     "estilo": "elegante",
     "fondo": "#fbf6f2",
@@ -42,15 +42,18 @@
   "destacados": [
     {
       "titulo": "Zona de juego",
-      "texto": "Cocinita, circuito de tren, espejo y rincones sensoriales para los más pequeños, a la vista desde las mesas."
+      "texto": "Cocinita, mercadito, piscina de bolas, tobogán y rincón de muñecas, con juguetes de madera y a la vista desde las mesas.",
+      "foto": "negocios/grace-play-cafe/cocina.webp"
     },
     {
-      "titulo": "Cafés y bowls",
-      "texto": "Café de verdad, meriendas y bowls para que el rato sea tuyo también, no solo de ellos."
+      "titulo": "Cumpleaños",
+      "texto": "Desde un cumpleaños íntimo en familia hasta la fiesta con todo el grupo de clase. Tú pones la fecha; la decoración, nosotros.",
+      "foto": "negocios/grace-play-cafe/cumple.webp"
     },
     {
-      "titulo": "Cumpleaños y talleres",
-      "texto": "Celebraciones en un sitio pensado para niños y talleres de juego sensorial, manualidades y temporada."
+      "titulo": "Talleres sensoriales",
+      "texto": "Como «Mini mundos animalitos»: bandejas de pasta y arroz de colores con la granja, la sabana o el fondo del mar para explorar con las manos.",
+      "foto": "negocios/grace-play-cafe/taller-animales.webp"
     }
   ],
   "servicios": [
@@ -64,7 +67,7 @@
     },
     {
       "nombre": "Cumpleaños",
-      "descripcion": "Dinos la fecha, cuántos niños vienen y qué edad tienen, y te mandamos las opciones por WhatsApp."
+      "descripcion": "Íntimos en familia o con todo el grupo. Dinos la fecha, cuántos niños vienen y qué edad tienen, y te mandamos las opciones por WhatsApp."
     },
     {
       "nombre": "Talleres",
@@ -90,6 +93,30 @@
     {
       "pregunta": "¿Cómo me entero de los próximos talleres?",
       "respuesta": "Los avisamos en nuestra comunidad de WhatsApp y en Instagram (@graceplaycafe_). Para apuntarte, reserva aquí eligiendo «Taller»."
+    }
+  ],
+  "logo": "negocios/grace-play-cafe/logo.webp",
+  "fotoCasa": "negocios/grace-play-cafe/fachada.webp",
+  "galeria": [
+    {
+      "foto": "negocios/grace-play-cafe/bolas.webp",
+      "texto": "La piscina de bolas, con su tobogán al lado."
+    },
+    {
+      "foto": "negocios/grace-play-cafe/mercadito.webp",
+      "texto": "El mercadito, con caja registradora y cesta."
+    },
+    {
+      "foto": "negocios/grace-play-cafe/cambiador.webp",
+      "texto": "El rincón de cuidar a los muñecos."
+    },
+    {
+      "foto": "negocios/grace-play-cafe/taller-oceano.webp",
+      "texto": "Taller de «Mini mundos»: el fondo del mar."
+    },
+    {
+      "foto": "negocios/grace-play-cafe/taller-granja.webp",
+      "texto": "Taller de «Mini mundos»: la granja."
     }
   ]
 }

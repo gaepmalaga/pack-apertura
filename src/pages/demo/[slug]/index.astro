@@ -65,9 +65,13 @@ const secundario =
 
   <header class="cabecera">
     <div class="envoltura">
-      <a class="marca" href="#inicio">{n.rotulo || n.nombre}</a>
+      <a class="marca" href="#inicio">
+        {n.logo && <img src={url(`/${n.logo}`)} alt="" width="40" height="40" />}
+        {n.rotulo || n.nombre}
+      </a>
       <nav class="menu" aria-label="Secciones">
         {carta.length > 0 && <a href="#carta">Carta</a>}
+        {(n.galeria?.length ?? 0) > 0 && <a href="#fotos">Fotos</a>}
         {(n.servicios?.length ?? 0) > 0 && <a href="#servicios">Servicios</a>}
         {(n.etapas?.length ?? 0) > 0 && <a href="#etapas">Por edades</a>}
         {reservas && <a href="#reservar">{n.reservas?.personas === false ? 'Cita' : 'Reservar'}</a>}
@@ -83,15 +87,19 @@ const secundario =
 
     <section class="seccion">
       <div class="envoltura">
-        <div class="cabeza">
-          <span class="etiqueta">{n.sector === 'bar' ? 'La casa' : n.sector === 'veterinaria' ? 'La clínica' : 'Quiénes somos'}</span>
-          <p class="entradilla" style="font-size:20px">{n.descripcion}</p>
+        <div class={n.fotoCasa ? 'casa con-foto' : 'casa'}>
+          <div class="cabeza">
+            <span class="etiqueta">{n.sector === 'bar' ? 'La casa' : n.sector === 'veterinaria' ? 'La clínica' : 'Quiénes somos'}</span>
+            <p class="entradilla" style="font-size:20px">{n.descripcion}</p>
+          </div>
+          {n.fotoCasa && <img class="foto-casa" src={url(`/${n.fotoCasa}`)} alt={`${n.nombre} por fuera`} loading="lazy" />}
         </div>
         {
           (n.destacados?.length ?? 0) > 0 && (
             <div class="rejilla">
               {n.destacados.map((d) => (
-                <div class="tarjeta">
+                <div class={d.foto ? 'tarjeta con-foto' : 'tarjeta'}>
+                  {d.foto && <img src={url(`/${d.foto}`)} alt="" loading="lazy" />}
                   <h3>{d.titulo}</h3>
                   <p>{d.texto}</p>
                 </div>
@@ -101,6 +109,29 @@ const secundario =
         }
       </div>
     </section>
+
+    {
+      (n.galeria?.length ?? 0) > 0 && (
+        <section class="seccion" id="fotos">
+          <div class="envoltura">
+            <div class="cabeza">
+              <span class="etiqueta">Fotos</span>
+              <h2>Así es por dentro</h2>
+            </div>
+          </div>
+          <ul class="galeria" aria-label="Fotos del local">
+            {n.galeria!.map((g) => (
+              <li>
+                <figure>
+                  <img src={url(`/${g.foto}`)} alt={g.texto} loading="lazy" />
+                  <figcaption>{g.texto}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
 
     {
       (n.combos?.length ?? 0) > 0 && (

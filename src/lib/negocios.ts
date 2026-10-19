@@ -16,6 +16,12 @@ export type Negocio = {
   bajoRotulo?: string;
   eslogan: string;
   descripcion: string;
+  /** Rutas dentro de /public (sin barra inicial): negocios/<slug>/logo.webp… */
+  logo?: string;
+  /** Foto junto a la presentación: la fachada o el local. */
+  fotoCasa?: string;
+  /** Fotos del sitio, con una frase debajo de cada una. */
+  galeria?: { foto: string; texto: string }[];
   tema: {
     estilo: 'taberna' | 'elegante' | 'moderno';
     fondo: string;
@@ -56,7 +62,7 @@ export type Negocio = {
   };
   horario: { dia: Dia; abre: string; cierra: string }[];
   horarioNota?: string;
-  destacados?: { titulo: string; texto: string }[];
+  destacados?: { titulo: string; texto: string; foto?: string }[];
   combos?: { nombre: string; descripcion: string; precio?: number }[];
   carta?: GrupoCarta[];
   cartaNota?: string;

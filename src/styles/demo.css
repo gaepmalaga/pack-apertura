@@ -59,7 +59,8 @@ p { margin: 0; }
 /* Cabecera */
 .cabecera { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--fondo) 90%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--linea); }
 .cabecera .envoltura { display: flex; align-items: center; gap: 18px; min-height: 64px; }
-.marca { font-family: var(--display); font-weight: 800; font-size: 20px; text-decoration: none; margin-right: auto; }
+.marca { font-family: var(--display); font-weight: 800; font-size: 20px; text-decoration: none; margin-right: auto; display: inline-flex; align-items: center; gap: 10px; }
+.marca img { width: 40px; height: 40px; border-radius: 50%; }
 [data-estilo='taberna'] .marca, [data-estilo='moderno'] .marca { text-transform: uppercase; }
 .menu { display: none; gap: 18px; font-size: 15px; font-weight: 600; }
 .menu a { text-decoration: none; color: var(--suave); }
@@ -328,3 +329,38 @@ p { margin: 0; }
 .comunidad-caja .cabeza { margin-bottom: 12px; }
 .comunidad-caja .boton { justify-self: start; }
 @media (min-width: 900px) { .comunidad-caja { grid-template-columns: minmax(0, 1fr) auto; gap: 40px; } .comunidad-caja .cabeza { margin-bottom: 0; } }
+
+/* Logo en la portada: sello redondo al lado del texto en escritorio, encima en el móvil */
+.logo-portada { width: 112px; height: 112px; border-radius: 50%; box-shadow: 0 10px 30px rgb(0 0 0 / .18); }
+@media (min-width: 900px) {
+  .con-logo .portada-cuerpo { grid-template-columns: minmax(0, 1fr) 300px; column-gap: 56px; align-items: center; }
+  .con-logo .portada-cuerpo > :not(.logo-portada):not(svg) { grid-column: 1; }
+  .con-logo .logo-portada { grid-column: 2; grid-row: 1 / span 4; width: 300px; height: 300px; }
+}
+
+/* Presentación con foto del local */
+.casa.con-foto { display: grid; gap: 24px; margin-bottom: 32px; }
+.casa.con-foto .cabeza { margin-bottom: 0; align-content: center; }
+.foto-casa { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radio); }
+@media (min-width: 900px) { .casa.con-foto { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; } }
+
+/* Tarjetas con foto: la imagen ocupa la parte de arriba, sin margen */
+.tarjeta.con-foto { padding-top: 0; overflow: hidden; }
+.tarjeta.con-foto img { max-width: none; width: calc(100% + 44px); margin: 0 -22px 10px; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+
+/* Galería: tira deslizable en el móvil, mosaico de tres columnas en escritorio */
+.galeria { list-style: none; margin: 0; padding: 0 max(18px, env(safe-area-inset-left, 0px)); display: grid; grid-auto-flow: column; grid-auto-columns: 72%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.galeria::-webkit-scrollbar { display: none; }
+.galeria li { scroll-snap-align: center; }
+.galeria figure { margin: 0; display: grid; gap: 8px; }
+.galeria img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radio); display: block; }
+.galeria figcaption { font-size: 14px; color: var(--suave); }
+@media (min-width: 900px) {
+  .galeria { max-width: 1080px; margin: 0 auto; grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; gap: 18px; }
+}
+/* Con cinco fotos, la primera ocupa dos filas y el mosaico queda cuadrado */
+@media (min-width: 900px) {
+  .galeria li:first-child:nth-last-child(5) { grid-row: span 2; }
+  .galeria li:first-child:nth-last-child(5) figure { height: 100%; grid-template-rows: minmax(0, 1fr) auto; }
+  .galeria li:first-child:nth-last-child(5) img { aspect-ratio: auto; height: 100%; }
+}
