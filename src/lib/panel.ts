@@ -23,6 +23,7 @@ export const camposNegocio = (slug: string) => [
       { label: 'Taller', value: 'taller' },
       { label: 'Estética o peluquería', value: 'estetica' },
       { label: 'Salud', value: 'salud' },
+      { label: 'Veterinaria', value: 'veterinaria' },
       { label: 'Tienda', value: 'tienda' },
       { label: 'Otro', value: 'otro' },
     ],
@@ -101,6 +102,7 @@ export const camposNegocio = (slug: string) => [
   ], { summary: '{{fields.titulo}}' }),
   texto('cartaNota', 'Nota al pie de la carta'),
   lista('servicios', 'Servicios', [texto('nombre', 'Nombre'), largo('descripcion', 'Descripción'), texto('precio', 'Precio (texto libre: «desde 25 €»)')]),
+  lista('etapas', 'Etapas de la vida', [texto('titulo', 'Etapa'), texto('edad', 'Edad'), largo('texto', 'Qué toca')]),
   {
     name: 'reservas',
     label: 'Reservas',

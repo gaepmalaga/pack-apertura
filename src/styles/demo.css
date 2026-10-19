@@ -278,3 +278,42 @@ p { margin: 0; }
 .contador button { height: 50px; border: 0; background: var(--panel); color: var(--tinta); font: inherit; font-size: 24px; cursor: pointer; }
 .contador output { text-align: center; font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums; }
 .aviso-reserva { color: var(--cerrado); font-weight: 700; }
+
+/* Portada «dividida»: texto a un lado, panel de color con las etapas al otro */
+.dividida-rejilla { display: grid; gap: 32px; align-items: center; }
+@media (min-width: 900px) { .dividida-rejilla { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 56px; } }
+.dividida-texto { display: grid; gap: 22px; }
+.portada-dividida .rotulo { font-size: clamp(48px, 10vw, 104px); }
+.dividida-panel { display: grid; gap: 18px; padding: 28px; border-radius: calc(var(--radio) * 1.6); background: var(--acento); color: var(--sobre-acento); text-decoration: none; }
+.dividida-titulo { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; opacity: .85; }
+.dividida-panel ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+/* El hilo vertical une las etapas: se lee como una vida entera, no como una lista. */
+.dividida-panel li { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 0 12px 26px; border-top: 1px solid color-mix(in srgb, var(--sobre-acento) 22%, transparent); }
+.dividida-panel li:first-child { border-top: 0; }
+.dividida-panel li::before { content: ''; position: absolute; left: 4px; top: 0; bottom: 0; width: 2px; background: color-mix(in srgb, var(--sobre-acento) 35%, transparent); }
+.dividida-panel li:first-child::before { top: 50%; }
+.dividida-panel li:last-child::before { bottom: 50%; }
+.dividida-panel li::after { content: ''; position: absolute; left: 0; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: var(--sobre-acento); }
+.dividida-panel b { font-family: var(--display); font-size: 22px; font-weight: 500; }
+.dividida-panel li span { font-size: 14px; opacity: .85; white-space: nowrap; }
+
+/* Etapas de la vida: línea de tiempo vertical en el móvil, horizontal en escritorio */
+.etapas { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: etapa; }
+.etapa { position: relative; display: grid; gap: 6px; padding: 0 0 32px 34px; }
+.etapa::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 0; width: 2px; background: var(--linea); }
+.etapa:last-child::before { display: none; }
+.etapa::after { content: ''; position: absolute; left: 0; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--fondo); border: 3px solid var(--acento); box-sizing: border-box; }
+.etapa-edad { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--acento); }
+.etapa h3 { font-size: 26px; font-weight: 500; }
+.etapa p { color: var(--suave); }
+@media (min-width: 900px) {
+  .etapas { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 28px; grid-auto-flow: column; }
+  .etapa { padding: 34px 0 0; }
+  .etapa::before { left: 0; right: -28px; top: 7px; bottom: auto; width: auto; height: 2px; }
+  .etapa:last-child::before { display: block; right: 0; }
+  .etapa::after { top: 0; }
+}
+
+/* Reserva de muestra: el mensaje que llegaría, con aspecto de burbuja de chat */
+.muestra-mensaje { display: grid; gap: 10px; }
+.muestra-mensaje pre { margin: 0; padding: 14px 16px; border-radius: 14px 14px 14px 4px; background: #e7f8dc; color: #1d2a1a; font: 15px/1.5 var(--texto); white-space: pre-wrap; max-width: 34ch; box-shadow: 0 1px 2px rgb(0 0 0 / .12); }

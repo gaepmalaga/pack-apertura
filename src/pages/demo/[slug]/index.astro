@@ -31,7 +31,10 @@ const grupos = agrupar(semana);
 const hayHorario = n.horario.length > 0;
 const tel = telHref(n);
 const wa = waHref(n, `Hola, vengo de vuestra web. `);
-const reservas = n.reservas?.activas && (n.contacto.whatsapp || n.contacto.telefono) ? n.reservas : null;
+// Una demo sin teléfono publicado enseña igualmente la reserva: al enviar, en vez
+// de abrir WhatsApp, muestra el mensaje que le llegaría al negocio.
+const reservas = n.reservas?.activas && (n.contacto.whatsapp || n.contacto.telefono || n.demo) ? n.reservas : null;
+const reservaMuestra = !n.contacto.whatsapp && !n.contacto.telefono;
 const carta = (n.carta ?? []).filter((g) => g.platos.length);
 const idGrupo = (t: string) => 'g-' + t.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const titulo = `${n.nombre} · ${n.eslogan.replace(/\.$/, '')}`;
@@ -66,7 +69,8 @@ const secundario =
       <nav class="menu" aria-label="Secciones">
         {carta.length > 0 && <a href="#carta">Carta</a>}
         {(n.servicios?.length ?? 0) > 0 && <a href="#servicios">Servicios</a>}
-        {reservas && <a href="#reservar">Reservar</a>}
+        {(n.etapas?.length ?? 0) > 0 && <a href="#etapas">Por edades</a>}
+        {reservas && <a href="#reservar">{n.reservas?.personas === false ? 'Cita' : 'Reservar'}</a>}
         {hayHorario && <a href="#donde">Horario</a>}
         <a href="#donde">Cómo llegar</a>
       </nav>
@@ -80,7 +84,7 @@ const secundario =
     <section class="seccion">
       <div class="envoltura">
         <div class="cabeza">
-          <span class="etiqueta">{n.sector === 'bar' ? 'La casa' : 'Quiénes somos'}</span>
+          <span class="etiqueta">{n.sector === 'bar' ? 'La casa' : n.sector === 'veterinaria' ? 'La clínica' : 'Quiénes somos'}</span>
           <p class="entradilla" style="font-size:20px">{n.descripcion}</p>
         </div>
         {
@@ -201,6 +205,28 @@ const secundario =
     }
 
     {
+      (n.etapas?.length ?? 0) > 0 && (
+        <section class="seccion" id="etapas">
+          <div class="envoltura">
+            <div class="cabeza">
+              <span class="etiqueta">Por edades</span>
+              <h2>Qué toca en cada etapa</h2>
+            </div>
+            <ol class="etapas">
+              {n.etapas!.map((e) => (
+                <li class="etapa">
+                  <span class="etapa-edad">{e.edad}</span>
+                  <h3>{e.titulo}</h3>
+                  <p>{e.texto}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )
+    }
+
+    {
       reservas && (
         <section class="seccion" id="reservar">
           <div class="envoltura reserva">
@@ -233,7 +259,7 @@ const secundario =
                 <div class="chips desliza" data-dias-reserva />
               </fieldset>
               <fieldset class="paso" data-paso-hora hidden>
-                <legend>A qué hora</legend>
+                <legend>{hayHorario ? 'A qué hora' : 'Cuándo te viene mejor'}</legend>
                 <div class="chips" data-horas-reserva />
               </fieldset>
               {reservas.personas && (
@@ -256,13 +282,19 @@ const secundario =
               </label>
               <p class="aviso-reserva" data-aviso-reserva role="alert" hidden />
               <button class="boton principal" type="submit">
-                {waHref(n) ? 'Enviar por WhatsApp' : 'Llamar para reservar'}
+                {waHref(n) || reservaMuestra ? 'Enviar por WhatsApp' : 'Llamar para reservar'}
               </button>
               <p class="ayuda">
-                {waHref(n)
-                  ? 'Se abre WhatsApp con el mensaje ya escrito. La reserva queda hecha cuando te contestemos.'
-                  : 'Te llevamos al teléfono para cerrar la reserva.'}
+                {reservaMuestra
+                  ? 'En esta muestra no se envía nada: verás el mensaje que le llegaría a la clínica por WhatsApp.'
+                  : waHref(n)
+                    ? 'Se abre WhatsApp con el mensaje ya escrito. La reserva queda hecha cuando te contestemos.'
+                    : 'Te llevamos al teléfono para cerrar la reserva.'}
               </p>
+              <div class="muestra-mensaje" data-muestra-mensaje hidden>
+                <span class="etiqueta">Así le llegaría por WhatsApp</span>
+                <pre data-muestra-texto />
+              </div>
             </form>
           </div>
         </section>
@@ -362,7 +394,7 @@ const secundario =
   <nav class="barra-movil" aria-label="Contacto rápido">
     {tel ? <a href={tel}>Llamar</a> : <a href={verCarta}>{carta.length ? 'Carta' : 'Info'}</a>}
     {wa ? <a href={wa} target="_blank" rel="noopener">WhatsApp</a> : <a href={mapaHref(n)} target="_blank" rel="noopener">Cómo llegar</a>}
-    {reservas ? <a class="fuerte" href="#reservar">Reservar</a> : <a class="fuerte" href={mapaHref(n)} target="_blank" rel="noopener">Llegar</a>}
+    {reservas ? <a class="fuerte" href="#reservar">{n.reservas?.personas === false ? 'Pedir cita' : 'Reservar'}</a> : <a class="fuerte" href={mapaHref(n)} target="_blank" rel="noopener">Llegar</a>}
   </nav>
 
   <script type="application/json" id="datos-negocio" set:html={JSON.stringify({ slug: n.slug, horario: n.horario, nombre: n.nombre, admin: url(`/demo/${n.slug}/admin/`) })} />

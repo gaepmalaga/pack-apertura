@@ -5,6 +5,8 @@
 //   cartel  · centrado y enmarcado, como una carta impresa
 //   ficha   · título a un lado y una ficha con teléfono y horario al otro
 //   banda   · franja del color de la casa a todo lo ancho, con borde de olas
+//   dividida · texto a la izquierda y, a la derecha, un panel del color de la
+//              casa con las etapas de la vida (pensada para clínicas)
 import { resumenCorto, type HorarioSemana } from '../lib/horario';
 import { direccionTexto, type Negocio } from '../lib/negocios';
 
@@ -21,7 +23,46 @@ const hayHorario = n.horario.length > 0;
 ---
 
 {
-  tipo === 'ficha' ? (
+  tipo === 'dividida' ? (
+    <section class="portada portada-dividida">
+      <div class="envoltura dividida-rejilla">
+        <div class="dividida-texto">
+          <h1 class="rotulo">
+            {n.rotulo || n.nombre}
+            {n.bajoRotulo && <span class="bajo-rotulo">{n.bajoRotulo}</span>}
+          </h1>
+          <p class="eslogan" data-campo="eslogan">{n.eslogan}</p>
+          <div class="datos-portada">
+            {hayHorario && (
+              <span class="estado" data-estado hidden>
+                <span class="punto" aria-hidden="true" />
+                <span data-estado-texto />
+              </span>
+            )}
+            {hayHorario && <span data-campo="resumen">{resumenCorto(semana)}</span>}
+            <span>{direccionTexto(n)}</span>
+          </div>
+          <div class="botones">
+            <a class="boton principal" href={principal.href}>{principal.texto}</a>
+            {secundario && <a class="boton" href={secundario.href}>{secundario.texto}</a>}
+          </div>
+        </div>
+        {(n.etapas?.length ?? 0) > 0 && (
+          <a class="dividida-panel" href="#etapas" aria-label="Ver el plan para cada edad">
+            <span class="dividida-titulo">Un plan para cada edad</span>
+            <ol>
+              {n.etapas!.map((e) => (
+                <li>
+                  <b>{e.titulo}</b>
+                  <span>{e.edad}</span>
+                </li>
+              ))}
+            </ol>
+          </a>
+        )}
+      </div>
+    </section>
+  ) : tipo === 'ficha' ? (
     <section class="portada portada-ficha">
       <div class="envoltura ficha-rejilla">
         <h1 class="rotulo">

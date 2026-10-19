@@ -11,8 +11,10 @@ const hh = (m: number) => `${String(Math.floor(m / 60) % 24).padStart(2, '0')}:$
 /** Horas de reserva de un día: cada media hora, hasta una hora antes de cerrar. */
 function horasDe(semana: ReturnType<typeof porDia>, dia: Dia, desde = 0) {
   const tramos = semana[dia];
+  // Sin horario publicado no se pueden inventar horas: se elige la franja.
+  if (!tramos.length) return [desde < 12 * 60 && 'Por la mañana', desde < 19 * 60 && 'Por la tarde'].filter((f): f is string => !!f);
   const lista: string[] = [];
-  const fuente = tramos.length ? tramos : [{ abre: '13:00', cierra: '23:00' }];
+  const fuente = tramos;
   for (const t of fuente) {
     const a = aMinutos(t.abre);
     let c = aMinutos(t.cierra);
@@ -80,17 +82,26 @@ export function iniciarReserva(negocio: string, horario: Tramo[]) {
     const [iso] = v('dia').split('|');
     const fecha = new Date(`${iso}T12:00`).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
     const lineas = [
-      `Hola, quería reservar en ${negocio}.`,
+      personas ? `Hola, quería reservar en ${negocio}.` : `Hola, quería pedir cita en ${negocio}.`,
       v('opcion') && `Para: ${v('opcion')}`,
       `Día: ${fecha}`,
-      `Hora: ${v('hora')}`,
+      `${v('hora').includes(':') ? 'Hora' : 'Franja'}: ${v('hora')}`,
       personas && `Personas: ${personas.value}`,
       v('nombre') && `A nombre de: ${v('nombre')}`,
       v('nota') && `Nota: ${v('nota')}`,
     ].filter(Boolean);
     const wa = form.dataset.wa;
     const destino = wa ? `${wa}?text=${encodeURIComponent(lineas.join('\n'))}` : form.dataset.tel;
-    if (destino) window.location.href = destino;
+    if (destino) {
+      window.location.href = destino;
+      return;
+    }
+    // Demo de un negocio sin teléfono publicado: se enseña el mensaje en lugar de enviarlo.
+    const muestra = form.querySelector<HTMLElement>('[data-muestra-mensaje]');
+    if (!muestra) return;
+    muestra.querySelector('[data-muestra-texto]')!.textContent = lineas.join('\n');
+    muestra.hidden = false;
+    muestra.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
   });
 }
 

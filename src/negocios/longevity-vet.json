@@ -1,0 +1,131 @@
+{
+  "demo": true,
+  "sector": "veterinaria",
+  "nombre": "Longevity Vet by Clarisa",
+  "rotulo": "Longevity Vet",
+  "bajoRotulo": "by Clarisa · Clínica veterinaria",
+  "eslogan": "Medicina veterinaria para que vivan más años, y mejor.",
+  "descripcion": "Una clínica veterinaria nueva en San Pedro de Alcántara, pensada para acompañar a tu mascota en todas sus etapas. Prevenir antes que curar, revisar a tiempo y cuidar con especial atención los años en que más lo necesitan.",
+  "tema": {
+    "estilo": "elegante",
+    "fondo": "#f5f2ec",
+    "tinta": "#1d2b28",
+    "acento": "#2c6556",
+    "sobreAcento": "#ffffff",
+    "portada": "dividida",
+    "adorno": "ninguno",
+    "forma": "redondo",
+    "horario": "filas",
+    "mapa": "tarjeta",
+    "secciones": "lineas"
+  },
+  "contacto": {
+    "telefono": "",
+    "whatsapp": "",
+    "email": "",
+    "instagram": "",
+    "facebook": ""
+  },
+  "direccion": {
+    "calle": "C/ Galicia, 16",
+    "zona": "San Pedro de Alcántara",
+    "cp": "29670",
+    "ciudad": "Marbella",
+    "comoLlegar": "En el barrio del Salto del Agua, a pocos minutos a pie del bulevar de San Pedro.",
+    "mapa": "https://www.google.com/maps/search/?api=1&query=Longevity+Vet+by+Clarisa%2C+Calle+Galicia+16%2C+San+Pedro+de+Alc%C3%A1ntara",
+    "geo": {
+      "lat": 36.4904914,
+      "lng": -4.9893079
+    }
+  },
+  "horario": [],
+  "destacados": [
+    {
+      "titulo": "Prevención primero",
+      "texto": "Las revisiones a tiempo encuentran los problemas cuando todavía son pequeños y tienen fácil arreglo."
+    },
+    {
+      "titulo": "Especial cuidado en la edad senior",
+      "texto": "A partir de los siete años cambian las necesidades. Hay un chequeo pensado para esa etapa, no una consulta cualquiera."
+    },
+    {
+      "titulo": "Sin prisas",
+      "texto": "Consultas con tiempo para explorar bien, explicarte qué pasa y resolver tus dudas antes de irte."
+    }
+  ],
+  "servicios": [
+    {
+      "nombre": "Consulta y medicina preventiva",
+      "descripcion": "Exploración completa, plan de salud según la edad y el estilo de vida de tu mascota."
+    },
+    {
+      "nombre": "Vacunas, desparasitación y microchip",
+      "descripcion": "El calendario al día, con recordatorio para que no se pase ninguna fecha."
+    },
+    {
+      "nombre": "Chequeo senior",
+      "descripcion": "Analítica, tensión, articulaciones, vista y boca. Para detectar a tiempo lo que llega con los años."
+    },
+    {
+      "nombre": "Nutrición y control de peso",
+      "descripcion": "La dieta adecuada a cada edad y a cada problema. El sobrepeso acorta la vida más de lo que parece."
+    },
+    {
+      "nombre": "Salud dental",
+      "descripcion": "Revisión de boca y limpieza. El sarro y las encías inflamadas afectan a todo el cuerpo."
+    },
+    {
+      "nombre": "Tienda",
+      "descripcion": "Alimentación y productos de cuidado recomendados en consulta, sin tener que ir a otro sitio."
+    }
+  ],
+  "etapas": [
+    {
+      "titulo": "Cachorro",
+      "edad": "0 a 1 año",
+      "texto": "Vacunas, desparasitación, microchip y pautas de alimentación y socialización desde el principio."
+    },
+    {
+      "titulo": "Adulto",
+      "edad": "1 a 7 años",
+      "texto": "Revisión anual, refuerzo de vacunas, boca y peso bajo control."
+    },
+    {
+      "titulo": "Senior",
+      "edad": "Desde 7 años",
+      "texto": "Chequeo cada seis meses con analítica. En razas grandes, la etapa senior empieza antes."
+    },
+    {
+      "titulo": "Edad avanzada",
+      "edad": "Los últimos años",
+      "texto": "Movilidad, control del dolor y confort. Que estos años se vivan con calidad, no solo que pasen."
+    }
+  ],
+  "reservas": {
+    "activas": true,
+    "titulo": "Pedir cita",
+    "texto": "Elige el motivo y el día. En la nota cuéntanos cómo se llama, qué edad tiene y si toma alguna medicación.",
+    "opciones": [
+      "Primera visita",
+      "Vacunas o desparasitación",
+      "Chequeo senior",
+      "Revisión",
+      "Otra consulta"
+    ],
+    "personas": false
+  },
+  "faq": [
+    {
+      "pregunta": "¿A partir de qué edad es senior mi mascota?",
+      "respuesta": "En general, a partir de los siete años. En perros de raza grande, antes. Es el momento de pasar de una revisión al año a una cada seis meses."
+    },
+    {
+      "pregunta": "¿Qué traigo a la primera visita?",
+      "respuesta": "La cartilla o el pasaporte, los análisis o informes que tengas y una lista de lo que come y de la medicación que toma."
+    },
+    {
+      "pregunta": "¿Por qué hacer análisis si está bien?",
+      "respuesta": "Porque muchos problemas de riñón, hígado o tiroides no dan síntomas hasta que están avanzados. Una analítica a tiempo los ve antes."
+    }
+  ]
+}

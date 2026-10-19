@@ -10,7 +10,7 @@ export type Negocio = {
   slug: string;
   /** Demo sin encargar: muestra el aviso de «propuesta» y Google no la indexa. */
   demo: boolean;
-  sector: 'bar' | 'taller' | 'estetica' | 'salud' | 'tienda' | 'otro';
+  sector: 'bar' | 'taller' | 'estetica' | 'salud' | 'veterinaria' | 'tienda' | 'otro';
   nombre: string;
   rotulo?: string;
   bajoRotulo?: string;
@@ -23,7 +23,7 @@ export type Negocio = {
     acento: string;
     sobreAcento?: string;
     /** Composición de la portada (ver components/Portada.astro). */
-    portada?: 'rotulo' | 'cartel' | 'ficha' | 'banda';
+    portada?: 'rotulo' | 'cartel' | 'ficha' | 'banda' | 'dividida';
     /** Detalle decorativo propio: toldo de rayas, cuadrícula de taller u olas. */
     adorno?: 'ninguno' | 'toldo' | 'cuadricula' | 'olas';
     /** Carta en tarjetas por sección o como una carta impresa de una columna. */
@@ -59,6 +59,8 @@ export type Negocio = {
   carta?: GrupoCarta[];
   cartaNota?: string;
   servicios?: { nombre: string; descripcion: string; precio?: string }[];
+  /** Etapas de la vida (veterinaria, pediatría…): qué toca en cada edad, como una línea de tiempo. */
+  etapas?: { titulo: string; edad: string; texto: string }[];
   reservas?: {
     activas: boolean;
     titulo?: string;
@@ -109,6 +111,7 @@ export const NOMBRE_SECTOR: Record<Negocio['sector'], string> = {
   taller: 'Taller',
   estetica: 'Estética y peluquería',
   salud: 'Salud',
+  veterinaria: 'Veterinaria',
   tienda: 'Tienda',
   otro: 'Negocio local',
 };
