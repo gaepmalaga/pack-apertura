@@ -12,12 +12,13 @@
     "tinta": "#4a3a3a",
     "acento": "#b0556a",
     "sobreAcento": "#ffffff",
-    "portada": "banda",
+    "portada": "sello",
     "adorno": "festones",
     "forma": "redondo",
     "horario": "hoy",
     "mapa": "enmarcado",
-    "secciones": "bandas"
+    "secciones": "bandas",
+    "secundario": "#a9bda6"
   },
   "contacto": {
     "telefono": "633 158 153",

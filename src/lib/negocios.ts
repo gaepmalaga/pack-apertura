@@ -28,8 +28,10 @@ export type Negocio = {
     tinta: string;
     acento: string;
     sobreAcento?: string;
+    /** Segundo color de la casa, para adornos (el zócalo de festones de la portada «sello»). */
+    secundario?: string;
     /** Composición de la portada (ver components/Portada.astro). */
-    portada?: 'rotulo' | 'cartel' | 'ficha' | 'banda' | 'dividida';
+    portada?: 'rotulo' | 'cartel' | 'ficha' | 'banda' | 'dividida' | 'sello';
     /** Detalle decorativo propio: toldo de rayas, cuadrícula de taller, olas o festones (el borde ondulado de pared infantil). */
     adorno?: 'ninguno' | 'toldo' | 'cuadricula' | 'olas' | 'festones';
     /** Carta en tarjetas por sección o como una carta impresa de una columna. */

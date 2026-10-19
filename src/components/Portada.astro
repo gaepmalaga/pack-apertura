@@ -5,6 +5,8 @@
 //   cartel  · centrado y enmarcado, como una carta impresa
 //   ficha   · título a un lado y una ficha con teléfono y horario al otro
 //   banda   · franja del color de la casa a todo lo ancho, con borde de olas
+//   sello   · el logo del negocio en el centro, sin repetir el nombre en
+//              grande, y un zócalo de festones con su segundo color
 //   dividida · texto a la izquierda y, a la derecha, un panel del color de la
 //              casa con las etapas de la vida (pensada para clínicas)
 import { resumenCorto, type HorarioSemana } from '../lib/horario';
@@ -23,7 +25,30 @@ const hayHorario = n.horario.length > 0;
 ---
 
 {
-  tipo === 'dividida' ? (
+  tipo === 'sello' && n.logo ? (
+    <section class="portada portada-sello">
+      <div class="envoltura sello-cuerpo">
+        <img class="sello-logo" src={url(`/${n.logo}`)} alt="" width="360" height="360" />
+        <h1 class="oculto">{n.nombre}</h1>
+        <p class="sello-eslogan" data-campo="eslogan">{n.eslogan}</p>
+        <div class="datos-portada">
+          {hayHorario && (
+            <span class="estado" data-estado hidden>
+              <span class="punto" aria-hidden="true" />
+              <span data-estado-texto />
+            </span>
+          )}
+          {hayHorario && <span data-campo="resumen">{resumenCorto(semana)}</span>}
+          <span>{direccionTexto(n)}</span>
+        </div>
+        <div class="botones">
+          <a class="boton principal" href={principal.href}>{principal.texto}</a>
+          {secundario && <a class="boton" href={secundario.href}>{secundario.texto}</a>}
+        </div>
+      </div>
+      <div class="zocalo" aria-hidden="true" />
+    </section>
+  ) : tipo === 'dividida' ? (
     <section class="portada portada-dividida">
       <div class="envoltura dividida-rejilla">
         <div class="dividida-texto">

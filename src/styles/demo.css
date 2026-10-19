@@ -364,3 +364,14 @@ p { margin: 0; }
   .galeria li:first-child:nth-last-child(5) figure { height: 100%; grid-template-rows: minmax(0, 1fr) auto; }
   .galeria li:first-child:nth-last-child(5) img { aspect-ratio: auto; height: 100%; }
 }
+
+/* Portada «sello»: el logo manda; fondo con un toque del color de la casa y
+   abajo un zócalo de festones, como las paredes pintadas de las salas infantiles */
+.oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.portada-sello { padding: 40px 0 0; gap: 0; background: color-mix(in srgb, var(--acento) 9%, var(--fondo)); }
+.sello-cuerpo { display: grid; justify-items: center; text-align: center; gap: 18px; padding-bottom: 36px; }
+.sello-logo { width: min(240px, 64vw); height: auto; aspect-ratio: 1; border-radius: 50%; box-shadow: 0 14px 40px color-mix(in srgb, var(--acento) 22%, transparent); }
+.sello-eslogan { font-family: var(--display); font-size: clamp(26px, 6vw, 40px); line-height: 1.15; color: var(--acento); max-width: 18ch; text-wrap: balance; }
+.portada-sello .datos-portada, .portada-sello .botones { justify-content: center; }
+.zocalo { height: 64px; background: radial-gradient(circle at 50% 100%, var(--secundario) 27px, transparent 28px) 0 0 / 56px 28px repeat-x, linear-gradient(var(--secundario), var(--secundario)) 0 28px / 100% 36px no-repeat; }
+@media (min-width: 900px) { .portada-sello { padding-top: 56px; } .sello-logo { width: 280px; } .zocalo { height: 80px; background-size: 56px 28px, 100% 52px; } }
