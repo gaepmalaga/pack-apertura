@@ -1,0 +1,235 @@
+---
+// Panel de prueba de una demo: sin contraseña y sin publicar nada. El dueño del
+// negocio cambia la frase de portada, el teléfono, el horario o los precios y
+// ve su web con esos cambios. Todo se queda en su navegador. El panel real,
+// que sí publica, está en /editar/ y pide un token de GitHub.
+import '@fontsource-variable/figtree';
+import '@fontsource-variable/bricolage-grotesque';
+import { negocios, url, type Negocio } from '../../../../lib/negocios';
+import { DIAS, NOMBRE_DIA } from '../../../../lib/horario';
+
+export function getStaticPaths() {
+  return negocios.map((negocio) => ({ params: { slug: negocio.slug }, props: { negocio } }));
+}
+interface Props {
+  negocio: Negocio;
+}
+const { negocio: n } = Astro.props;
+const inicial = {
+  eslogan: n.eslogan,
+  telefono: n.contacto.telefono ?? '',
+  horario: n.horario,
+  carta: (n.carta ?? []).map((g) => ({ titulo: g.titulo, platos: g.platos.map((p) => ({ nombre: p.nombre, descripcion: p.descripcion, precio: p.precio })) })),
+};
+const web = url(`/demo/${n.slug}/`);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex" />
+    <title>Panel · {n.nombre}</title>
+  </head>
+  <body>
+    <header class="barra">
+      <div>
+        <span class="etiqueta">Panel de {n.rotulo || n.nombre}</span>
+        <strong>Cambia tu web desde el móvil</strong>
+      </div>
+      <a class="boton principal" href={`${web}?prueba`} data-ver>Ver mi web</a>
+    </header>
+
+    <main class="cuerpo">
+      <p class="aviso">
+        <b>Esto es una prueba.</b> Cambia lo que quieras y pulsa «Ver mi web»: verás tu web con los cambios. No se publica nada. En la versión real, al guardar,
+        tu web se actualiza para todo el mundo en un par de minutos.
+      </p>
+
+      <section class="bloque">
+        <h2>Portada</h2>
+        <label>Frase principal <input id="eslogan" data-campo="eslogan" /></label>
+        <label>Teléfono <input id="telefono" data-campo="telefono" inputmode="tel" /></label>
+      </section>
+
+      <section class="bloque">
+        <h2>Horario</h2>
+        <p class="ayuda">Deja las dos horas vacías si ese día cerráis. Para un horario partido, rellena también la tarde.</p>
+        <div class="horario">
+          {
+            DIAS.map((d) => (
+              <div class="dia" role="group" aria-label={NOMBRE_DIA[d]} data-dia={d}>
+                <strong>{NOMBRE_DIA[d]}</strong>
+                <span class="tramo">Mañana</span>
+                <input type="time" aria-label={`${NOMBRE_DIA[d]}, abre`} data-t="0" data-k="abre" />
+                <span class="a">a</span>
+                <input type="time" aria-label={`${NOMBRE_DIA[d]}, cierra`} data-t="0" data-k="cierra" />
+                <span class="tramo">Tarde</span>
+                <input type="time" aria-label={`${NOMBRE_DIA[d]}, abre por la tarde`} data-t="1" data-k="abre" />
+                <span class="a">a</span>
+                <input type="time" aria-label={`${NOMBRE_DIA[d]}, cierra por la tarde`} data-t="1" data-k="cierra" />
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      {
+        inicial.carta.length > 0 && (
+          <section class="bloque">
+            <h2>Carta y precios</h2>
+            <div data-carta />
+          </section>
+        )
+      }
+
+      <section class="bloque acciones">
+        <a class="boton principal" href={`${web}?prueba`} data-ver>Ver mi web con los cambios</a>
+        <button type="button" class="boton" data-deshacer>Deshacer todos los cambios</button>
+      </section>
+
+      <p class="ayuda pie">
+        ¿Eres tú quien gestiona esta web? <a href={url(`/demo/${n.slug}/editar/`)}>Entra en el panel real</a> con tu token de GitHub.
+      </p>
+    </main>
+
+    <script type="application/json" id="inicial" set:html={JSON.stringify({ slug: n.slug, datos: inicial })} />
+    <script>
+      import { clavePrueba, leerPrueba, type Prueba } from '../../../../scripts/prueba';
+      import { DIAS, type Dia } from '../../../../lib/horario';
+
+      const { slug, datos: inicial } = JSON.parse(document.getElementById('inicial')!.textContent!) as { slug: string; datos: Required<Prueba> };
+      let estado: Required<Prueba> = { ...structuredClone(inicial), ...(leerPrueba(slug) ?? {}) };
+
+      const guardar = () => {
+        try {
+          localStorage.setItem(clavePrueba(slug), JSON.stringify(estado));
+        } catch {
+          /* sin almacenamiento (modo privado): los cambios se pierden al salir */
+        }
+      };
+
+      function pintar() {
+        (document.getElementById('eslogan') as HTMLInputElement).value = estado.eslogan;
+        (document.getElementById('telefono') as HTMLInputElement).value = estado.telefono;
+        document.querySelectorAll<HTMLDivElement>('.dia[data-dia]').forEach((fs) => {
+          const tramos = estado.horario.filter((t) => t.dia === fs.dataset.dia);
+          fs.querySelectorAll<HTMLInputElement>('input').forEach((i) => {
+            const t = tramos[Number(i.dataset.t)];
+            i.value = t ? t[i.dataset.k as 'abre' | 'cierra'] : '';
+          });
+        });
+        const carta = document.querySelector('[data-carta]');
+        if (!carta) return;
+        carta.replaceChildren(
+          ...estado.carta.map((g, gi) => {
+            const caja = document.createElement('details');
+            caja.className = 'grupo';
+            if (gi === 0) caja.open = true;
+            const sum = document.createElement('summary');
+            sum.textContent = `${g.titulo} · ${g.platos.length}`;
+            caja.append(sum);
+            g.platos.forEach((p, pi) => {
+              const fila = document.createElement('div');
+              fila.className = 'plato';
+              const nombre = document.createElement('input');
+              nombre.value = p.nombre;
+              nombre.setAttribute('aria-label', 'Nombre del plato');
+              nombre.oninput = () => ((estado.carta[gi].platos[pi].nombre = nombre.value), guardar());
+              const precio = document.createElement('input');
+              precio.type = 'number';
+              precio.step = '0.10';
+              precio.min = '0';
+              precio.inputMode = 'decimal';
+              precio.value = p.precio != null ? String(p.precio) : '';
+              precio.setAttribute('aria-label', `Precio de ${p.nombre}`);
+              precio.oninput = () => ((estado.carta[gi].platos[pi].precio = precio.value === '' ? undefined : Number(precio.value)), guardar());
+              const quitar = document.createElement('button');
+              quitar.type = 'button';
+              quitar.textContent = '×';
+              quitar.setAttribute('aria-label', `Quitar ${p.nombre}`);
+              quitar.onclick = () => (estado.carta[gi].platos.splice(pi, 1), guardar(), pintar());
+              fila.append(nombre, precio, quitar);
+              caja.append(fila);
+            });
+            const nuevo = document.createElement('button');
+            nuevo.type = 'button';
+            nuevo.className = 'anadir';
+            nuevo.textContent = '+ Añadir plato';
+            nuevo.onclick = () => (estado.carta[gi].platos.push({ nombre: 'Plato nuevo', precio: 0 }), guardar(), pintar());
+            caja.append(nuevo);
+            return caja;
+          }),
+        );
+      }
+
+      document.getElementById('eslogan')!.addEventListener('input', (e) => ((estado.eslogan = (e.target as HTMLInputElement).value), guardar()));
+      document.getElementById('telefono')!.addEventListener('input', (e) => ((estado.telefono = (e.target as HTMLInputElement).value), guardar()));
+      document.querySelectorAll<HTMLInputElement>('.dia[data-dia] input').forEach((i) =>
+        i.addEventListener('change', () => {
+          const horario: Required<Prueba>['horario'] = [];
+          for (const d of DIAS) {
+            const fs = document.querySelector<HTMLDivElement>(`.dia[data-dia="${d}"]`)!;
+            for (const t of [0, 1]) {
+              const abre = fs.querySelector<HTMLInputElement>(`[data-t="${t}"][data-k="abre"]`)!.value;
+              const cierra = fs.querySelector<HTMLInputElement>(`[data-t="${t}"][data-k="cierra"]`)!.value;
+              if (abre && cierra) horario.push({ dia: d as Dia, abre, cierra });
+            }
+          }
+          estado.horario = horario;
+          guardar();
+        }),
+      );
+      document.querySelector('[data-deshacer]')!.addEventListener('click', () => {
+        estado = structuredClone(inicial);
+        try {
+          localStorage.removeItem(clavePrueba(slug));
+        } catch {
+          /* nada que borrar */
+        }
+        pintar();
+      });
+      // Guardar antes de salir a la web, por si el último cambio no ha disparado «change».
+      document.querySelectorAll('[data-ver]').forEach((a) => a.addEventListener('click', guardar));
+      pintar();
+    </script>
+
+    <style>
+      :root {
+        --bg: #f6f6f3; --surface: #fff; --ink: #172322; --muted: #5d6967; --line: #dedcd6; --accent: #1f6feb;
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root { --bg: #111716; --surface: #1a2221; --ink: #ecf0ef; --muted: #a2adab; --line: #2c3634; --accent: #4c8dff; color-scheme: dark; }
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Figtree Variable', system-ui, sans-serif; font-size: 16px; line-height: 1.5; }
+      .barra { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px)); background: var(--surface); border-bottom: 1px solid var(--line); }
+      .barra strong { display: block; font-family: 'Bricolage Grotesque Variable', sans-serif; font-size: 18px; }
+      .etiqueta { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+      .cuerpo { max-width: 720px; margin: 0 auto; padding: 20px max(16px, env(safe-area-inset-right, 0px)) 60px max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 18px; }
+      .aviso { background: color-mix(in srgb, var(--accent) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line)); border-radius: 12px; padding: 14px 16px; margin: 0; }
+      .bloque { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 14px; }
+      h2 { margin: 0; font-family: 'Bricolage Grotesque Variable', sans-serif; font-size: 20px; }
+      label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
+      input { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-height: 44px; width: 100%; min-width: 0; }
+      .ayuda { color: var(--muted); font-size: 14px; margin: 0; }
+      .horario { display: grid; gap: 10px; }
+      .dia { border-top: 1px solid var(--line); padding-top: 10px; display: grid; grid-template-columns: 56px minmax(0, 1fr) auto minmax(0, 1fr); gap: 6px 8px; align-items: center; }
+      .dia strong { grid-column: 1 / -1; }
+      .dia .tramo, .dia .a { color: var(--muted); font-size: 13px; }
+      .dia input { padding: 8px; }
+      .grupo { border-top: 1px solid var(--line); padding-top: 10px; }
+      .grupo summary { cursor: pointer; font-weight: 700; padding: 6px 0; }
+      .plato { display: grid; grid-template-columns: minmax(0, 1fr) 96px 40px; gap: 8px; margin-top: 8px; }
+      .plato button { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 10px; font: inherit; font-size: 20px; cursor: pointer; }
+      .anadir { margin-top: 10px; border: 1px dashed var(--line); background: none; color: var(--accent); font: inherit; font-weight: 700; border-radius: 10px; padding: 10px; width: 100%; cursor: pointer; }
+      .boton { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 18px; border-radius: 999px; font: inherit; font-weight: 700; text-decoration: none; border: 2px solid var(--ink); background: none; color: var(--ink); cursor: pointer; white-space: nowrap; }
+      .boton.principal { background: var(--accent); border-color: var(--accent); color: #fff; }
+      .acciones { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+      .pie a { color: var(--accent); }
+      :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    </style>
+  </body>
+</html>

@@ -22,6 +22,13 @@ export type Negocio = {
     tinta: string;
     acento: string;
     sobreAcento?: string;
+    /** Composición de la portada (ver components/Portada.astro). */
+    portada?: 'rotulo' | 'cartel' | 'ficha' | 'banda';
+    /** Detalle decorativo propio: toldo de rayas, cuadrícula de taller u olas. */
+    adorno?: 'ninguno' | 'toldo' | 'cuadricula' | 'olas';
+    /** Carta en tarjetas por sección o como una carta impresa de una columna. */
+    carta?: 'tarjetas' | 'menu';
+    forma?: 'redondo' | 'recto';
   };
   contacto: {
     telefono?: string;

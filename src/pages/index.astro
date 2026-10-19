@@ -5,9 +5,12 @@ import '@fontsource-variable/figtree';
 import '@fontsource-variable/bricolage-grotesque';
 import '@fontsource-variable/fraunces';
 import landing from '../datos/landing.json';
+import { existsSync } from 'node:fs';
 import { negocios, url, NOMBRE_SECTOR, soloDigitos } from '../lib/negocios';
 
 const demos = negocios.filter((n) => n.demo);
+// Captura real de cada demo (herramientas/capturas.mjs). Si falta, se pinta su rótulo.
+const captura = (slug: string) => (existsSync(`public/capturas/${slug}.jpg`) ? url(`/capturas/${slug}.jpg`) : '');
 const { contacto, precio, cliente } = landing;
 const wa = soloDigitos(contacto.whatsapp);
 const fuente = { taberna: "'Bricolage Grotesque Variable', sans-serif", elegante: "'Fraunces Variable', serif", moderno: "'Bricolage Grotesque Variable', sans-serif" };
@@ -36,11 +39,8 @@ const fuente = { taberna: "'Bricolage Grotesque Variable', sans-serif", elegante
       <div class="moviles" aria-hidden="true">
         {
           demos.slice(0, 2).map((n, i) => (
-            <div class={`movil m${i}`} style={`background:${n.tema.fondo};color:${n.tema.tinta}`}>
-              <span class="mini-aviso" style={`background:${n.tema.acento};color:${n.tema.sobreAcento || n.tema.fondo}`}>{NOMBRE_SECTOR[n.sector]}</span>
-              <strong style={`font-family:${fuente[n.tema.estilo]}`}>{n.rotulo || n.nombre}</strong>
-              <span>{n.eslogan}</span>
-              <span class="mini-boton" style={`background:${n.tema.acento};color:${n.tema.sobreAcento || n.tema.fondo}`}>{n.carta?.length ? 'Ver la carta' : 'Pedir cita'}</span>
+            <div class={`movil m${i}`} style={`background:${n.tema.fondo}`}>
+              {captura(n.slug) ? <img src={captura(n.slug)} alt="" /> : <strong style={`color:${n.tema.tinta};font-family:${fuente[n.tema.estilo]}`}>{n.rotulo || n.nombre}</strong>}
             </div>
           ))
         }
@@ -83,13 +83,15 @@ const fuente = { taberna: "'Bricolage Grotesque Variable', sans-serif", elegante
         {
           demos.map((n) => (
             <a class="muestra" href={url(`/demo/${n.slug}/`)}>
-              <div class="tarjeta-marca" style={`background:${n.tema.fondo};color:${n.tema.tinta}`}>
-                <span class="mini-aviso" style={`background:${n.tema.acento};color:${n.tema.sobreAcento || n.tema.fondo}`}>{NOMBRE_SECTOR[n.sector]}</span>
-                <strong style={`font-family:${fuente[n.tema.estilo]}`}>{n.rotulo || n.nombre}</strong>
-                {n.bajoRotulo && <span class="bajo">{n.bajoRotulo}</span>}
+              <div class="pantalla" style={`background:${n.tema.fondo}`}>
+                {captura(n.slug) ? (
+                  <img src={captura(n.slug)} alt={`Vista de la demo de ${n.nombre} en el móvil`} loading="lazy" />
+                ) : (
+                  <strong style={`color:${n.tema.tinta};font-family:${fuente[n.tema.estilo]}`}>{n.rotulo || n.nombre}</strong>
+                )}
               </div>
+              <span class="sector">{NOMBRE_SECTOR[n.sector]}</span>
               <h3>{n.nombre}</h3>
-              <p>{n.eslogan}</p>
               <span class="ir">Ver la demo →</span>
             </a>
           ))
@@ -97,9 +99,9 @@ const fuente = { taberna: "'Bricolage Grotesque Variable', sans-serif", elegante
         {
           landing.muestrasExternas.map((m) => (
             <a class="muestra" href={m.url} target="_blank" rel="noopener">
-              <div class="tarjeta-marca foto"><img src={url('/' + m.imagen)} alt="" loading="lazy" /></div>
-              <h3>{m.titulo}</h3>
-              <p>{m.texto}</p>
+              <div class="pantalla"><img src={url('/' + m.imagen)} alt={`Vista de la demo: ${m.titulo}`} loading="lazy" /></div>
+              <span class="sector">{m.titulo}</span>
+              <h3>Siente, óptica en Madrid</h3>
               <span class="ir">Ver la demo →</span>
             </a>
           ))
@@ -182,13 +184,11 @@ const fuente = { taberna: "'Bricolage Grotesque Variable', sans-serif", elegante
       .portada h1 { font-size: clamp(42px, 7vw, 84px); font-weight: 800; margin: 14px 0 20px; }
       .portada h1 em { font-style: normal; color: var(--accent); }
       .moviles { position: relative; height: 470px; }
-      .movil { position: absolute; width: 220px; height: 420px; border-radius: 30px; border: 8px solid var(--ink); padding: 26px 18px; display: grid; align-content: center; gap: 14px; box-shadow: 0 24px 50px rgb(20 32 31 / .25); }
-      .movil strong { font-size: 40px; line-height: .95; text-transform: uppercase; }
-      .movil span { font-size: 14px; opacity: .85; }
+      .movil { position: absolute; width: 220px; aspect-ratio: 390 / 760; border-radius: 30px; border: 8px solid var(--ink); overflow: hidden; display: grid; place-items: center; box-shadow: 0 24px 50px rgb(20 32 31 / .25); }
+      .movil img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+      .movil strong { font-size: 34px; text-transform: uppercase; }
       .movil.m0 { left: 0; top: 40px; transform: rotate(-5deg); }
       .movil.m1 { right: 0; top: 0; transform: rotate(4deg); }
-      .mini-aviso { justify-self: start; font-size: 11px !important; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; opacity: 1 !important; }
-      .mini-boton { justify-self: start; font-weight: 700; padding: 8px 14px; border-radius: 999px; opacity: 1 !important; }
       .pack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 2px solid var(--ink); }
       .item { padding: 28px 28px 28px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 14px; }
       .item:nth-child(odd) { border-right: 1px solid var(--line); }
@@ -205,16 +205,14 @@ const fuente = { taberna: "'Bricolage Grotesque Variable', sans-serif", elegante
       .ticks { list-style: none; padding: 0; margin: 20px 0 24px; display: grid; gap: 8px; }
       .ticks li::before { content: '✓'; color: var(--accent); font-weight: 700; margin-right: 10px; }
       .nota { border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; color: var(--muted); max-width: 70ch; }
-      .muestras { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-      .muestra { display: grid; gap: 10px; align-content: start; text-decoration: none; }
-      .tarjeta-marca { aspect-ratio: 4 / 5; max-width: 100%; border-radius: 18px; padding: 20px; display: grid; align-content: end; gap: 6px; overflow: hidden; transition: transform .3s ease; }
-      .tarjeta-marca strong { font-size: 34px; line-height: .95; text-transform: uppercase; }
-      .tarjeta-marca .bajo { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; opacity: .8; }
-      .tarjeta-marca .mini-aviso { align-self: start; margin-bottom: auto; }
-      .tarjeta-marca.foto { padding: 0; border: 5px solid var(--ink); }
-      .tarjeta-marca.foto img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-      .muestra:hover .tarjeta-marca { transform: translateY(-4px); }
-      .muestra p { color: var(--muted); font-size: 15px; }
+      .muestras { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 28px 20px; }
+      .muestra { display: grid; gap: 6px; align-content: start; text-decoration: none; }
+      .pantalla { aspect-ratio: 390 / 760; max-width: 100%; border-radius: 22px; border: 6px solid var(--ink); overflow: hidden; display: grid; place-items: center; margin-bottom: 8px; box-shadow: 0 14px 30px rgb(20 32 31 / .14); transition: transform .3s ease; }
+      .pantalla img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+      .pantalla strong { font-size: 26px; text-transform: uppercase; padding: 12px; text-align: center; }
+      .muestra:hover .pantalla { transform: translateY(-4px); }
+      .muestra .sector { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+      .muestra h3 { font-size: 19px; }
       .muestra .ir { font-weight: 700; color: var(--accent); font-size: 15px; }
       .pasos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
       .paso { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
@@ -234,17 +232,17 @@ const fuente = { taberna: "'Bricolage Grotesque Variable', sans-serif", elegante
       @media (max-width: 900px) {
         .portada, .cliente, .pasos, .precios { grid-template-columns: minmax(0, 1fr); }
         .moviles { height: 400px; max-width: 420px; }
-        .movil { width: 180px; height: 350px; }
-        .movil strong { font-size: 30px; }
+        .movil { width: 180px; }
       }
       @media (max-width: 640px) {
         .seccion, .banda { padding-block: 52px; }
         .pack { grid-template-columns: minmax(0, 1fr); }
         .item, .item:nth-child(n) { padding: 22px 0; border-right: 0; }
         .muestras { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-        .tarjeta-marca strong { font-size: 24px; }
+        .muestra h3 { font-size: 16px; }
+        .pantalla { border-width: 4px; border-radius: 16px; }
       }
-      @media (prefers-reduced-motion: reduce) { .tarjeta-marca { transition: none; } }
+      @media (prefers-reduced-motion: reduce) { .pantalla { transition: none; } }
     </style>
   </body>
 </html>

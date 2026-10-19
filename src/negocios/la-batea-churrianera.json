@@ -6,8 +6,23 @@
   "bajoRotulo": "Churrianera",
   "eslogan": "Carne, pescado y terraza en Churriana.",
   "descripcion": "Restaurante en la carretera de Coín con carnes, pescado fresco, ensaladas y tapas. Comidas y cenas todos los días, terraza, comida para llevar y sitio para venir con niños.",
-  "tema": { "estilo": "moderno", "fondo": "#0f2a3a", "tinta": "#f2ece0", "acento": "#e8b04b", "sobreAcento": "#0f2a3a" },
-  "contacto": { "telefono": "656 67 24 40", "whatsapp": "", "email": "", "instagram": "", "facebook": "labateachurrianera" },
+  "tema": {
+    "estilo": "moderno",
+    "fondo": "#0f2a3a",
+    "tinta": "#f2ece0",
+    "acento": "#e8b04b",
+    "sobreAcento": "#0f2a3a",
+    "portada": "banda",
+    "adorno": "olas",
+    "forma": "redondo"
+  },
+  "contacto": {
+    "telefono": "656 67 24 40",
+    "whatsapp": "",
+    "email": "",
+    "instagram": "",
+    "facebook": "labateachurrianera"
+  },
   "direccion": {
     "calle": "Ctra. de Coín, 14",
     "zona": "Churriana",
@@ -17,34 +32,93 @@
     "mapa": "https://www.google.com/maps/search/?api=1&query=La+Batea+Churrianera%2C+Ctra.+Co%C3%ADn+14%2C+29140+Churriana%2C+M%C3%A1laga"
   },
   "horario": [
-    { "dia": "lunes", "abre": "12:00", "cierra": "00:00" },
-    { "dia": "martes", "abre": "12:00", "cierra": "00:00" },
-    { "dia": "miercoles", "abre": "12:00", "cierra": "00:00" },
-    { "dia": "jueves", "abre": "12:00", "cierra": "00:00" },
-    { "dia": "viernes", "abre": "12:00", "cierra": "00:00" },
-    { "dia": "sabado", "abre": "12:00", "cierra": "00:00" },
-    { "dia": "domingo", "abre": "12:00", "cierra": "00:00" }
+    {
+      "dia": "lunes",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "martes",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "miercoles",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "jueves",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "viernes",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "sabado",
+      "abre": "12:00",
+      "cierra": "00:00"
+    },
+    {
+      "dia": "domingo",
+      "abre": "12:00",
+      "cierra": "00:00"
+    }
   ],
   "horarioNota": "Abierto todos los días para comidas y cenas. En festivos, mejor llamar antes.",
   "destacados": [
-    { "titulo": "Carne y pescado", "texto": "Especialidades de carne y pescado fresco, con ensaladas y tapas para compartir." },
-    { "titulo": "Terraza", "texto": "Mesas fuera para comer o cenar al aire libre." },
-    { "titulo": "Para venir con niños", "texto": "Menú infantil y tronas. Local accesible, con aparcamiento cerca." },
-    { "titulo": "Para llevar", "texto": "Si no te quedas, te lo preparamos para llevar." },
-    { "titulo": "4,0 en Google", "texto": "Más de 1.700 opiniones de clientes en Google." }
+    {
+      "titulo": "Carne y pescado",
+      "texto": "Especialidades de carne y pescado fresco, con ensaladas y tapas para compartir."
+    },
+    {
+      "titulo": "Terraza",
+      "texto": "Mesas fuera para comer o cenar al aire libre."
+    },
+    {
+      "titulo": "Para venir con niños",
+      "texto": "Menú infantil y tronas. Local accesible, con aparcamiento cerca."
+    },
+    {
+      "titulo": "Para llevar",
+      "texto": "Si no te quedas, te lo preparamos para llevar."
+    },
+    {
+      "titulo": "4,0 en Google",
+      "texto": "Más de 1.700 opiniones de clientes en Google."
+    }
   ],
   "reservas": {
     "activas": true,
     "titulo": "Reservar mesa",
     "texto": "Los fines de semana se llena: mejor reservar. Dinos día, hora y cuántos sois.",
-    "opciones": ["Mesa dentro", "Mesa en la terraza", "Grupo o celebración"],
+    "opciones": [
+      "Mesa dentro",
+      "Mesa en la terraza",
+      "Grupo o celebración"
+    ],
     "personas": true
   },
   "enlaceResenas": "https://www.google.com/maps/search/?api=1&query=La+Batea+Churrianera%2C+Ctra.+Co%C3%ADn+14%2C+Churriana",
   "faq": [
-    { "pregunta": "¿Hace falta reservar?", "respuesta": "Entre semana suele haber sitio. Los fines de semana y en grupo, mejor reservar." },
-    { "pregunta": "¿Dónde se aparca?", "respuesta": "Hay aparcamiento gratuito en la calle, junto al restaurante." },
-    { "pregunta": "¿Puedo venir con niños?", "respuesta": "Sí: hay menú infantil y tronas, y el local es accesible." },
-    { "pregunta": "¿Hacéis comida para llevar?", "respuesta": "Sí. Llama antes y te lo tenemos preparado." }
+    {
+      "pregunta": "¿Hace falta reservar?",
+      "respuesta": "Entre semana suele haber sitio. Los fines de semana y en grupo, mejor reservar."
+    },
+    {
+      "pregunta": "¿Dónde se aparca?",
+      "respuesta": "Hay aparcamiento gratuito en la calle, junto al restaurante."
+    },
+    {
+      "pregunta": "¿Puedo venir con niños?",
+      "respuesta": "Sí: hay menú infantil y tronas, y el local es accesible."
+    },
+    {
+      "pregunta": "¿Hacéis comida para llevar?",
+      "respuesta": "Sí. Llama antes y te lo tenemos preparado."
+    }
   ]
 }

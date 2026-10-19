@@ -11,7 +11,11 @@
     "fondo": "#0e0e0e",
     "tinta": "#f5f1e8",
     "acento": "#f7e27c",
-    "sobreAcento": "#111111"
+    "sobreAcento": "#111111",
+    "portada": "rotulo",
+    "adorno": "toldo",
+    "carta": "tarjetas",
+    "forma": "redondo"
   },
   "contacto": {
     "telefono": "744 78 10 63",

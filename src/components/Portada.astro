@@ -1,0 +1,100 @@
+---
+// Portada de la web de un negocio. Hay cuatro composiciones para que dos demos
+// del mismo sector no parezcan la misma plantilla con otro color:
+//   rotulo  · rótulo enorme a la izquierda, como un letrero de bar
+//   cartel  · centrado y enmarcado, como una carta impresa
+//   ficha   · título a un lado y una ficha con teléfono y horario al otro
+//   banda   · franja del color de la casa a todo lo ancho, con borde de olas
+import { resumenCorto, type HorarioSemana } from '../lib/horario';
+import { direccionTexto, type Negocio } from '../lib/negocios';
+
+interface Props {
+  n: Negocio;
+  semana: HorarioSemana;
+  tel: string;
+  principal: { href: string; texto: string };
+  secundario?: { href: string; texto: string };
+}
+const { n, semana, tel, principal, secundario } = Astro.props;
+const tipo = n.tema.portada ?? 'rotulo';
+const hayHorario = n.horario.length > 0;
+---
+
+{
+  tipo === 'ficha' ? (
+    <section class="portada portada-ficha">
+      <div class="envoltura ficha-rejilla">
+        <h1 class="rotulo">
+          {n.rotulo || n.nombre}
+          {n.bajoRotulo && <span class="bajo-rotulo">{n.bajoRotulo}</span>}
+        </h1>
+        <div class="ficha">
+          <p class="eslogan" data-campo="eslogan">{n.eslogan}</p>
+          {tel && (
+            <a class="ficha-tel" href={tel}>
+              <span>Llámanos</span>
+              <b data-campo="telefono">{n.contacto.telefono}</b>
+            </a>
+          )}
+          <dl>
+            {hayHorario && (
+              <div>
+                <dt>Hoy</dt>
+                <dd>
+                  <span class="estado" data-estado hidden>
+                    <span class="punto" aria-hidden="true" />
+                    <span data-estado-texto />
+                  </span>
+                </dd>
+              </div>
+            )}
+            {hayHorario && (
+              <div>
+                <dt>Horario</dt>
+                <dd data-campo="resumen">{resumenCorto(semana)}</dd>
+              </div>
+            )}
+            <div>
+              <dt>Dónde</dt>
+              <dd>{direccionTexto(n)}</dd>
+            </div>
+          </dl>
+          <div class="botones">
+            <a class="boton principal" href={principal.href}>{principal.texto}</a>
+            {secundario && <a class="boton" href={secundario.href}>{secundario.texto}</a>}
+          </div>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section class={`portada portada-${tipo}`}>
+      <div class="envoltura portada-cuerpo">
+        {tipo === 'cartel' && <span class="ornamento" aria-hidden="true">— ✦ —</span>}
+        <h1 class="rotulo">
+          {n.rotulo || n.nombre}
+          {n.bajoRotulo && <span class="bajo-rotulo">{n.bajoRotulo}</span>}
+        </h1>
+        <p class="eslogan" data-campo="eslogan">{n.eslogan}</p>
+        <div class="datos-portada">
+          {hayHorario && (
+            <span class="estado" data-estado hidden>
+              <span class="punto" aria-hidden="true" />
+              <span data-estado-texto />
+            </span>
+          )}
+          {hayHorario && <span data-campo="resumen">{resumenCorto(semana)}</span>}
+          <span>{direccionTexto(n)}</span>
+        </div>
+        <div class="botones">
+          <a class="boton principal" href={principal.href}>{principal.texto}</a>
+          {secundario && <a class="boton" href={secundario.href}>{secundario.texto}</a>}
+        </div>
+      </div>
+      {tipo === 'banda' && (
+        <svg class="olas" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 30 C 150 0, 300 60, 450 30 S 750 0, 900 30 S 1100 60, 1200 30 V60 H0 Z" />
+        </svg>
+      )}
+    </section>
+  )
+}

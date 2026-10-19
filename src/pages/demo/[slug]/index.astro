@@ -3,6 +3,7 @@
 // si el negocio tiene datos para él: un bar enseña carta y combos, un taller
 // servicios y preguntas, y todos horario, reservas y cómo llegar.
 import Demo from '../../../layouts/Demo.astro';
+import Portada from '../../../components/Portada.astro';
 import {
   negocios,
   telHref,
@@ -33,6 +34,19 @@ const carta = (n.carta ?? []).filter((g) => g.platos.length);
 const idGrupo = (t: string) => 'g-' + t.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const titulo = `${n.nombre} · ${n.eslogan.replace(/\.$/, '')}`;
 const verCarta = carta.length ? '#carta' : n.servicios?.length ? '#servicios' : '#donde';
+// Sin carta ni servicios, lo más útil de la portada es reservar.
+const principal =
+  verCarta === '#donde' && reservas
+    ? { href: '#reservar', texto: reservas.titulo || 'Reservar' }
+    : { href: verCarta, texto: carta.length ? 'Ver la carta' : n.servicios?.length ? 'Ver servicios' : 'Cómo llegar' };
+const secundario =
+  verCarta === '#donde' && reservas
+    ? { href: '#donde', texto: 'Cómo llegar' }
+    : reservas
+      ? { href: '#reservar', texto: reservas.titulo || 'Reservar' }
+      : tel
+        ? { href: tel, texto: `Llamar · ${n.contacto.telefono}` }
+        : undefined;
 ---
 
 <Demo negocio={n} titulo={titulo} descripcion={n.descripcion}>
@@ -59,41 +73,7 @@ const verCarta = carta.length ? '#carta' : n.servicios?.length ? '#servicios' : 
   </header>
 
   <main id="inicio">
-    <section class="envoltura portada">
-      <h1 class="rotulo">
-        {n.rotulo || n.nombre}
-        {n.bajoRotulo && <span class="bajo-rotulo">{n.bajoRotulo}</span>}
-      </h1>
-      <p class="eslogan">{n.eslogan}</p>
-      <div class="datos-portada">
-        {
-          hayHorario && (
-            <span class="estado" data-estado hidden>
-              <span class="punto" aria-hidden="true" />
-              <span data-estado-texto />
-            </span>
-          )
-        }
-        {hayHorario && <span>{resumenCorto(semana)}</span>}
-        <span>{direccionTexto(n)}</span>
-      </div>
-      <div class="botones">
-        {
-          verCarta === '#donde' && reservas ? (
-            <>
-              <a class="boton principal" href="#reservar">{reservas.titulo || 'Reservar'}</a>
-              <a class="boton" href="#donde">Cómo llegar</a>
-            </>
-          ) : (
-            <>
-              <a class="boton principal" href={verCarta}>{carta.length ? 'Ver la carta' : n.servicios?.length ? 'Ver servicios' : 'Cómo llegar'}</a>
-              {reservas && <a class="boton" href="#reservar">{reservas.titulo || 'Reservar'}</a>}
-            </>
-          )
-        }
-        {!reservas && tel && <a class="boton" href={tel}>Llamar · {n.contacto.telefono}</a>}
-      </div>
-    </section>
+    <Portada n={n} semana={semana} tel={tel} principal={principal} secundario={secundario} />
 
     <section class="seccion">
       <div class="envoltura">
@@ -152,7 +132,7 @@ const verCarta = carta.length ? '#carta' : n.servicios?.length ? '#servicios' : 
                 <a href={`#${idGrupo(g.titulo)}`}>{g.titulo}</a>
               ))}
             </nav>
-            <div class="grupos">
+            <div class="grupos" data-carta-grupos>
               {carta.map((g) => (
                 <div class="grupo" id={idGrupo(g.titulo)}>
                   <h3>{g.titulo}</h3>
@@ -161,6 +141,7 @@ const verCarta = carta.length ? '#carta' : n.servicios?.length ? '#servicios' : 
                       <li>
                         <button type="button" class="plato" data-plato={p.nombre} data-precio={p.precio ?? 0} data-cuantos="0">
                           <span class="n">{p.nombre}</span>
+                          <span class="puntos" aria-hidden="true" />
                           <span class="p">{euros(p.precio)}</span>
                           {p.descripcion && <span class="d">{p.descripcion}</span>}
                         </button>
@@ -372,10 +353,10 @@ const verCarta = carta.length ? '#carta' : n.servicios?.length ? '#servicios' : 
 
   <footer class="envoltura pie">
     <strong>{n.nombre}</strong>
-    <span>{direccionTexto(n)}{n.contacto.telefono && ` · ${n.contacto.telefono}`}</span>
+    <span>{direccionTexto(n)}{n.contacto.telefono && <> · <span data-campo="telefono">{n.contacto.telefono}</span></>}</span>
     {n.contacto.instagram && <a href={`https://instagram.com/${n.contacto.instagram}`} target="_blank" rel="noopener">Instagram @{n.contacto.instagram}</a>}
     {n.demo && <span>Web de muestra preparada con datos públicos. No es la web oficial del negocio ni implica relación con él.</span>}
-    <a href={url(`/demo/${n.slug}/admin/`)}>Panel de edición</a>
+    <a href={url(`/demo/${n.slug}/admin/`)}>{n.demo ? 'Prueba el panel de edición' : 'Panel de edición'}</a>
   </footer>
 
   <nav class="barra-movil" aria-label="Contacto rápido">
@@ -384,13 +365,15 @@ const verCarta = carta.length ? '#carta' : n.servicios?.length ? '#servicios' : 
     {reservas ? <a class="fuerte" href="#reservar">Reservar</a> : <a class="fuerte" href={mapaHref(n)} target="_blank" rel="noopener">Llegar</a>}
   </nav>
 
-  <script type="application/json" id="datos-negocio" set:html={JSON.stringify({ slug: n.slug, horario: n.horario, nombre: n.nombre })} />
+  <script type="application/json" id="datos-negocio" set:html={JSON.stringify({ slug: n.slug, horario: n.horario, nombre: n.nombre, admin: url(`/demo/${n.slug}/admin/`) })} />
   <script>
     import { porDia, estadoApertura, ahoraEnMadrid } from '../../../lib/horario';
     import { iniciarLista } from '../../../scripts/lista';
     import { iniciarReserva } from '../../../scripts/reserva';
+    import { aplicarPrueba } from '../../../scripts/prueba';
 
     const datos = JSON.parse(document.getElementById('datos-negocio')!.textContent!);
+    aplicarPrueba(datos);
     const semana = porDia(datos.horario);
 
     function pintarEstado() {

@@ -160,3 +160,61 @@ p { margin: 0; }
 .barra-movil a { display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 14px; background: var(--panel); border: 1px solid var(--linea); font-weight: 700; font-size: 15px; text-decoration: none; }
 .barra-movil a.fuerte { background: var(--acento); color: var(--sobre-acento); border-color: var(--acento); }
 @media (min-width: 900px) { .barra-movil { display: none; } }
+
+/* ── Variantes: cada negocio combina portada, adorno, carta y forma ─────── */
+
+[data-forma='recto'] { --radio: 3px; }
+[data-forma='recto'] .boton { border-radius: 4px; }
+[data-forma='recto'] .barra-movil a { border-radius: 4px; }
+
+.plato .puntos { display: none; }
+
+/* Portada «cartel»: centrada y enmarcada, como la carta impresa de la casa */
+.portada-cartel .portada-cuerpo { margin-block: 32px; text-align: center; justify-items: center; border: 1px solid var(--linea); outline: 1px solid var(--linea); outline-offset: 6px; padding-block: 56px; display: grid; gap: 22px; }
+.portada-cartel .eslogan { font-family: var(--display); font-style: italic; margin-inline: auto; }
+.portada-cartel .datos-portada, .portada-cartel .botones { justify-content: center; }
+.ornamento { color: var(--acento); letter-spacing: .4em; font-size: 14px; }
+.portada-rotulo .portada-cuerpo, .portada-banda .portada-cuerpo { display: grid; gap: 22px; }
+
+/* Portada «banda»: franja del color de acento con borde de olas */
+.portada-banda { background: var(--acento); color: var(--sobre-acento); padding-bottom: 0; position: relative; }
+.portada-banda .portada-cuerpo { padding-block: 24px 40px; }
+.portada-banda .bajo-rotulo, .portada-banda .eslogan, .portada-banda .datos-portada, .portada-banda .estado { color: var(--sobre-acento); }
+.portada-banda .boton { border-color: var(--sobre-acento); color: var(--sobre-acento); }
+.portada-banda .boton.principal { background: var(--sobre-acento); color: var(--acento); }
+.olas { display: block; width: 100%; height: 48px; margin-top: -1px; }
+.olas path { fill: var(--fondo); }
+
+/* Portada «ficha»: título a un lado y la ficha práctica al otro */
+.ficha-rejilla { display: grid; gap: 28px; align-items: end; }
+@media (min-width: 900px) { .ficha-rejilla { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+.ficha { border: 2px solid var(--acento); border-radius: var(--radio); padding: 24px; display: grid; gap: 18px; background: var(--fondo); }
+.ficha .eslogan { font-size: 20px; color: var(--tinta); }
+.ficha-tel { display: grid; text-decoration: none; font-family: var(--display); font-weight: 800; font-size: clamp(30px, 6vw, 44px); line-height: 1; color: var(--acento); font-variant-numeric: tabular-nums; }
+.ficha-tel span { font-family: var(--texto); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--suave); margin-bottom: 6px; }
+.ficha dl { margin: 0; display: grid; gap: 10px; }
+.ficha dl div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; border-top: 1px solid var(--linea); padding-top: 10px; font-size: 15px; }
+.ficha dt { font-weight: 700; color: var(--suave); text-transform: uppercase; font-size: 12px; letter-spacing: .12em; padding-top: 3px; }
+.ficha dd { margin: 0; }
+.ficha .botones { margin: 0; }
+
+/* Adorno «toldo»: rayas de toldo de bar encima de la portada */
+[data-adorno='toldo'] .portada::before { content: ''; display: block; height: 26px; margin-bottom: 32px; background: repeating-linear-gradient(90deg, var(--acento) 0 34px, transparent 34px 68px); -webkit-mask: radial-gradient(17px at 50% 100%, transparent 98%, #000) 0 0 / 34px 100%; mask: radial-gradient(17px at 50% 100%, transparent 98%, #000) 0 0 / 34px 100%; }
+[data-adorno='toldo'] .portada { padding-top: 0; }
+
+/* Adorno «cuadrícula»: papel milimetrado de taller detrás de la portada */
+[data-adorno='cuadricula'] .portada { background-image: linear-gradient(var(--linea) 1px, transparent 1px), linear-gradient(90deg, var(--linea) 1px, transparent 1px); background-size: 32px 32px; background-position: -1px -1px; }
+
+/* Carta «menu»: una columna centrada con puntos guía, como la carta impresa */
+[data-carta='menu'] .grupos { grid-template-columns: minmax(0, 1fr); max-width: 680px; margin-inline: auto; }
+[data-carta='menu'] .grupo { background: none; border: 0; padding: 0; }
+[data-carta='menu'] .grupo h3 { display: block; background: none; color: var(--acento); text-align: center; font-family: var(--display); font-size: 26px; font-weight: 500; letter-spacing: .04em; text-transform: none; border-bottom: 1px solid var(--linea); padding-bottom: 10px; }
+[data-carta='menu'] .plato { grid-template-columns: auto minmax(12px, 1fr) auto; border-bottom: 0; padding: 8px 0; column-gap: 8px; }
+[data-carta='menu'] .plato .puntos { display: block; grid-row: 1; grid-column: 2; border-bottom: 2px dotted var(--linea); align-self: end; margin-bottom: 7px; }
+[data-carta='menu'] .plato .p { grid-column: 3; }
+[data-carta='menu'] .plato .d { grid-column: 1 / -1; }
+[data-carta='menu'] .saltos { justify-content: center; }
+
+/* Aviso del modo prueba */
+.aviso-prueba { position: relative; background: #1f6feb; color: #fff; font-size: 14px; font-weight: 600; text-align: center; padding: 10px max(18px, env(safe-area-inset-left, 0px)); }
+.aviso-prueba a { color: #fff; }

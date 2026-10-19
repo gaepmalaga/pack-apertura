@@ -11,7 +11,11 @@
     "fondo": "#5b6440",
     "tinta": "#f3efe2",
     "acento": "#e8dcb8",
-    "sobreAcento": "#2f3420"
+    "sobreAcento": "#2f3420",
+    "portada": "cartel",
+    "adorno": "ninguno",
+    "carta": "menu",
+    "forma": "recto"
   },
   "contacto": {
     "telefono": "",

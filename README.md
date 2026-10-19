@@ -6,10 +6,11 @@ Una sola plantilla de [Astro](https://astro.build) que genera:
 |---|---|
 | `/` | La landing del Pack Apertura, con el cliente real y todas las demos |
 | `/demo/<negocio>/` | La web de cada negocio, generada desde su JSON |
-| `/demo/<negocio>/admin/` | El panel para que el dueño cambie carta, precios, horario… |
-| `/admin/` | Tu panel, con todos los negocios a la vez |
+| `/demo/<negocio>/admin/` | Panel de prueba, sin contraseña: el dueño cambia frase, teléfono, horario y precios y ve su web con esos cambios. No publica nada |
+| `/demo/<negocio>/editar/` | Panel real de ese negocio (Sveltia CMS, con token de GitHub): guarda y publica |
+| `/admin/` | Tu panel real, con todos los negocios a la vez |
 
-Publicada en GitHub Pages: `https://https://gaepmalaga.github.io/pack-apertura/`.
+Publicada en GitHub Pages: `https://gaepmalaga.github.io/pack-apertura/`.
 
 ## Añadir una demo nueva
 
@@ -17,9 +18,16 @@ Publicada en GitHub Pages: `https://https://gaepmalaga.github.io/pack-apertura/`
    dirección (`src/negocios/bar-paco.json` → `/demo/bar-paco/`).
 2. Cambia los datos. Los bloques sin datos no aparecen: un bar sin `servicios`
    no tiene sección de servicios, un taller sin `carta` no tiene carta.
-3. Deja `"demo": true` mientras no sea cliente. Eso pone el aviso de «propuesta»
+3. Elige su cara en `tema`: `portada` (`rotulo`, `cartel`, `ficha` o `banda`),
+   `adorno` (`toldo`, `cuadricula`, `olas` o `ninguno`), `carta` (`tarjetas` o
+   `menu`) y `forma` (`redondo` o `recto`), además de colores y `estilo` de letra.
+   Dos negocios no deberían repetir combinación.
+4. Deja `"demo": true` mientras no sea cliente. Eso pone el aviso de «propuesta»
    arriba y abajo, y le dice a Google que no la indexe.
-4. Haz push a `main`. En un par de minutos está publicada y aparece sola en la landing.
+5. Saca su miniatura para la landing con `npm run build && npm run preview` y,
+   en otra terminal, `node herramientas/capturas.mjs` (guarda
+   `public/capturas/<negocio>.jpg`). Sin captura, la landing pinta su rótulo.
+6. Haz push a `main`. En un par de minutos está publicada y aparece sola en la landing.
 
 Para una taberna que ya tenga su `contenido.json` en webtaller:
 
@@ -43,7 +51,13 @@ node herramientas/importar-taberna.mjs ../webtaller/churriana/datos/contenido.js
 - Colores y letra propios de cada negocio desde `tema` (estilos `taberna`,
   `elegante` y `moderno`).
 
-## El panel /admin
+## Los paneles
+
+**De prueba** (`/demo/<negocio>/admin/`): para enseñárselo al dueño. Lo que
+cambia se guarda en su navegador y la web lo muestra al abrirse con `?prueba`,
+con un aviso azul de que no se ha publicado nada.
+
+**Real** (`/admin/` y `/demo/<negocio>/editar/`):
 
 Es [Sveltia CMS](https://github.com/sveltia/sveltia-cms) (código abierto, MIT):
 edita el JSON del negocio con formularios y cada «Guardar» es un commit a `main`,
