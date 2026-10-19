@@ -2,16 +2,23 @@
   "marca": "Pack Apertura",
   "ciudad": "Málaga",
   "contacto": {
-    "nombre": "[Tu nombre]",
-    "telefono": "[teléfono]",
-    "whatsapp": ""
+    "nombre": "Christian",
+    "telefono": "610 508 120",
+    "whatsapp": "34610508120"
   },
-  "precio": { "entrada": 350, "cuota": 25 },
+  "precio": {
+    "entrada": 350,
+    "cuota": 25
+  },
   "cliente": {
     "nombre": "El descanso que mereces",
     "url": "https://eldescansoquemereces.com/",
     "texto": "Asesoría de sueño infantil en Málaga, con consultas online y presenciales. Web publicada y en uso.",
-    "puntos": ["Reserva de cita gratuita desde la web", "Botón de WhatsApp siempre a mano", "Blog y páginas de servicios para aparecer en Google"]
+    "puntos": [
+      "Reserva de cita gratuita desde la web",
+      "Botón de WhatsApp siempre a mano",
+      "Blog y páginas de servicios para aparecer en Google"
+    ]
   },
   "muestrasExternas": [
     {
