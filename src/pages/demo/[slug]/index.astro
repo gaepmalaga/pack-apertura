@@ -78,8 +78,19 @@ const verCarta = carta.length ? '#carta' : n.servicios?.length ? '#servicios' : 
         <span>{direccionTexto(n)}</span>
       </div>
       <div class="botones">
-        <a class="boton principal" href={verCarta}>{carta.length ? 'Ver la carta' : n.servicios?.length ? 'Ver servicios' : 'Cómo llegar'}</a>
-        {reservas && <a class="boton" href="#reservar">{reservas.titulo || 'Reservar'}</a>}
+        {
+          verCarta === '#donde' && reservas ? (
+            <>
+              <a class="boton principal" href="#reservar">{reservas.titulo || 'Reservar'}</a>
+              <a class="boton" href="#donde">Cómo llegar</a>
+            </>
+          ) : (
+            <>
+              <a class="boton principal" href={verCarta}>{carta.length ? 'Ver la carta' : n.servicios?.length ? 'Ver servicios' : 'Cómo llegar'}</a>
+              {reservas && <a class="boton" href="#reservar">{reservas.titulo || 'Reservar'}</a>}
+            </>
+          )
+        }
         {!reservas && tel && <a class="boton" href={tel}>Llamar · {n.contacto.telefono}</a>}
       </div>
     </section>
