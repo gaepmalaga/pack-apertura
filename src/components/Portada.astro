@@ -11,6 +11,8 @@
 //              casa con las etapas de la vida (pensada para clínicas)
 //   cine    · a pantalla completa sobre un vídeo en bucle de los platos, con el
 //              logo en el centro (para la carta con vídeos)
+//   escaparate · rótulo y frase a un lado y, al otro, el vídeo en vertical como
+//              un reel dentro de un marco (para estéticas y peluquerías)
 import { resumenCorto, type HorarioSemana } from '../lib/horario';
 import { direccionTexto, medio, url, type Negocio } from '../lib/negocios';
 
@@ -27,7 +29,43 @@ const hayHorario = n.horario.length > 0;
 ---
 
 {
-  tipo === 'cine' ? (
+  tipo === 'escaparate' ? (
+    <section class="portada portada-escaparate">
+      <div class="envoltura escaparate-rejilla">
+        <div class="escaparate-texto">
+          <h1 class="rotulo">
+            {n.rotulo || n.nombre}
+            {n.bajoRotulo && <span class="bajo-rotulo">{n.bajoRotulo}</span>}
+          </h1>
+          <p class="eslogan" data-campo="eslogan">{n.eslogan}</p>
+          <div class="datos-portada">
+            {hayHorario && (
+              <span class="estado" data-estado hidden>
+                <span class="punto" aria-hidden="true" />
+                <span data-estado-texto />
+              </span>
+            )}
+            {hayHorario && <span data-campo="resumen">{resumenCorto(semana)}</span>}
+            <span>{direccionTexto(n)}</span>
+          </div>
+          <div class="botones">
+            <a class="boton principal" href={principal.href}>{principal.texto}</a>
+            {secundario && <a class="boton" href={secundario.href}>{secundario.texto}</a>}
+          </div>
+        </div>
+        {(n.videoPortada || n.fotoPortada) && (
+          <a class="escaparate-reel" href="#carta-video" aria-label="Ver los tratamientos en vídeo">
+            {n.videoPortada ? (
+              <video src={medio(n.videoPortada)} poster={medio(n.fotoPortada)} autoplay muted loop playsinline preload="auto" aria-hidden="true" />
+            ) : (
+              <img src={medio(n.fotoPortada)} alt="" />
+            )}
+            <span class="escaparate-chapa">▶ Míralo en vídeo</span>
+          </a>
+        )}
+      </div>
+    </section>
+  ) : tipo === 'cine' ? (
     <section class="portada portada-cine">
       {n.videoPortada ? (
         <video class="cine-fondo" src={medio(n.videoPortada)} poster={medio(n.fotoPortada)} autoplay muted loop playsinline preload="auto" aria-hidden="true" />

@@ -77,7 +77,7 @@ const fuente = { taberna: "'Bricolage Grotesque Variable', sans-serif", elegante
       <div class="cabeza">
         <span class="etiqueta">Webs de muestra</span>
         <h2>Así quedaría la de tu negocio.</h2>
-        <p class="nota">Estas webs están preparadas como ejemplo con datos públicos de cada negocio, para enseñar cómo quedaría una web de su sector. No son trabajos encargados por ellos.</p>
+        <p class="nota">Estas webs están preparadas como ejemplo con datos públicos de cada negocio, para enseñar cómo quedaría una web de su sector. No son trabajos encargados por ellos. Las marcadas como «ejemplo» son negocios inventados.</p>
       </div>
       <div class="muestras">
         {
@@ -90,7 +90,7 @@ const fuente = { taberna: "'Bricolage Grotesque Variable', sans-serif", elegante
                   <strong style={`color:${n.tema.tinta};font-family:${fuente[n.tema.estilo]}`}>{n.rotulo || n.nombre}</strong>
                 )}
               </div>
-              <span class="sector">{NOMBRE_SECTOR[n.sector]}</span>
+              <span class="sector">{NOMBRE_SECTOR[n.sector]}{n.ficticio && ' · ejemplo'}</span>
               <h3>{n.nombre}</h3>
               <span class="ir">Ver la demo →</span>
             </a>

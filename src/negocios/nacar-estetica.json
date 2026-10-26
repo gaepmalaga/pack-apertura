@@ -1,0 +1,181 @@
+{
+  "demo": true,
+  "ficticio": true,
+  "sector": "estetica",
+  "nombre": "Nácar · Uñas y Estética",
+  "rotulo": "Nácar",
+  "bajoRotulo": "Uñas · Pestañas · Facial",
+  "eslogan": "Manos cuidadas, mirada despierta y una hora solo para ti.",
+  "descripcion": "Estudio de uñas y estética en el centro de Málaga. Manicura rusa y semipermanente que aguanta de verdad, pestañas, cejas y tratamientos faciales en cabina. Trabajamos solo con cita, para que nadie espere y cada sesión tenga su tiempo.",
+  "logo": "negocios/nacar-estetica/logo.svg",
+  "fotoCasa": "negocios/nacar-estetica/estudio.webp",
+  "videoPortada": "negocios/nacar-estetica/portada.mp4",
+  "fotoPortada": "negocios/nacar-estetica/portada.webp",
+  "tema": {
+    "estilo": "elegante",
+    "fondo": "#faf5f1",
+    "tinta": "#3d2925",
+    "acento": "#a8604d",
+    "sobreAcento": "#ffffff",
+    "secundario": "#e8d3c7",
+    "portada": "escaparate",
+    "adorno": "ninguno",
+    "carta": "menu",
+    "forma": "redondo",
+    "horario": "semana",
+    "mapa": "tarjeta",
+    "secciones": "bandas"
+  },
+  "contacto": {
+    "telefono": "",
+    "whatsapp": "",
+    "email": "",
+    "instagram": ""
+  },
+  "direccion": {
+    "calle": "Calle Hilera",
+    "zona": "El Perchel",
+    "cp": "29007",
+    "ciudad": "Málaga",
+    "comoLlegar": "A cinco minutos andando del Centro Comercial Larios y de la parada de metro de El Perchel."
+  },
+  "horario": [
+    { "dia": "lunes", "abre": "10:00", "cierra": "14:00" },
+    { "dia": "lunes", "abre": "16:30", "cierra": "20:30" },
+    { "dia": "martes", "abre": "10:00", "cierra": "14:00" },
+    { "dia": "martes", "abre": "16:30", "cierra": "20:30" },
+    { "dia": "miercoles", "abre": "10:00", "cierra": "14:00" },
+    { "dia": "miercoles", "abre": "16:30", "cierra": "20:30" },
+    { "dia": "jueves", "abre": "10:00", "cierra": "20:30" },
+    { "dia": "viernes", "abre": "10:00", "cierra": "20:30" },
+    { "dia": "sabado", "abre": "10:00", "cierra": "14:00" }
+  ],
+  "horarioNota": "Solo con cita. Jueves y viernes, horario continuo.",
+  "destacados": [
+    {
+      "titulo": "Semipermanente que aguanta",
+      "texto": "Preparamos la uña con manicura rusa antes de esmaltar. Por eso dura tres semanas sin levantarse.",
+      "foto": "negocios/nacar-estetica/mesa.webp"
+    },
+    {
+      "titulo": "Cabina para el facial",
+      "texto": "Higiene, hidratación, LED y radiofrecuencia en una cabina aparte, tranquila y sin ruido del salón.",
+      "foto": "negocios/nacar-estetica/cabina.webp"
+    },
+    {
+      "titulo": "Solo con cita",
+      "texto": "Cada sesión tiene su hueco reservado: llegas, te sientas y empezamos. Pídela aquí y te confirmamos por WhatsApp.",
+      "foto": "negocios/nacar-estetica/tocador.webp"
+    }
+  ],
+  "galeria": [
+    { "foto": "negocios/nacar-estetica/estudio.webp", "texto": "La mesa de manicura, con la pared de colores." },
+    { "foto": "negocios/nacar-estetica/mesa.webp", "texto": "Semipermanente en rojo, el clásico que no falla." },
+    { "foto": "negocios/nacar-estetica/cabina.webp", "texto": "La cabina de tratamientos faciales." },
+    { "foto": "negocios/nacar-estetica/aqua.webp", "texto": "Limpieza facial con aparatología." },
+    { "foto": "negocios/nacar-estetica/tocador.webp", "texto": "El tocador de maquillaje para novias y eventos." }
+  ],
+  "combos": [
+    {
+      "nombre": "Manos y pies",
+      "descripcion": "Manicura semipermanente y pedicura con semipermanente el mismo día.",
+      "precio": 42
+    },
+    {
+      "nombre": "Pack mirada",
+      "descripcion": "Lifting de pestañas con tinte y laminado de cejas en una sola sesión.",
+      "precio": 58
+    },
+    {
+      "nombre": "Bono de 5 higienes faciales",
+      "descripcion": "Una al mes para mantener la piel limpia. Te sale cada una a 40 €.",
+      "precio": 200
+    }
+  ],
+  "carta": [
+    {
+      "titulo": "Uñas de manos",
+      "platos": [
+        { "nombre": "Manicura semipermanente", "descripcion": "Limado, cutículas y esmalte semipermanente. Dura unas tres semanas.", "precio": 18, "foto": "negocios/nacar-estetica/semipermanente.webp", "video": "negocios/nacar-estetica/semipermanente.mp4" },
+        { "nombre": "Manicura rusa", "descripcion": "Limpieza de cutícula en seco con torno y semipermanente pegado a la piel.", "precio": 25, "foto": "negocios/nacar-estetica/manicura-rusa.webp", "video": "negocios/nacar-estetica/manicura-rusa.mp4" },
+        { "nombre": "Esmaltado tradicional", "descripcion": "Manicura básica con esmalte normal.", "precio": 10, "foto": "negocios/nacar-estetica/esmaltado.webp", "video": "negocios/nacar-estetica/esmaltado.mp4" },
+        { "nombre": "Uñas esculpidas en gel", "descripcion": "Alargamiento con molde, forma a elegir.", "precio": 35, "foto": "negocios/nacar-estetica/esculpidas.webp", "video": "negocios/nacar-estetica/esculpidas.mp4" },
+        { "nombre": "Relleno de gel", "descripcion": "A partir de las tres semanas.", "precio": 28 },
+        { "nombre": "Nail art (por uña)", "descripcion": "Francesa, baby boomer, cromados o dibujo a mano.", "precio": 2, "foto": "negocios/nacar-estetica/nail-art.webp", "video": "negocios/nacar-estetica/nail-art.mp4" },
+        { "nombre": "Spa de manos", "descripcion": "Exfoliación, mascarilla, parafina y masaje.", "precio": 15, "foto": "negocios/nacar-estetica/spa-manos.webp", "video": "negocios/nacar-estetica/spa-manos.mp4" },
+        { "nombre": "Retirada de semipermanente o gel", "descripcion": "Sin limar la uña natural.", "precio": 8 }
+      ]
+    },
+    {
+      "titulo": "Pies",
+      "platos": [
+        { "nombre": "Pedicura completa", "descripcion": "Durezas, cutículas, limado y esmalte normal.", "precio": 25 },
+        { "nombre": "Pedicura con semipermanente", "descripcion": "Para olvidarte de los pies todo el verano.", "precio": 30 },
+        { "nombre": "Pedicura spa", "descripcion": "Con baño, exfoliación, mascarilla y masaje de piernas.", "precio": 35 }
+      ]
+    },
+    {
+      "titulo": "Pestañas y cejas",
+      "platos": [
+        { "nombre": "Lifting de pestañas con tinte", "descripcion": "Curva y color durante seis u ocho semanas, sin rímel.", "precio": 35, "foto": "negocios/nacar-estetica/lifting.webp", "video": "negocios/nacar-estetica/lifting.mp4" },
+        { "nombre": "Extensiones pelo a pelo", "descripcion": "Efecto natural, primera puesta.", "precio": 55, "foto": "negocios/nacar-estetica/extensiones.webp", "video": "negocios/nacar-estetica/extensiones.mp4" },
+        { "nombre": "Relleno de extensiones", "descripcion": "Cada tres semanas.", "precio": 35 },
+        { "nombre": "Diseño de cejas", "descripcion": "Con cera o pinza, según tu forma de cara.", "precio": 12 },
+        { "nombre": "Laminado de cejas", "descripcion": "Cejas peinadas y con volumen durante semanas.", "precio": 30 }
+      ]
+    },
+    {
+      "titulo": "Facial",
+      "platos": [
+        { "nombre": "Higiene facial profunda", "descripcion": "Limpieza, extracción, peeling suave y mascarilla. 60 minutos.", "precio": 45, "foto": "negocios/nacar-estetica/higiene-facial.webp", "video": "negocios/nacar-estetica/higiene-facial.mp4" },
+        { "nombre": "Tratamiento hidratante", "descripcion": "Ácido hialurónico y mascarilla de tejido para pieles tirantes.", "precio": 50, "foto": "negocios/nacar-estetica/hidratacion.webp", "video": "negocios/nacar-estetica/hidratacion.mp4" },
+        { "nombre": "Masaje facial lifting", "descripcion": "Masaje manual que tonifica y desinflama. 45 minutos.", "precio": 55, "foto": "negocios/nacar-estetica/masaje-facial.webp", "video": "negocios/nacar-estetica/masaje-facial.mp4" },
+        { "nombre": "Fototerapia LED", "descripcion": "Luz roja para la luminosidad y azul para las pieles con granitos.", "precio": 30, "foto": "negocios/nacar-estetica/led.webp", "video": "negocios/nacar-estetica/led.mp4" },
+        { "nombre": "Radiofrecuencia facial", "descripcion": "Para la flacidez del óvalo y el cuello. Mejor en bono.", "precio": 60, "foto": "negocios/nacar-estetica/radiofrecuencia.webp", "video": "negocios/nacar-estetica/radiofrecuencia.mp4" }
+      ]
+    },
+    {
+      "titulo": "Depilación con cera",
+      "platos": [
+        { "nombre": "Labio o mentón", "precio": 6, "foto": "negocios/nacar-estetica/depilacion.webp", "video": "negocios/nacar-estetica/depilacion.mp4" },
+        { "nombre": "Axilas", "precio": 9 },
+        { "nombre": "Ingles", "precio": 12 },
+        { "nombre": "Medias piernas", "precio": 16 },
+        { "nombre": "Piernas enteras", "precio": 25 }
+      ]
+    },
+    {
+      "titulo": "Masajes",
+      "platos": [
+        { "nombre": "Masaje relajante", "descripcion": "Cuerpo entero con aceite templado. 50 minutos.", "precio": 45, "foto": "negocios/nacar-estetica/masaje.webp", "video": "negocios/nacar-estetica/masaje.mp4" },
+        { "nombre": "Masaje de espalda descontracturante", "descripcion": "Cuello, hombros y espalda. 30 minutos.", "precio": 30 }
+      ]
+    }
+  ],
+  "cartaNota": "Precios con IVA incluido. Si es tu primera vez con extensiones o radiofrecuencia, te hacemos antes una valoración gratis.",
+  "reservas": {
+    "activas": true,
+    "titulo": "Pedir cita",
+    "texto": "Elige qué te quieres hacer y el día. Te contestamos por WhatsApp con la hora libre más cercana.",
+    "opciones": ["Uñas", "Pestañas y cejas", "Facial", "Depilación", "Masaje"],
+    "personas": false
+  },
+  "faq": [
+    {
+      "pregunta": "¿Cuánto dura la semipermanente?",
+      "respuesta": "Unas tres semanas. Con manicura rusa debajo suele aguantar algo más sin levantarse."
+    },
+    {
+      "pregunta": "¿Puedo ir sin cita?",
+      "respuesta": "Trabajamos solo con cita para no hacer esperar a nadie. Escríbenos y, si hay un hueco ese mismo día, te lo damos."
+    },
+    {
+      "pregunta": "¿Y si no puedo ir?",
+      "respuesta": "Avísanos con 24 horas por WhatsApp y te la cambiamos sin problema."
+    },
+    {
+      "pregunta": "¿Cómo se paga?",
+      "respuesta": "En efectivo, con tarjeta o por Bizum."
+    }
+  ]
+}
