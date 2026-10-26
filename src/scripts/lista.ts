@@ -66,7 +66,15 @@ export function iniciarLista(slug: string) {
 
   platos.forEach((b) => b.addEventListener('click', () => cambiar(b.dataset.plato!, Number(b.dataset.precio), 1)));
   tira.addEventListener('click', () => dialogo.showModal());
-  dialogo.querySelector('[data-cerrar-lista]')!.addEventListener('click', () => dialogo.close());
+  dialogo.querySelector('[data-cerrar-lista]')?.addEventListener('click', () => dialogo.close());
+  // En una estética la lista acaba en cita: la apunta en el formulario y lleva a él.
+  dialogo.querySelector('[data-cita-lista]')?.addEventListener('click', () => {
+    const nota = document.querySelector<HTMLTextAreaElement>('#r-nota');
+    const lineas = Object.values(lista).filter((l) => l.cuantos > 0);
+    if (nota && lineas.length) nota.value = `Me interesa: ${lineas.map((l) => (l.cuantos > 1 ? `${l.cuantos}× ${l.nombre}` : l.nombre)).join(', ')}.`;
+    dialogo.close();
+    document.getElementById('reservar')?.scrollIntoView();
+  });
   dialogo.querySelector('[data-borrar-lista]')!.addEventListener('click', () => {
     lista = {};
     guardar();

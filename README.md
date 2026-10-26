@@ -22,12 +22,16 @@ Publicada en GitHub Pages: `https://gaepmalaga.github.io/pack-apertura/`.
    `adorno` (`toldo`, `cuadricula`, `olas` o `ninguno`), `carta` (`tarjetas` o
    `menu`) y `forma` (`redondo` o `recto`), además de colores y `estilo` de letra.
    Dos negocios no deberían repetir combinación.
-4. Deja `"demo": true` mientras no sea cliente. Eso pone el aviso de «propuesta»
+4. Para enseñar un sector sin un negocio concreto, inventa uno y pon
+   `"ficticio": true`: los avisos dirán que es un ejemplo inventado. Sin teléfono
+   ni WhatsApp, la reserva enseña el mensaje que llegaría en vez de enviarlo
+   (ejemplo: `nacar-estetica`).
+5. Deja `"demo": true` mientras no sea cliente. Eso pone el aviso de «propuesta»
    arriba y abajo, y le dice a Google que no la indexe.
-5. Saca su miniatura para la landing con `npm run build && npm run preview` y,
+6. Saca su miniatura para la landing con `npm run build && npm run preview` y,
    en otra terminal, `node herramientas/capturas.mjs` (guarda
    `public/capturas/<negocio>.jpg`). Sin captura, la landing pinta su rótulo.
-6. Haz push a `main`. En un par de minutos está publicada y aparece sola en la landing.
+7. Haz push a `main`. En un par de minutos está publicada y aparece sola en la landing.
 
 Para una taberna que ya tenga su `contenido.json` en webtaller:
 

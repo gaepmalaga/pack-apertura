@@ -16,6 +16,7 @@ import {
   euros,
   url,
   medio,
+  NOMBRE_SECTOR,
   type Negocio,
 } from '../../../lib/negocios';
 import { porDia, agrupar, resumenCorto, DIAS, NOMBRE_DIA, formatoTramo } from '../../../lib/horario';
@@ -39,13 +40,40 @@ const reservas = n.reservas?.activas && (n.contacto.whatsapp || n.contacto.telef
 const reservaMuestra = !n.contacto.whatsapp && !n.contacto.telefono;
 const carta = (n.carta ?? []).filter((g) => g.platos.length);
 const conVideos = carta.some((g) => g.platos.some((p) => p.video));
+// Un bar tiene carta y camarero; una estética, tratamientos, precios y cita.
+const esBar = n.sector === 'bar';
+const txt = esBar
+  ? {
+      menu: 'Carta',
+      etiqueta: 'La carta',
+      titulo: 'Qué hay hoy',
+      entradilla: 'Toca lo que te apetezca y se te queda apuntado, para que no se te olvide nada al pedir.',
+      ver: 'Ver la carta',
+      video: 'La carta en vídeo',
+      videoTitulo: 'Míralo antes de pedirlo',
+      videoTexto: 'Toca un plato para verlo a pantalla completa y desliza para pasar al siguiente.',
+      lista: 'Lo que te vas a pedir',
+      listaNota: 'Esta lista no se manda a ningún sitio: se queda en tu móvil para enseñársela al camarero.',
+    }
+  : {
+      menu: 'Precios',
+      etiqueta: 'Tratamientos y precios',
+      titulo: 'Qué te hacemos',
+      entradilla: 'Toca lo que te interese y te hacemos la cuenta. Luego pide cita con ello en un toque.',
+      ver: 'Ver precios',
+      video: 'En vídeo',
+      videoTitulo: 'Así lo hacemos',
+      videoTexto: 'Toca un tratamiento para verlo a pantalla completa y desliza para pasar al siguiente.',
+      lista: 'Lo que te quieres hacer',
+      listaNota: 'Esta lista no se manda a ningún sitio hasta que pidas cita con ella.',
+    };
 const titulo = `${n.nombre} · ${n.eslogan.replace(/\.$/, '')}`;
 const verCarta = carta.length ? '#carta' : n.servicios?.length ? '#servicios' : '#donde';
 // Sin carta ni servicios, lo más útil de la portada es reservar.
 const principal =
   verCarta === '#donde' && reservas
     ? { href: '#reservar', texto: reservas.titulo || 'Reservar' }
-    : { href: verCarta, texto: carta.length ? 'Ver la carta' : n.servicios?.length ? 'Ver servicios' : 'Cómo llegar' };
+    : { href: verCarta, texto: carta.length ? txt.ver : n.servicios?.length ? 'Ver servicios' : 'Cómo llegar' };
 const secundario =
   verCarta === '#donde' && reservas
     ? { href: '#donde', texto: 'Cómo llegar' }
@@ -60,7 +88,8 @@ const secundario =
   {
     n.demo && (
       <p class="aviso-demo">
-        Propuesta de web preparada como ejemplo. No es la web oficial de {n.nombre}. <a href={url('/')}>¿Quieres una así?</a>
+        {n.ficticio ? `Negocio inventado para enseñar cómo quedaría una web de ${NOMBRE_SECTOR[n.sector].toLowerCase()}.` : `Propuesta de web preparada como ejemplo. No es la web oficial de ${n.nombre}.`}{' '}
+        <a href={url('/')}>¿Quieres una así?</a>
       </p>
     )
   }
@@ -72,7 +101,7 @@ const secundario =
         {n.rotulo || n.nombre}
       </a>
       <nav class="menu" aria-label="Secciones">
-        {carta.length > 0 && <a href="#carta">Carta</a>}
+        {carta.length > 0 && <a href="#carta">{txt.menu}</a>}
         {conVideos && <a href="#carta-video">En vídeo</a>}
         {(n.galeria?.length ?? 0) > 0 && <a href="#fotos">Fotos</a>}
         {(n.servicios?.length ?? 0) > 0 && <a href="#servicios">Servicios</a>}
@@ -118,9 +147,9 @@ const secundario =
         <section class="seccion reels-seccion" id="carta-video" data-reels-seccion hidden={!conVideos}>
           <div class="envoltura">
             <div class="cabeza">
-              <span class="etiqueta">La carta en vídeo</span>
-              <h2>Míralo antes de pedirlo</h2>
-              <p class="entradilla">Toca un plato para verlo a pantalla completa y desliza para pasar al siguiente.</p>
+              <span class="etiqueta">{txt.video}</span>
+              <h2>{txt.videoTitulo}</h2>
+              <p class="entradilla">{txt.videoTexto}</p>
             </div>
           </div>
           <ul class="reels-tira" data-reels-tira aria-label="Platos en vídeo" />
@@ -178,11 +207,11 @@ const secundario =
         <section class="seccion" id="carta">
           <div class="envoltura">
             <div class="cabeza">
-              <span class="etiqueta">La carta</span>
-              <h2>Qué hay hoy</h2>
-              <p class="entradilla">Toca lo que te apetezca y se te queda apuntado, para que no se te olvide nada al pedir.</p>
+              <span class="etiqueta">{txt.etiqueta}</span>
+              <h2>{txt.titulo}</h2>
+              <p class="entradilla">{txt.entradilla}</p>
             </div>
-            <nav class="saltos" aria-label="Secciones de la carta">
+            <nav class="saltos" aria-label={`Secciones de ${txt.etiqueta.toLowerCase()}`}>
               {carta.map((g) => (
                 <a href={`#${idGrupo(g.titulo)}`}>{g.titulo}</a>
               ))}
@@ -194,7 +223,7 @@ const secundario =
             />
             {n.cartaNota && <p class="nota-carta">{n.cartaNota}</p>}
           </div>
-          <dialog class="reels" data-reels aria-label="La carta en vídeo">
+          <dialog class="reels" data-reels aria-label={txt.video}>
             <div class="reels-pista" data-reels-pista />
             <button type="button" class="reels-cerrar" data-cerrar-reels aria-label="Cerrar">×</button>
           </dialog>
@@ -203,16 +232,20 @@ const secundario =
           </button>
           <dialog class="lista-dialogo" data-lista>
             <div class="lista-cuerpo">
-              <h3>Lo que te vas a pedir</h3>
+              <h3>{txt.lista}</h3>
               <ul data-lista-items />
               <div class="lista-total">
                 <span>Llevas</span>
                 <span data-lista-total>0,00 €</span>
               </div>
-              <p class="lista-nota">Esta lista no se manda a ningún sitio: se queda en tu móvil para enseñársela al camarero.</p>
+              <p class="lista-nota">{txt.listaNota}</p>
               <div class="botones">
                 <button type="button" class="boton" data-borrar-lista>Borrar la lista</button>
-                <button type="button" class="boton principal" data-cerrar-lista>Seguir mirando</button>
+                {!esBar && reservas ? (
+                  <button type="button" class="boton principal" data-cita-lista>Pedir cita con esto</button>
+                ) : (
+                  <button type="button" class="boton principal" data-cerrar-lista>Seguir mirando</button>
+                )}
               </div>
             </div>
           </dialog>
@@ -340,7 +373,7 @@ const secundario =
               </button>
               <p class="ayuda">
                 {reservaMuestra
-                  ? 'En esta muestra no se envía nada: verás el mensaje que le llegaría a la clínica por WhatsApp.'
+                  ? 'En esta muestra no se envía nada: verás el mensaje que le llegaría al negocio por WhatsApp.'
                   : waHref(n)
                     ? 'Se abre WhatsApp con el mensaje ya escrito. La reserva queda hecha cuando te contestemos.'
                     : 'Te llevamos al teléfono para cerrar la reserva.'}
@@ -441,12 +474,18 @@ const secundario =
     <strong>{n.nombre}</strong>
     <span>{direccionTexto(n)}{n.contacto.telefono && <> · <span data-campo="telefono">{n.contacto.telefono}</span></>}</span>
     {n.contacto.instagram && <a href={`https://instagram.com/${n.contacto.instagram}`} target="_blank" rel="noopener">Instagram @{n.contacto.instagram}</a>}
-    {n.demo && <span>Web de muestra preparada con datos públicos. No es la web oficial del negocio ni implica relación con él.</span>}
+    {n.demo && (
+      <span>
+        {n.ficticio
+          ? 'Negocio, datos y precios inventados como ejemplo. Vídeos de Mixkit.'
+          : 'Web de muestra preparada con datos públicos. No es la web oficial del negocio ni implica relación con él.'}
+      </span>
+    )}
     <a href={url(`/demo/${n.slug}/admin/`)}>{n.demo ? 'Prueba el panel de edición' : 'Panel de edición'}</a>
   </footer>
 
   <nav class="barra-movil" aria-label="Contacto rápido">
-    {tel ? <a href={tel}>Llamar</a> : <a href={verCarta}>{carta.length ? 'Carta' : 'Info'}</a>}
+    {tel ? <a href={tel}>Llamar</a> : <a href={verCarta}>{carta.length ? txt.menu : 'Info'}</a>}
     {wa ? <a href={wa} target="_blank" rel="noopener">WhatsApp</a> : <a href={mapaHref(n)} target="_blank" rel="noopener">Cómo llegar</a>}
     {reservas ? <a class="fuerte" href="#reservar">{n.reservas?.personas === false ? 'Pedir cita' : 'Reservar'}</a> : <a class="fuerte" href={mapaHref(n)} target="_blank" rel="noopener">Llegar</a>}
   </nav>
