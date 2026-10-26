@@ -3,7 +3,16 @@
 // uno de los JSON existentes y cambiar los datos.
 import type { Dia } from './horario';
 
-export type Plato = { id?: string; nombre: string; descripcion?: string; precio?: number; foto?: string };
+export type Plato = {
+  id?: string;
+  nombre: string;
+  descripcion?: string;
+  precio?: number;
+  /** Foto del plato. Si también hay vídeo, es la imagen que se ve antes de que arranque. */
+  foto?: string;
+  /** Vídeo corto en vertical, como un reel: se ve en la carta y a pantalla completa. */
+  video?: string;
+};
 export type GrupoCarta = { titulo: string; tipo?: 'comer' | 'beber'; platos: Plato[] };
 
 export type Negocio = {
@@ -18,6 +27,9 @@ export type Negocio = {
   descripcion: string;
   /** Rutas dentro de /public (sin barra inicial): negocios/<slug>/logo.webp… */
   logo?: string;
+  /** Portada «cine»: vídeo de fondo en bucle y la imagen que se ve mientras carga. */
+  videoPortada?: string;
+  fotoPortada?: string;
   /** Foto junto a la presentación: la fachada o el local. */
   fotoCasa?: string;
   /** Fotos del sitio, con una frase debajo de cada una. */
@@ -31,7 +43,7 @@ export type Negocio = {
     /** Segundo color de la casa, para adornos (el zócalo de festones de la portada «sello»). */
     secundario?: string;
     /** Composición de la portada (ver components/Portada.astro). */
-    portada?: 'rotulo' | 'cartel' | 'ficha' | 'banda' | 'dividida' | 'sello';
+    portada?: 'rotulo' | 'cartel' | 'ficha' | 'banda' | 'dividida' | 'sello' | 'cine';
     /** Detalle decorativo propio: toldo de rayas, cuadrícula de taller, olas o festones (el borde ondulado de pared infantil). */
     adorno?: 'ninguno' | 'toldo' | 'cuadricula' | 'olas' | 'festones';
     /** Carta en tarjetas por sección o como una carta impresa de una columna. */
@@ -128,3 +140,7 @@ export const NOMBRE_SECTOR: Record<Negocio['sector'], string> = {
 
 /** Ruta interna con la subcarpeta de GitHub Pages delante. */
 export const url = (ruta: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}${ruta}`;
+
+/** Dirección de una foto o un vídeo del JSON. Las rutas de /public van sin barra
+ *  inicial; el panel real guarda las suyas ya completas (/<repo>/fotos/…). */
+export const medio = (ruta = '') => (!ruta ? '' : /^(\/|https?:|blob:|data:)/.test(ruta) ? ruta : url(`/${ruta}`));

@@ -98,6 +98,7 @@ export const camposNegocio = (slug: string) => [
       largo('descripcion', 'Descripción'),
       { name: 'precio', label: 'Precio (€)', widget: 'number', value_type: 'float', required: false },
       { name: 'foto', label: 'Foto', widget: 'image', required: false, media_folder: `/public/fotos/${slug}`, public_folder: `${BASE}/fotos/${slug}` },
+      { name: 'video', label: 'Vídeo (vertical y corto, como un reel)', widget: 'file', required: false, media_folder: `/public/fotos/${slug}`, public_folder: `${BASE}/fotos/${slug}` },
     ], { summary: '{{fields.nombre}} · {{fields.precio}} €' }),
   ], { summary: '{{fields.titulo}}' }),
   texto('cartaNota', 'Nota al pie de la carta'),

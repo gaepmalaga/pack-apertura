@@ -1,0 +1,344 @@
+{
+  "demo": true,
+  "sector": "bar",
+  "nombre": "El Ojopatio",
+  "rotulo": "El Ojopatio",
+  "bajoRotulo": "Tapas bar · Teatinos",
+  "eslogan": "Mucho espacio, mucha luz y una pizca de sabor local.",
+  "descripcion": "Tapas bar en Teatinos con un patio de luz y un olivo en el centro. Comidas y cenas a la brasa, meriendas con tortitas de jueves a domingo, tardeo con cócteles y ludoteca para que los peques disfruten tanto como los padres. Detrás estamos los de Raff, El Refugio, El Gallo Negro y La Bakería.",
+  "logo": "negocios/el-ojopatio/logo.webp",
+  "fotoCasa": "negocios/el-ojopatio/patio.webp",
+  "videoPortada": "negocios/el-ojopatio/portada.mp4",
+  "fotoPortada": "negocios/el-ojopatio/portada.webp",
+  "tema": {
+    "estilo": "elegante",
+    "fondo": "#14110d",
+    "tinta": "#f3e9d6",
+    "acento": "#e3a63a",
+    "sobreAcento": "#14110d",
+    "secundario": "#2a9fa8",
+    "portada": "cine",
+    "adorno": "ninguno",
+    "carta": "tarjetas",
+    "forma": "suave",
+    "horario": "agrupado",
+    "mapa": "tarjeta",
+    "secciones": "lineas"
+  },
+  "contacto": {
+    "telefono": "699 012 666",
+    "whatsapp": "",
+    "email": "reservas@elojopatiobar.com",
+    "instagram": "elojopatiobar",
+    "facebook": "elojopatiobar"
+  },
+  "direccion": {
+    "calle": "Avenida de Plutarco, 14",
+    "zona": "Teatinos",
+    "cp": "29010",
+    "ciudad": "Málaga",
+    "comoLlegar": "Esquina con la Avenida de Aristófanes, en El Cónsul.",
+    "geo": {
+      "lat": 36.7209245,
+      "lng": -4.4816578
+    }
+  },
+  "horario": [
+    { "dia": "lunes", "abre": "13:00", "cierra": "00:00" },
+    { "dia": "martes", "abre": "13:00", "cierra": "00:00" },
+    { "dia": "miercoles", "abre": "13:00", "cierra": "00:00" },
+    { "dia": "jueves", "abre": "13:00", "cierra": "00:00" },
+    { "dia": "viernes", "abre": "13:00", "cierra": "00:00" },
+    { "dia": "sabado", "abre": "13:00", "cierra": "00:00" },
+    { "dia": "domingo", "abre": "13:00", "cierra": "00:00" }
+  ],
+  "horarioNota": "Cocina de 13:00 a 16:30 y de 20:00 a 00:00. Meriendas y tortitas de 16:30 a 19:30, de jueves a domingo.",
+  "destacados": [
+    {
+      "titulo": "El patio del olivo",
+      "texto": "Techo de luz, mesas amplias y un olivo en el centro. Sitio de sobra para venir en grupo sin estar apretados.",
+      "foto": "negocios/el-ojopatio/patio.webp"
+    },
+    {
+      "titulo": "Meriendas y tortitas",
+      "texto": "De jueves a domingo, de 16:30 a 19:30: tortitas, gofres, batidos y el café Ojopatio frío.",
+      "foto": "negocios/el-ojopatio/tortitas-nutella.webp"
+    },
+    {
+      "titulo": "Tardeo y copas",
+      "texto": "Smoothies, mojitos, el cóctel de la semana y una carta de ginebras para alargar la tarde.",
+      "foto": "negocios/el-ojopatio/tardeo.webp"
+    }
+  ],
+  "galeria": [
+    { "foto": "negocios/el-ojopatio/patio.webp", "texto": "El patio, con su olivo y el techo de luz." },
+    { "foto": "negocios/el-ojopatio/carta-madera.webp", "texto": "La carta de madera, con lo que sale de cocina." },
+    { "foto": "negocios/el-ojopatio/atun-rojo.webp", "texto": "Atún rojo marcado con sésamo." },
+    { "foto": "negocios/el-ojopatio/cafe-ecologico.webp", "texto": "Café ecológico, también para llevar a la mesa del patio." },
+    { "foto": "negocios/el-ojopatio/tardeo.webp", "texto": "Tardeo: cervezas frías y brindis." }
+  ],
+  "combos": [
+    {
+      "nombre": "Para compartir entre dos",
+      "descripcion": "Rusa al pilpil, bombitas Texmex y el dúo de pan bao de secreto.",
+      "precio": 39.5
+    },
+    {
+      "nombre": "Noche de brasa",
+      "descripcion": "Entrecot Black Angus de 300 g y una botella de Portia Roble.",
+      "precio": 42
+    },
+    {
+      "nombre": "Merienda de jueves a domingo",
+      "descripcion": "Unas tortitas #2 y un café Ojopatio frío con Baileys.",
+      "precio": 15.5
+    }
+  ],
+  "carta": [
+    {
+      "titulo": "Tapas",
+      "tipo": "comer",
+      "platos": [
+        { "nombre": "Queso payoyo (tapa)", "precio": 6 },
+        { "nombre": "Ensaladilla rusa (tapa)", "precio": 4 },
+        { "nombre": "Huevos rotos (tapa)", "precio": 4.9 },
+        { "nombre": "Papas bravas (tapa)", "precio": 4.9 },
+        { "nombre": "Mollete de pringá", "descripcion": "Con toque cítrico.", "precio": 3.5 },
+        { "nombre": "Crestita", "descripcion": "De carne picantona con salsa de la chef.", "precio": 4.5 },
+        { "nombre": "Lagrimitas de pollo (tapa)", "precio": 4.9 },
+        { "nombre": "Brioche de costillar", "descripcion": "Con alioli de lima, cilantro y cebolla morada.", "precio": 4.9 },
+        { "nombre": "Bao de secreto", "descripcion": "Con salsa kimchi.", "precio": 4.9 },
+        { "nombre": "Carrillada ibérica (tapa)", "precio": 8 },
+        { "nombre": "Bombitas Texmex (2 uds.)", "descripcion": "Croquetas picantonas con un toque de cheddar.", "precio": 5 }
+      ]
+    },
+    {
+      "titulo": "Para empezar",
+      "tipo": "comer",
+      "platos": [
+        { "nombre": "Queso payoyo", "descripcion": "Desde la sierra y con copyright. 90 g a 6 € · 260 g a 15 €.", "precio": 6 },
+        { "nombre": "Lagrimitas de pollo", "descripcion": "Con un buen puñao de patatas fritas. Media 9 € · ración 14 €.", "precio": 9 },
+        { "nombre": "Nachos", "descripcion": "Con carne, guacamole, cheddar, crema fraîche y pico de gallo. Media 10,50 € · ración 15 €.", "precio": 10.5 },
+        { "nombre": "Ensaladilla rusa", "descripcion": "Especial de la casa. Media 7 € · ración 12 €.", "precio": 7 },
+        { "nombre": "Rusa al pilpil", "descripcion": "Con langostinos al pilpil y cebolleta.", "precio": 16 },
+        { "nombre": "Huevos rotos", "descripcion": "Con crujiente de jamón serrano. Media 9,50 € · ración 14 €.", "precio": 9.5 },
+        { "nombre": "Papas bravas", "descripcion": "Media 9,50 € · ración 14 €.", "precio": 9.5, "foto": "negocios/el-ojopatio/bravas.webp" }
+      ]
+    },
+    {
+      "titulo": "Para compartir",
+      "tipo": "comer",
+      "platos": [
+        { "nombre": "Bombitas Texmex (6 uds.)", "descripcion": "Picantonas y con cheddar.", "precio": 14 },
+        { "nombre": "Dúo de pan bao", "descripcion": "Secreto ibérico en salsa kimchi (2 uds.).", "precio": 9.5 },
+        { "nombre": "Canelón de capón", "descripcion": "De pollo, con bechamel de la casa.", "precio": 10 },
+        { "nombre": "Langostinos al pil-pil", "descripcion": "Flambeados con tequila y lascas de parmesano.", "precio": 14.5, "foto": "negocios/el-ojopatio/langostinos.webp", "video": "negocios/el-ojopatio/langostinos.mp4" },
+        { "nombre": "Timbal de berenjena y mousse de pato", "descripcion": "Con manzana y queso de cabra fundido.", "precio": 14.5 },
+        { "nombre": "Albóndigas en su jugo", "descripcion": "De vaca madurada, sobre patatas fritas naturales.", "precio": 14.5, "foto": "negocios/el-ojopatio/albondigas.webp", "video": "negocios/el-ojopatio/albondigas.mp4" },
+        { "nombre": "Croquetas", "descripcion": "Rabo de toro, cecina o puchero. 6 uds. del mismo sabor con mahonesa de albahaca.", "precio": 13 }
+      ]
+    },
+    {
+      "titulo": "Carnes",
+      "tipo": "comer",
+      "platos": [
+        { "nombre": "Burger Ojopatio", "descripcion": "Ternera (200 g) con bacon crujiente, cebolla frita, crema de cheddar americano y salsa Ojopatio.", "precio": 14.5, "foto": "negocios/el-ojopatio/burger.webp", "video": "negocios/el-ojopatio/burger.mp4" },
+        { "nombre": "Entrecot Black Angus", "descripcion": "300 g de ternera americana, con guarnición.", "precio": 25, "foto": "negocios/el-ojopatio/entrecot.webp", "video": "negocios/el-ojopatio/entrecot.mp4" },
+        { "nombre": "T-Bone", "descripcion": "850 g de ternera.", "precio": 50, "foto": "negocios/el-ojopatio/t-bone.webp", "video": "negocios/el-ojopatio/t-bone.mp4" },
+        { "nombre": "Secreto ibérico", "descripcion": "Con guarnición.", "precio": 24, "foto": "negocios/el-ojopatio/secreto.webp", "video": "negocios/el-ojopatio/secreto.mp4" },
+        { "nombre": "Costillar americano", "descripcion": "Con salsa barbacoa y patatas fritas.", "precio": 28, "foto": "negocios/el-ojopatio/costillar.webp" },
+        { "nombre": "Entraña Angus Premium", "descripcion": "Con guarnición.", "precio": 24 },
+        { "nombre": "Vacío Angus o flap meat", "descripcion": "Con guarnición.", "precio": 24 },
+        { "nombre": "Veganburger Ojopatio", "descripcion": "En pan de cúrcuma, con tomate natural, mézclum, cebolla caramelizada y guacamole.", "precio": 14.5 },
+        { "nombre": "Lagarto ibérico", "descripcion": "Con guarnición.", "precio": 20 },
+        { "nombre": "Carrillada ibérica", "descripcion": "Con salsa Pedro Ximénez, pasas y patatas gajo.", "precio": 19 },
+        { "nombre": "Solomillo con foie", "descripcion": "Solomillo de cerdo flambeado con reducción de oporto y foie.", "precio": 21 },
+        { "nombre": "Pechuga de pollo a la brasa", "descripcion": "Con guarnición.", "precio": 13 }
+      ]
+    },
+    {
+      "titulo": "Pescados",
+      "tipo": "comer",
+      "platos": [
+        { "nombre": "Salmón a la brasa con mango", "descripcion": "Con curry de coco, arroz y un toque de cilantro.", "precio": 21, "foto": "negocios/el-ojopatio/salmon.webp", "video": "negocios/el-ojopatio/salmon.mp4" },
+        { "nombre": "Tartar de atún rojo", "descripcion": "Sobre base de guacamole.", "precio": 18 },
+        { "nombre": "Pulpo braseado", "descripcion": "Con puré de patatas con trufa.", "precio": 26 },
+        { "nombre": "Lomo de bacalao", "descripcion": "Confitado sobre pisto manchego glaseado con su alioli.", "precio": 18 }
+      ]
+    },
+    {
+      "titulo": "Arroces",
+      "tipo": "comer",
+      "platos": [
+        { "nombre": "Olla de arroz meloso mar y montaña", "descripcion": "Marisco y carne con sofrito mediterráneo.", "precio": 35, "foto": "negocios/el-ojopatio/arroz-mar-montana.webp", "video": "negocios/el-ojopatio/arroz-mar-montana.mp4" },
+        { "nombre": "Paella de arroz con pulpo", "descripcion": "Y espárragos trigueros.", "precio": 35 },
+        { "nombre": "Paella de arroz negro", "descripcion": "Con calamares y langostinos.", "precio": 35 },
+        { "nombre": "Risotto de setas y trufa", "descripcion": "Con peineta de parmesano.", "precio": 16 }
+      ]
+    },
+    {
+      "titulo": "Ensaladas",
+      "tipo": "comer",
+      "platos": [
+        { "nombre": "Ensalada de salmón", "descripcion": "Mézclum, encurtidos, queso fresco, salmón marinado y vinagreta de mango un poco picante.", "precio": 16 },
+        { "nombre": "Ensalada con brick de cabra", "descripcion": "A la miel y tomillo.", "precio": 14.8 },
+        { "nombre": "Ensalada César", "descripcion": "Media 11 € · entera 14,50 €.", "precio": 11 },
+        { "nombre": "Poké de atún rojo", "descripcion": "Base de arroz y atún marinado.", "precio": 14.5 }
+      ]
+    },
+    {
+      "titulo": "Para los peques",
+      "tipo": "comer",
+      "platos": [
+        { "nombre": "Espaguetis o macarrones", "descripcion": "Con boloñesa o con tomate.", "precio": 9 },
+        { "nombre": "Arroz a la cubana", "descripcion": "Con huevo frito, salchichas y tomate frito.", "precio": 9 },
+        { "nombre": "Nuggets de pollo", "descripcion": "6 uds. con patatas fritas.", "precio": 9 },
+        { "nombre": "Filete de pollo empanao", "descripcion": "Con patatas fritas.", "precio": 11 },
+        { "nombre": "Pollo a la plancha", "descripcion": "Con patatas fritas.", "precio": 11 },
+        { "nombre": "Croquetas de puchero", "descripcion": "4 uds. con patatas fritas.", "precio": 9 }
+      ]
+    },
+    {
+      "titulo": "Postres",
+      "tipo": "comer",
+      "platos": [
+        { "nombre": "Coulant de chocolate", "descripcion": "Con helado de vainilla y cobertura de chocolate.", "precio": 7.5, "foto": "negocios/el-ojopatio/coulant.webp", "video": "negocios/el-ojopatio/coulant.mp4" },
+        { "nombre": "Milhojas", "descripcion": "Con crema inglesa, nata, toffee y avellanas.", "precio": 7.8, "foto": "negocios/el-ojopatio/milhojas.webp" },
+        { "nombre": "Torrija con helado", "descripcion": "De turrón, bañada en chocolate blanco y con natillas.", "precio": 8.8 },
+        { "nombre": "Cheesecake de pistacho", "descripcion": "Tarta de queso casera y cremosa.", "precio": 8.8 },
+        { "nombre": "Galleta rellena", "descripcion": "Galleta casera de Kinder Bueno con bola de helado.", "precio": 8.5 },
+        { "nombre": "Brownie", "descripcion": "Con helado de vainilla y cobertura de chocolate.", "precio": 7.5 },
+        { "nombre": "Brownie sin gluten", "precio": 7.8 },
+        { "nombre": "Tarta casera (porción)", "descripcion": "Red velvet, Sacher, zanahoria o Nutella.", "precio": 5.9 },
+        { "nombre": "Tabla de postres", "descripcion": "Dos tartas a elegir, coulant y brownie.", "precio": 26 }
+      ]
+    },
+    {
+      "titulo": "Meriendas y tortitas",
+      "tipo": "comer",
+      "platos": [
+        { "nombre": "Tortitas #1", "descripcion": "Nutella, chocolate, donut y nata montada.", "precio": 9, "foto": "negocios/el-ojopatio/tortitas-nutella.webp", "video": "negocios/el-ojopatio/tortitas-nutella.mp4" },
+        { "nombre": "Tortitas #2", "descripcion": "Nutella, Kinder, crocanti de almendra, chocolate y helado de vainilla.", "precio": 9 },
+        { "nombre": "Tortitas #3", "descripcion": "Dulce de leche, helado de vainilla, caramelo y canela.", "precio": 9, "foto": "negocios/el-ojopatio/tortitas-dulce-leche.webp", "video": "negocios/el-ojopatio/tortitas-dulce-leche.mp4" },
+        { "nombre": "Tortitas #4", "descripcion": "Donut, Kinder, chocolate blanco y helado de chocolate.", "precio": 9 },
+        { "nombre": "Gofre o crepe", "descripcion": "Kinder, chocolate, Nutella, caramelo, dulce de leche, fresa, leche condensada o crocanti.", "precio": 7 },
+        { "nombre": "Sándwich de Nutella", "precio": 3 },
+        { "nombre": "Bocadillo de aceite y tomate", "precio": 3.5 },
+        { "nombre": "Mixto: el de Málaga", "precio": 3.9 },
+        { "nombre": "Bocadillo catalana", "precio": 4.3 },
+        { "nombre": "Bacon, queso, tomate, lechuga y mayonesa", "precio": 5 },
+        { "nombre": "Aguacate, manchego, tomate y aceite", "precio": 4.5 },
+        { "nombre": "Sándwich mixto", "precio": 3.8 }
+      ]
+    },
+    {
+      "titulo": "Tardeo fresquito",
+      "tipo": "beber",
+      "platos": [
+        { "nombre": "Mojito", "descripcion": "Clásico o de cualquier sabor de los smoothies.", "precio": 7, "foto": "negocios/el-ojopatio/mojito.webp", "video": "negocios/el-ojopatio/mojito.mp4" },
+        { "nombre": "Margarita", "precio": 7.5, "foto": "negocios/el-ojopatio/margarita.webp", "video": "negocios/el-ojopatio/margarita.mp4" },
+        { "nombre": "Cóctel de la semana", "descripcion": "Pregunta cuál toca esta semana.", "precio": 7.5, "foto": "negocios/el-ojopatio/coctel.webp", "video": "negocios/el-ojopatio/coctel.mp4" },
+        { "nombre": "Mojito de Jägermeister", "descripcion": "¡Nuevo!", "precio": 8 },
+        { "nombre": "Espresso martini", "precio": 8 },
+        { "nombre": "Aperol spritz", "precio": 7.5 },
+        { "nombre": "Piña colada", "precio": 7 },
+        { "nombre": "Batido de Oreo o de Kinder", "precio": 7.5 },
+        { "nombre": "Smoothie", "descripcion": "Frutos del bosque, piña, melocotón, fresa, fruta de la pasión o mango.", "precio": 7 },
+        { "nombre": "Frappé", "descripcion": "Choco, Kinder o vainilla: cremoso de café con hielo picado.", "precio": 6.5 }
+      ]
+    },
+    {
+      "titulo": "Cervezas y refrescos",
+      "tipo": "beber",
+      "platos": [
+        { "nombre": "Caña de cerveza", "precio": 1.6, "foto": "negocios/el-ojopatio/cana.webp", "video": "negocios/el-ojopatio/cana.mp4" },
+        { "nombre": "Copa de cerveza (37 cl)", "precio": 3 },
+        { "nombre": "Pinta de cerveza", "precio": 4.5, "foto": "negocios/el-ojopatio/pinta.webp", "video": "negocios/el-ojopatio/pinta.mp4" },
+        { "nombre": "Alhambra Especial", "precio": 3.5 },
+        { "nombre": "Alhambra 1925", "precio": 4.5 },
+        { "nombre": "Alhambra Roja", "precio": 4.8 },
+        { "nombre": "Mahou IPA", "descripcion": "Más amargor y aroma intenso.", "precio": 4 },
+        { "nombre": "Alhambra Citer IPA", "descripcion": "Amargor moderado y aroma cítrico.", "precio": 4 },
+        { "nombre": "Franziskaner (50 cl)", "precio": 5 },
+        { "nombre": "Mahou sin gluten", "precio": 4 },
+        { "nombre": "Tinto de verano", "descripcion": "Con o sin alcohol.", "precio": 3.5 },
+        { "nombre": "Vermut rojo", "precio": 3.8 },
+        { "nombre": "Refrescos (35 cl)", "precio": 3.5 },
+        { "nombre": "Agua (50 cl)", "precio": 3 }
+      ]
+    },
+    {
+      "titulo": "Vinos",
+      "tipo": "beber",
+      "platos": [
+        { "nombre": "Portia Roble", "descripcion": "Ribera del Duero. Copa 3,50 € · botella 17 €.", "precio": 3.5 },
+        { "nombre": "Condado de Oriza Crianza", "descripcion": "Ribera del Duero. Copa 3,80 € · botella 19 €.", "precio": 3.8 },
+        { "nombre": "Emilio Moro", "descripcion": "Ribera del Duero, tempranillo. Botella.", "precio": 27 },
+        { "nombre": "Niño de Campillo", "descripcion": "Rioja, tempranillo. Copa 3,30 € · botella 15 €.", "precio": 3.3 },
+        { "nombre": "Marqués de Vitoria Crianza", "descripcion": "Rioja. Copa 3,50 € · botella 17 €.", "precio": 3.5 },
+        { "nombre": "Niño León", "descripcion": "Ronda: cabernet sauvignon, merlot y tempranillo. Botella.", "precio": 20 },
+        { "nombre": "Analivia Verdejo", "descripcion": "Rueda. Copa 3,30 € · botella 15 €.", "precio": 3.3 },
+        { "nombre": "Alma Atlántica", "descripcion": "Espumoso de albariño y godello. Botella.", "precio": 15 },
+        { "nombre": "Condesa de Leganza rosado", "descripcion": "Copa 3 € · botella 14 €.", "precio": 3 }
+      ]
+    },
+    {
+      "titulo": "Cafés y tés",
+      "tipo": "beber",
+      "platos": [
+        { "nombre": "Café Ojopatio (frío)", "descripcion": "Café, Baileys y sirope de chocolate batido con hielo picado.", "precio": 6.5 },
+        { "nombre": "Capuchino", "descripcion": "Con crema 2,80 € · con nata 3 €.", "precio": 2.8, "foto": "negocios/el-ojopatio/capuchino.webp", "video": "negocios/el-ojopatio/capuchino.mp4" },
+        { "nombre": "Café con leche", "precio": 2.5, "foto": "negocios/el-ojopatio/cafe-con-leche.webp", "video": "negocios/el-ojopatio/cafe-con-leche.mp4" },
+        { "nombre": "Café solo", "descripcion": "Café ecológico.", "precio": 1.9, "foto": "negocios/el-ojopatio/cafe-ecologico.webp" },
+        { "nombre": "Café con hielo y Baileys", "precio": 3.5 },
+        { "nombre": "Café bombón", "precio": 3 },
+        { "nombre": "Chocolate a la taza", "precio": 3 },
+        { "nombre": "Matcha chai latte", "descripcion": "Té verde matcha con canela y vainilla. Con agua 3,30 € · con leche 3,80 €.", "precio": 3.3 },
+        { "nombre": "Spiced chai latte", "descripcion": "Té negro con canela, nuez moscada y clavo. Con agua 3,30 € · con leche 3,80 €.", "precio": 3.3 },
+        { "nombre": "Té verde moruno con hierbabuena", "precio": 2.5 },
+        { "nombre": "Rooibos copacabana", "descripcion": "Piña y coco, sin teína.", "precio": 2.5 }
+      ]
+    },
+    {
+      "titulo": "Copas",
+      "tipo": "beber",
+      "platos": [
+        { "nombre": "Ginebra", "descripcion": "Tanqueray, Beefeater, Larios, Seagram's o Puerto de Indias.", "precio": 7 },
+        { "nombre": "Ginebra premium", "descripcion": "Hendrick's, Brockmans, Martin Miller's, Nordes o Tanqueray Ten.", "precio": 8 },
+        { "nombre": "Whisky", "descripcion": "Ballantine's, J&B, Jameson, Cutty Sark, DYC 8 o Red Label.", "precio": 7 },
+        { "nombre": "Whisky premium", "descripcion": "Chivas, Cardhu 12 o Johnnie Walker Black Label.", "precio": 9 },
+        { "nombre": "Ron", "descripcion": "Barceló, Brugal, Cacique, Santa Teresa o Bacardí.", "precio": 7 },
+        { "nombre": "Ron premium", "descripcion": "Cacique 500 o Matusalem Reserva 15.", "precio": 8 },
+        { "nombre": "Vodka", "descripcion": "Absolut, Smirnoff o Eristoff Black.", "precio": 7 },
+        { "nombre": "Chupito de licor", "descripcion": "Baileys, Licor 43, Jägermeister, Frangelico, orujo de hierbas…", "precio": 4 }
+      ]
+    }
+  ],
+  "cartaNota": "Pan 1,40 € por persona · aceitunas 1 €. Tenemos la información de alérgenos de cada plato: pídela al camarero.",
+  "reservas": {
+    "activas": true,
+    "titulo": "Reservar mesa",
+    "texto": "Para comer, cenar o una merienda con los peques. Para grupos grandes o los reservados, llámanos y te contamos.",
+    "opciones": ["Comida", "Merienda", "Cena"],
+    "personas": true
+  },
+  "enlaceResenas": "https://www.google.com/maps/search/?api=1&query=El+Ojopatio+Avenida+Plutarco+14+M%C3%A1laga",
+  "faq": [
+    {
+      "pregunta": "¿Tenéis zona para niños?",
+      "respuesta": "Sí: una ludoteca para que los peques jueguen mientras coméis. Cuesta 4 € por niño, y hay carta para ellos."
+    },
+    {
+      "pregunta": "¿Puedo reservar un reservado para un grupo?",
+      "respuesta": "Sí. Llámanos al 699 012 666 o escríbenos a reservas@elojopatiobar.com y te contamos los menús de grupo."
+    },
+    {
+      "pregunta": "¿Hay opciones sin gluten o veganas?",
+      "respuesta": "Tenemos brownie sin gluten, Mahou sin gluten y la Veganburger Ojopatio. Para el resto, pide al camarero la tabla de alérgenos."
+    },
+    {
+      "pregunta": "¿A qué hora son las meriendas?",
+      "respuesta": "De jueves a domingo, de 16:30 a 19:30: tortitas, gofres, bocadillos y batidos."
+    }
+  ]
+}

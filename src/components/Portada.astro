@@ -9,8 +9,10 @@
 //              grande, y un zócalo de festones con su segundo color
 //   dividida · texto a la izquierda y, a la derecha, un panel del color de la
 //              casa con las etapas de la vida (pensada para clínicas)
+//   cine    · a pantalla completa sobre un vídeo en bucle de los platos, con el
+//              logo en el centro (para la carta con vídeos)
 import { resumenCorto, type HorarioSemana } from '../lib/horario';
-import { direccionTexto, url, type Negocio } from '../lib/negocios';
+import { direccionTexto, medio, url, type Negocio } from '../lib/negocios';
 
 interface Props {
   n: Negocio;
@@ -25,7 +27,34 @@ const hayHorario = n.horario.length > 0;
 ---
 
 {
-  tipo === 'sello' && n.logo ? (
+  tipo === 'cine' ? (
+    <section class="portada portada-cine">
+      {n.videoPortada ? (
+        <video class="cine-fondo" src={medio(n.videoPortada)} poster={medio(n.fotoPortada)} autoplay muted loop playsinline preload="auto" aria-hidden="true" />
+      ) : (
+        n.fotoPortada && <img class="cine-fondo" src={medio(n.fotoPortada)} alt="" />
+      )}
+      <div class="envoltura cine-cuerpo">
+        {n.logo && <img class="cine-logo" src={url(`/${n.logo}`)} alt="" width="200" height="200" />}
+        <h1 class="oculto">{n.nombre}</h1>
+        {n.bajoRotulo && <span class="bajo-rotulo">{n.bajoRotulo}</span>}
+        <p class="cine-eslogan" data-campo="eslogan">{n.eslogan}</p>
+        <div class="datos-portada">
+          {hayHorario && (
+            <span class="estado" data-estado hidden>
+              <span class="punto" aria-hidden="true" />
+              <span data-estado-texto />
+            </span>
+          )}
+          <span>{direccionTexto(n)}</span>
+        </div>
+        <div class="botones">
+          <a class="boton principal" href={principal.href}>{principal.texto}</a>
+          {secundario && <a class="boton" href={secundario.href}>{secundario.texto}</a>}
+        </div>
+      </div>
+    </section>
+  ) : tipo === 'sello' && n.logo ? (
     <section class="portada portada-sello">
       <div class="envoltura sello-cuerpo">
         <img class="sello-logo" src={url(`/${n.logo}`)} alt="" width="360" height="360" />
