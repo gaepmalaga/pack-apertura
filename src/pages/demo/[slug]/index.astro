@@ -6,6 +6,7 @@ import Demo from '../../../layouts/Demo.astro';
 import Portada from '../../../components/Portada.astro';
 import Mapa from '../../../components/Mapa.astro';
 import { htmlHorario } from '../../../lib/vista-horario';
+import { htmlGrupo, idGrupo } from '../../../lib/carta';
 import {
   negocios,
   telHref,
@@ -14,6 +15,7 @@ import {
   direccionTexto,
   euros,
   url,
+  medio,
   type Negocio,
 } from '../../../lib/negocios';
 import { porDia, agrupar, resumenCorto, DIAS, NOMBRE_DIA, formatoTramo } from '../../../lib/horario';
@@ -36,7 +38,7 @@ const wa = waHref(n, `Hola, vengo de vuestra web. `);
 const reservas = n.reservas?.activas && (n.contacto.whatsapp || n.contacto.telefono || n.demo) ? n.reservas : null;
 const reservaMuestra = !n.contacto.whatsapp && !n.contacto.telefono;
 const carta = (n.carta ?? []).filter((g) => g.platos.length);
-const idGrupo = (t: string) => 'g-' + t.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const conVideos = carta.some((g) => g.platos.some((p) => p.video));
 const titulo = `${n.nombre} · ${n.eslogan.replace(/\.$/, '')}`;
 const verCarta = carta.length ? '#carta' : n.servicios?.length ? '#servicios' : '#donde';
 // Sin carta ni servicios, lo más útil de la portada es reservar.
@@ -71,6 +73,7 @@ const secundario =
       </a>
       <nav class="menu" aria-label="Secciones">
         {carta.length > 0 && <a href="#carta">Carta</a>}
+        {conVideos && <a href="#carta-video">En vídeo</a>}
         {(n.galeria?.length ?? 0) > 0 && <a href="#fotos">Fotos</a>}
         {(n.servicios?.length ?? 0) > 0 && <a href="#servicios">Servicios</a>}
         {(n.etapas?.length ?? 0) > 0 && <a href="#etapas">Por edades</a>}
@@ -109,6 +112,21 @@ const secundario =
         }
       </div>
     </section>
+
+    {
+      carta.length > 0 && (
+        <section class="seccion reels-seccion" id="carta-video" data-reels-seccion hidden={!conVideos}>
+          <div class="envoltura">
+            <div class="cabeza">
+              <span class="etiqueta">La carta en vídeo</span>
+              <h2>Míralo antes de pedirlo</h2>
+              <p class="entradilla">Toca un plato para verlo a pantalla completa y desliza para pasar al siguiente.</p>
+            </div>
+          </div>
+          <ul class="reels-tira" data-reels-tira aria-label="Platos en vídeo" />
+        </section>
+      )
+    }
 
     {
       (n.galeria?.length ?? 0) > 0 && (
@@ -169,27 +187,17 @@ const secundario =
                 <a href={`#${idGrupo(g.titulo)}`}>{g.titulo}</a>
               ))}
             </nav>
-            <div class="grupos" data-carta-grupos>
-              {carta.map((g) => (
-                <div class="grupo" id={idGrupo(g.titulo)}>
-                  <h3>{g.titulo}</h3>
-                  <ul class="platos">
-                    {g.platos.map((p) => (
-                      <li>
-                        <button type="button" class="plato" data-plato={p.nombre} data-precio={p.precio ?? 0} data-cuantos="0">
-                          <span class="n">{p.nombre}</span>
-                          <span class="puntos" aria-hidden="true" />
-                          <span class="p">{euros(p.precio)}</span>
-                          {p.descripcion && <span class="d">{p.descripcion}</span>}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
+            <div
+              class="grupos"
+              data-carta-grupos
+              set:html={carta.map((g) => htmlGrupo({ titulo: g.titulo, platos: g.platos.map((p) => ({ ...p, foto: medio(p.foto), video: medio(p.video) })) })).join('')}
+            />
             {n.cartaNota && <p class="nota-carta">{n.cartaNota}</p>}
           </div>
+          <dialog class="reels" data-reels aria-label="La carta en vídeo">
+            <div class="reels-pista" data-reels-pista />
+            <button type="button" class="reels-cerrar" data-cerrar-reels aria-label="Cerrar">×</button>
+          </dialog>
           <button type="button" class="tira" data-abrir-lista hidden>
             <span data-tira-texto>Tu lista</span>
           </button>
@@ -449,10 +457,11 @@ const secundario =
     import { iniciarLista } from '../../../scripts/lista';
     import { iniciarReserva } from '../../../scripts/reserva';
     import { aplicarPrueba } from '../../../scripts/prueba';
+    import { iniciarReels } from '../../../scripts/reels';
     import { marcarHoy } from '../../../lib/vista-horario';
 
     const datos = JSON.parse(document.getElementById('datos-negocio')!.textContent!);
-    aplicarPrueba(datos);
+    await aplicarPrueba(datos);
     const semana = porDia(datos.horario);
 
     function pintarEstado() {
@@ -468,6 +477,7 @@ const secundario =
     pintarEstado();
     setInterval(pintarEstado, 60_000);
     iniciarLista(datos.slug);
+    iniciarReels();
     iniciarReserva(datos.nombre, datos.horario);
   </script>
 </Demo>

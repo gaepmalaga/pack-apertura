@@ -375,3 +375,61 @@ p { margin: 0; }
 .portada-sello .datos-portada, .portada-sello .botones { justify-content: center; }
 .zocalo { height: 64px; background: radial-gradient(circle at 50% 100%, var(--secundario) 27px, transparent 28px) 0 0 / 56px 28px repeat-x, linear-gradient(var(--secundario), var(--secundario)) 0 28px / 100% 36px no-repeat; }
 @media (min-width: 900px) { .portada-sello { padding-top: 56px; } .sello-logo { width: 280px; } .zocalo { height: 80px; background-size: 56px 28px, 100% 52px; } }
+
+/* Portada «cine»: a pantalla completa sobre un vídeo en bucle de los platos,
+   oscurecido para que el logo y la frase se lean encima */
+.portada-cine { position: relative; isolation: isolate; overflow: hidden; min-height: min(calc(100svh - 190px), 820px); padding: 0; display: grid; align-items: end; background: #000; color: #fff; }
+.cine-fondo { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.portada-cine::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(0 0 0 / .55) 0%, rgb(0 0 0 / .25) 35%, color-mix(in srgb, var(--fondo) 92%, transparent) 88%, var(--fondo) 100%); }
+.cine-cuerpo { display: grid; justify-items: center; text-align: center; gap: 14px; padding-block: 64px 36px; }
+@media (min-width: 900px) { .portada-cine { min-height: min(calc(100svh - 100px), 820px); } .cine-cuerpo { gap: 16px; padding-block: 96px 56px; } }
+.cine-logo { width: min(180px, 34vw); height: auto; aspect-ratio: 1; border-radius: 50%; box-shadow: 0 0 0 1px color-mix(in srgb, var(--acento) 50%, transparent), 0 20px 50px rgb(0 0 0 / .6); }
+.portada-cine .bajo-rotulo { margin-top: 0; }
+.cine-eslogan { font-family: var(--display); font-size: clamp(26px, 6vw, 52px); line-height: 1.1; max-width: 20ch; text-wrap: balance; text-shadow: 0 2px 20px rgb(0 0 0 / .5); }
+.portada-cine .datos-portada, .portada-cine .botones { justify-content: center; }
+.portada-cine .datos-portada, .portada-cine .estado { color: #fff; }
+.portada-cine .boton:not(.principal) { border-color: #fff; color: #fff; background: rgb(0 0 0 / .25); backdrop-filter: blur(6px); }
+@media (prefers-reduced-motion: reduce) { .portada-cine video.cine-fondo { display: none; } .portada-cine { background: center / cover no-repeat var(--fondo); } }
+
+/* Carta con fotos y vídeos: miniatura vertical a la izquierda del plato */
+.platos li.con-medio { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: center; padding-block: 8px; border-bottom: 1px dashed var(--linea); }
+.platos li.con-medio:last-child { border-bottom: 0; }
+.platos li.con-medio .plato { border-bottom: 0; }
+.miniatura { position: relative; width: 64px; aspect-ratio: 3 / 4; padding: 0; border: 0; border-radius: var(--radio-campo); overflow: hidden; background: var(--linea); cursor: pointer; }
+.miniatura img, .miniatura video { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+.miniatura:hover img, .miniatura:hover video { transform: scale(1.06); }
+.miniatura .play { position: absolute; inset: auto 6px 6px auto; width: 22px; height: 22px; border-radius: 50%; background: var(--acento); box-shadow: 0 2px 8px rgb(0 0 0 / .4); }
+.miniatura .play::after { content: ''; position: absolute; left: 8px; top: 6px; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent var(--sobre-acento); }
+[data-carta='menu'] .platos li.con-medio { border-bottom: 0; }
+
+/* Tira «La carta en vídeo»: reels pequeños que se mueven solos al verlos */
+.reels-tira { list-style: none; margin: 0; padding: 0 max(18px, env(safe-area-inset-left, 0px)) 8px; display: grid; grid-auto-flow: column; grid-auto-columns: min(46vw, 210px); gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.reels-tira::-webkit-scrollbar { display: none; }
+.reels-tira li { scroll-snap-align: start; }
+.reels-tira { scroll-padding-inline: max(18px, env(safe-area-inset-left, 0px)); }
+@media (min-width: 1080px) { .reels-tira { padding-inline: calc((100vw - 1080px) / 2 + 18px); scroll-padding-inline: calc((100vw - 1080px) / 2 + 18px); } }
+.reel-tarjeta { position: relative; display: block; width: 100%; aspect-ratio: 9 / 16; padding: 0; border: 0; border-radius: var(--radio); overflow: hidden; background: var(--panel); cursor: pointer; color: #fff; text-align: left; font: inherit; }
+.reel-tarjeta .reel-medio { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.reel-tarjeta::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgb(0 0 0 / .8)); }
+.reel-pie { position: absolute; z-index: 1; inset: auto 12px 12px; display: grid; gap: 2px; }
+.reel-pie b { font-family: var(--display); font-size: 17px; line-height: 1.15; }
+.reel-pie span { color: var(--acento); font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
+
+/* Visor de reels a pantalla completa: se desliza en vertical, un plato por pantalla */
+.reels { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; padding: 0; border: 0; background: #000; color: #fff; overflow: hidden; }
+.reels::backdrop { background: rgb(0 0 0 / .85); }
+@media (min-width: 700px) { .reels { width: min(460px, calc(56.25dvh)); margin: auto; border-radius: 18px; height: min(100dvh, 860px); } }
+.reels-pista { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior: contain; scrollbar-width: none; }
+.reels-pista::-webkit-scrollbar { display: none; }
+.reel { position: relative; height: 100%; scroll-snap-align: start; scroll-snap-stop: always; display: grid; align-items: end; overflow: hidden; }
+.reel .reel-medio { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.reel::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / .35) 0%, transparent 18%, transparent 50%, rgb(0 0 0 / .85) 100%); pointer-events: none; }
+.reel-info { position: relative; z-index: 1; display: grid; gap: 8px; justify-items: start; padding: 24px 20px calc(28px + env(safe-area-inset-bottom, 0px)); }
+.reel-info h3 { font-size: 30px; font-weight: 600; }
+.reel-info p { color: rgb(255 255 255 / .85); font-size: 15px; max-width: 34ch; }
+.reel-info .boton { margin-top: 6px; }
+.reel-desliza { font-size: 13px; color: rgb(255 255 255 / .7); justify-self: center; margin-top: 10px; }
+.reel-desliza::before { content: '↑ '; }
+@media (prefers-reduced-motion: no-preference) { .reel-desliza { animation: sube 1.6s ease-in-out infinite; } }
+@keyframes sube { 50% { transform: translateY(-5px); } }
+.reels-cerrar { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: 12px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgb(0 0 0 / .45); color: #fff; font-size: 28px; line-height: 1; cursor: pointer; backdrop-filter: blur(6px); }

@@ -41,6 +41,11 @@ node herramientas/importar-taberna.mjs ../webtaller/churriana/datos/contenido.js
   horarios partidos y tramos que pasan de medianoche (12:00–01:00).
 - **Carta** por secciones, con la lista de «lo que te vas a pedir»: tocar un
   plato lo apunta con su precio y lleva la cuenta. Se queda en el móvil.
+- **Carta con fotos y vídeos**: cada plato puede llevar `foto` y `video` (vertical,
+  de 5 a 15 s, como un reel). Salen en miniatura en la carta, en la tira «La carta
+  en vídeo» y en un visor a pantalla completa que se desliza como Instagram y
+  deja apuntar el plato sin salir del vídeo. Con `portada: "cine"`, la portada es
+  un vídeo en bucle (`videoPortada` y `fotoPortada`). Ejemplo: `el-ojopatio`.
 - **Propuestas «por dónde empezar»** con precio.
 - **Servicios**, **destacados**, **reseñas** y **preguntas frecuentes**.
 - **Reservas sin servidor ni APIs de pago**: el formulario abre WhatsApp con el
@@ -55,7 +60,9 @@ node herramientas/importar-taberna.mjs ../webtaller/churriana/datos/contenido.js
 
 **De prueba** (`/demo/<negocio>/admin/`): para enseñárselo al dueño. Lo que
 cambia se guarda en su navegador y la web lo muestra al abrirse con `?prueba`,
-con un aviso azul de que no se ha publicado nada.
+con un aviso azul de que no se ha publicado nada. Puede subir una foto o un vídeo a
+cada plato desde el móvil (o grabarlo en el momento): se guarda en IndexedDB y
+aparece en su carta y en los reels.
 
 **Real** (`/admin/` y `/demo/<negocio>/editar/`):
 
@@ -91,6 +98,9 @@ npm run build
 - Carta desde JSON, propuestas para indecisos y lista de lo que te vas a pedir:
   de las **tabernas de webtaller**.
 - Aviso de demo, `noindex` y estructura de datos de negocio: nuevos.
+- Vídeos de platos de la demo de El Ojopatio: [Mixkit](https://mixkit.co/license/#videoFree)
+  (licencia gratuita, uso comercial). Las fotos de platos y del local, el logo y
+  la carta son públicos de su web.
 
 ## Proyectos de código abierto útiles para crecer
 
