@@ -1,0 +1,654 @@
+---
+// Web a medida de Taller.Es (chapa y pintura, Carretera de Cádiz, Málaga).
+// No usa la plantilla común: tiene su propio diseño, pero lee los datos de
+// src/negocios/taller-es.json, así que el panel de prueba (/admin/), el panel
+// real (/editar/) y la landing funcionan igual que con el resto de demos.
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/martian-mono';
+import '../../../styles/taller-es.css';
+import Logo from '../../../components/taller-es/Logo.astro';
+import Coche from '../../../components/taller-es/Coche.astro';
+import { negocios, telHref, waHref, url, medio, direccionTexto } from '../../../lib/negocios';
+import { porDia } from '../../../lib/horario';
+import { htmlLinea, aperturaHabitual } from '../../../scripts/taller-es/linea-horario';
+import * as capas from '../../../scripts/taller-es/capas';
+
+const SLUG = 'taller-es';
+const n = negocios.find((x) => x.slug === SLUG)!;
+const semana = porDia(n.horario);
+const tel = telHref(n);
+const waBase = waHref(n);
+const wa = waHref(n, `Hola, vengo de la web de ${n.nombre}. `);
+const v = n.valoracion;
+const nota = v ? v.nota.toLocaleString('es-ES') : '';
+const apertura = aperturaHabitual(semana);
+const fotos = Object.fromEntries((n.galeria ?? []).map((g) => [g.foto.split('/').pop()!.replace(/\.\w+$/, ''), g]));
+const cabina = fotos['cabina'];
+const terminado = fotos['terminado'];
+const moto = fotos['moto'];
+
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+/** En las reseñas, el nombre de Dani se marca: es de quien habla todo el mundo. */
+const conDani = (s: string) => esc(s).replace(/\b(Daniel|Dani|Dany)\b/g, '<mark>$1</mark>');
+
+const ruta = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${n.nombre}, ${direccionTexto(n)}`)}`;
+const geo = n.direccion.geo!;
+const d = 0.0058;
+const mapa = `https://www.openstreetmap.org/export/embed.html?bbox=${geo.lng - d}%2C${geo.lat - d / 1.6}%2C${geo.lng + d}%2C${geo.lat + d / 1.6}&layer=mapnik`;
+
+// Puntos de la foto de la cabina (en % del ancho y el alto de la foto).
+const puntos = [
+  { x: 40, y: 12, titulo: 'Techo filtrante', texto: 'El aire entra por arriba a través de filtros, así no cae polvo sobre la pintura fresca.' },
+  { x: 77, y: 23, titulo: 'Luz de cabina', texto: 'Mucha luz y bien repartida: deja ver poros, gotas o diferencias de tono antes de que el coche salga.' },
+  { x: 15, y: 33, titulo: 'Material de pintor', texto: 'En la pared, sus marcas: pintura R-M de BASF, pistolas Anest Iwata y lijado Festool.' },
+  { x: 64, y: 57, titulo: 'Negro recién pintado', texto: 'El negro es el color más exigente: enseña cualquier defecto. Fíjate en cómo refleja los tubos.' },
+  { x: 51, y: 76, titulo: 'Enmascarado', texto: 'Lo que no se pinta se tapa con plástico y cinta, para que no caiga pintura donde no toca.' },
+  { x: 86, y: 90, titulo: 'Suelo de rejilla', texto: 'El aire sale por el suelo y se lleva la niebla de pintura hacia abajo, lejos de la pieza.' },
+];
+
+const pasos = [
+  { titulo: 'El golpe', texto: 'La chapa se ha hundido y la pintura ha saltado. Antes de tocar nada se decide si compensa reparar la pieza o cambiarla.' },
+  { titulo: 'Chapa', texto: 'Se lija hasta el metal y se endereza desde dentro o tirando desde fuera, hasta que la pieza vuelve a su forma.' },
+  { titulo: 'Masilla', texto: 'Una capa fina para las últimas irregularidades, lijada hasta que al pasar la mano no se nota nada. La masilla afina, no esconde bollos.' },
+  { titulo: 'Aparejo', texto: 'Sella la reparación y deja la superficie lista para pintar. Se lija fino: cualquier marca que quede aquí se vería en el color.' },
+  { titulo: 'Color', texto: 'El tono de tu coche, preparado con su código de color y ajustado a cómo está hoy. El sol de Málaga también pinta.' },
+  { titulo: 'Barniz', texto: 'La capa transparente que da el brillo y protege del sol, la lluvia y los lavados. Recién echado, tiene una piel muy fina que ondula los reflejos.' },
+  { titulo: 'Pulido', texto: 'Se quitan las motas y la piel de naranja hasta que la luz rebota recta. Entonces los tubos de la cabina se reflejan como en un espejo.' },
+];
+
+const dias = { lunes: 'Monday', martes: 'Tuesday', miercoles: 'Wednesday', jueves: 'Thursday', viernes: 'Friday', sabado: 'Saturday', domingo: 'Sunday' };
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AutoBodyShop',
+  name: n.nombre,
+  description: n.descripcion,
+  telephone: `+34${(n.contacto.telefono ?? '').replace(/\D/g, '')}`,
+  image: (n.galeria ?? []).map((g) => new URL(url(`/${g.foto}`), Astro.site).href),
+  address: { '@type': 'PostalAddress', streetAddress: n.direccion.calle, postalCode: n.direccion.cp, addressLocality: n.direccion.ciudad, addressCountry: 'ES' },
+  geo: { '@type': 'GeoCoordinates', latitude: geo.lat, longitude: geo.lng },
+  hasMap: n.direccion.mapa,
+  openingHoursSpecification: n.horario.map((h) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: dias[h.dia], opens: h.abre, closes: h.cierra })),
+};
+const titulo = `${n.nombre} · Chapa y pintura en Málaga`;
+const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
+---
+
+<!doctype html>
+<html lang="es" class="te">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{titulo}</title>
+    <meta name="description" content={n.descripcion} />
+    {n.demo && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#060709" />
+    <meta name="color-scheme" content="dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={n.descripcion} />
+    <meta property="og:image" content={ogImagen} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href={url(`/${n.logo}`)} type="image/svg+xml" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    {
+      n.demo && (
+        <p class="aviso-demo">
+          Propuesta de web para {n.nombre}, preparada con los datos de su ficha de Google. Aún no está publicada como web oficial. <a href={url('/')}>¿Quieres una así?</a>
+        </p>
+      )
+    }
+
+    <header class="cabecera" data-cabecera>
+      <div class="env cab-in">
+        <a class="marca" href="#inicio" aria-label={`${n.nombre}, ir al inicio`}><Logo id="lg-cab" /></a>
+        <nav class="menu" aria-label="Secciones">
+          <a href="#servicios">Servicios</a>
+          <a href="#cabina">La cabina</a>
+          <a href="#proceso">Cómo se pinta</a>
+          <a href="#opiniones">Opiniones</a>
+          <a href="#horario">Horario</a>
+          <a href="#donde">Dónde</a>
+        </nav>
+        <p class="estado" data-estado hidden><i aria-hidden="true"></i><span class="estado-largo" data-estado-texto></span><span class="estado-corto" data-estado-corto></span></p>
+        <a class="btn btn-luz btn-chico" href="#presupuesto">Presupuesto</a>
+      </div>
+    </header>
+
+    <main id="contenido">
+      <section class="hero" id="inicio" data-hero style={`--respaldo:url('${medio('negocios/taller-es/cabina-movil.webp')}')`}>
+        <canvas class="hero-lienzo" data-pulido aria-hidden="true"></canvas>
+        <div class="pulidora" data-pulidora aria-hidden="true"><i></i></div>
+        <div class="env hero-in">
+          <p class="sobre"><span>Chapa y pintura</span><span>Carretera de Cádiz</span><span>Málaga</span></p>
+          <h1 data-campo="eslogan" data-reflejo>{n.eslogan}</h1>
+          <p class="hero-sub">{n.descripcion}</p>
+          <div class="hero-botones">
+            <a class="btn btn-luz" href="#presupuesto">
+              Mandar fotos del golpe
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
+            </a>
+            {tel && <a class="btn btn-linea" href={tel}>Llamar · <span data-campo="telefono">{n.contacto.telefono}</span></a>}
+          </div>
+        </div>
+        <aside class="hero-pista" data-pista aria-hidden="true">
+          <p class="pista-titulo"><b data-pulido-pct>Pule la chapa</b></p>
+          <p class="pista-texto">
+            <span class="solo-raton">Pasa el ratón por encima.</span><span class="solo-dedo">Desliza el dedo de lado.</span>{' '}
+            <span class="pista-explica">Lo rugoso es <em>piel de naranja</em>; pulido, la luz se refleja recta, como en un espejo.</span>
+          </p>
+        </aside>
+        <ul class="hero-datos env" aria-label="En resumen">
+          {
+            v && (
+              <li>
+                <b>{nota} ★</b>
+                <span>{v.total} reseñas en Google</span>
+              </li>
+            )
+          }
+          {
+            apertura && (
+              <li>
+                <b data-apertura>{apertura}</b>
+                <span>Abrimos entre semana</span>
+              </li>
+            )
+          }
+          <li>
+            <b>Cabina</b>
+            <span>de pintura propia</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="sec servicios" id="servicios">
+        <div class="env sv-grid">
+          <header class="sv-cabeza">
+            <p class="etq"><span>01</span>Qué arreglamos</p>
+            <h2 data-revelar>Del roce de parking al golpe gordo.</h2>
+            <p class="entr" data-revelar>Si tiene arreglo, se arregla. Si no compensa, te lo decimos antes de empezar.</p>
+            {
+              moto && (
+                <figure class="sv-foto" data-revelar>
+                  <img src={medio(moto.foto)} alt={moto.texto} loading="lazy" width="1400" height="788" />
+                  <figcaption>{moto.texto}.</figcaption>
+                </figure>
+              )
+            }
+          </header>
+          <ol class="sv-lista">
+            {
+              (n.servicios ?? []).map((s, i) => (
+                <li class="sv" data-revelar>
+                  <span class="sv-n">{String(i + 1).padStart(2, '0')}</span>
+                  <h3>{s.nombre}</h3>
+                  <p>{s.descripcion}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </section>
+
+      {
+        cabina && (
+          <section class="sec cabina" id="cabina" data-cabina>
+            <div class="env cb-grid">
+              <div class="cb-texto">
+                <p class="etq"><span>02</span>La cabina</p>
+                <h2 data-revelar>Aquí se gana el acabado.</h2>
+                <p class="entr" data-revelar>
+                  Pintar bien no es solo tener buena mano: es pintar sin polvo, con el aire bajando hacia el suelo y con luz para ver cualquier fallo antes que tú. Esta es la cabina de {n.nombre}. Toca los números.
+                </p>
+                <ol class="cb-puntos">
+                  {puntos.map((p, i) => (
+                    <li data-punto={i + 1} class={i === 0 ? 'activo' : undefined}>
+                      <button type="button" data-punto-boton={i + 1} aria-expanded={i === 0 ? 'true' : 'false'}>
+                        <span class="cb-n">{i + 1}</span>
+                        <span class="cb-t">
+                          <b>{p.titulo}</b>
+                          <span>{p.texto}</span>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <figure class="cb-foto" data-revelar>
+                <picture>
+                  <source media="(max-width: 700px)" srcset={medio('negocios/taller-es/cabina-movil.webp')} />
+                  <img src={medio(cabina.foto)} alt={cabina.texto} loading="lazy" width="1200" height="1600" />
+                </picture>
+                {puntos.map((p, i) => (
+                  <button type="button" class={i === 0 ? 'cb-marca activo' : 'cb-marca'} style={`--x:${p.x}%;--y:${p.y}%`} data-punto-boton={i + 1} aria-label={p.titulo} aria-pressed="false">
+                    {i + 1}
+                  </button>
+                ))}
+              </figure>
+            </div>
+          </section>
+        )
+      }
+
+      <section class="capas" id="proceso" data-capas style={`--pasos:${pasos.length}`}>
+        <div class="cp-pegado">
+          <div class="env cp-grid">
+            <header class="cp-cabeza">
+              <p class="etq"><span>03</span>Cómo se arregla un golpe</p>
+              <h2>Un golpe se arregla por capas.</h2>
+              <p class="entr cp-entr">Lo que ves al recoger el coche son unas 130 micras de pintura: más o menos lo que mide un folio. Baja despacio y míralas una a una.</p>
+            </header>
+
+            <figure class="cp-dibujo" aria-hidden="true">
+              <svg viewBox="0 18 640 292">
+                <defs>
+                  <clipPath id="rc-aparejo"><rect data-recorte="aparejo" x="14" y="0" width="612" height="320" /></clipPath>
+                  <clipPath id="rc-color"><rect data-recorte="color" x="14" y="0" width="612" height="320" /></clipPath>
+                  <clipPath id="rc-barniz"><rect data-recorte="barniz" x="14" y="0" width="612" height="320" /></clipPath>
+                  <linearGradient id="g-acero" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#8a909c" /><stop offset=".18" stop-color="#5d636e" /><stop offset="1" stop-color="#2c3038" />
+                  </linearGradient>
+                  <linearGradient id="g-color" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#2433ff" /><stop offset=".5" stop-color="#4d4bff" /><stop offset="1" stop-color="#7b6bff" />
+                  </linearGradient>
+                  <linearGradient id="g-niebla" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#fff" stop-opacity=".9" /><stop offset="1" stop-color="#fff" stop-opacity="0" />
+                  </linearGradient>
+                  <mask id="m-niebla"><path d="M-3 2-30 76Q0 86 30 76L3 2Z" fill="url(#g-niebla)" /></mask>
+                </defs>
+                <g class="cp-rejilla">
+                  {Array.from({ length: 13 }, (_, i) => <path d={`M${24 + i * 49.3} 30V300`} />)}
+                </g>
+                <g data-d="tubo" class="cp-tubo"><rect x="150" y="36" width="210" height="7" rx="3.5" /></g>
+                <path data-d="rayos" class="cp-rayos" d={capas.rayos(0)} />
+                <path data-d="chapa" class="cp-chapa" d={capas.chapa(6)} />
+                <g data-d="vieja" class="cp-vieja" style="opacity:0">{capas.pinturaVieja.map((p) => <path d={p} />)}</g>
+                <g data-d="masilla" class="cp-masilla">
+                  <path d={capas.masilla} />
+                  <path data-d="sobrante" d={capas.masillaSobrante} style="transform:scaleY(0)" />
+                </g>
+                <path class="cp-aparejo" clip-path="url(#rc-aparejo)" d={capas.aparejo} />
+                <path class="cp-color" clip-path="url(#rc-color)" d={capas.color} />
+                <path data-d="barniz" class="cp-barniz" clip-path="url(#rc-barniz)" d={capas.barniz(0)} />
+                <g data-d="taco" class="cp-taco" style="opacity:0">
+                  <rect x="-34" y="-16" width="68" height="16" rx="3" />
+                  <path d="M-20-16C-20-30 20-30 20-16" />
+                </g>
+                <g data-d="pistola" class="cp-pistola" style="opacity:0">
+                  <path data-d="niebla" class="cp-niebla" d="M-3 2-30 76Q0 86 30 76L3 2Z" mask="url(#m-niebla)" />
+                  <rect x="-13" y="-74" width="26" height="24" rx="4" class="cp-vaso" />
+                  <path d="M-30-50H30L26-28H-6L-9-10H-30Z" />
+                  <path d="M8-28 15 4H25L19-28Z" />
+                  <rect x="-5" y="-11" width="10" height="11" rx="1" />
+                </g>
+              </svg>
+              <ul class="cp-leyenda">
+                <li data-capa="chapa"><i></i>Chapa <small>~700 µm, cortada</small></li>
+                <li data-capa="masilla"><i></i>Masilla <small>solo en el golpe</small></li>
+                <li data-capa="aparejo"><i></i>Aparejo <small>~60 µm</small></li>
+                <li data-capa="color"><i></i>Color <small>~20 µm</small></li>
+                <li data-capa="barniz"><i></i>Barniz <small>~50 µm</small></li>
+              </ul>
+            </figure>
+
+            <div class="cp-lado">
+              <p class="cp-micras" aria-hidden="true"><b data-micras>130</b><span>µm</span></p>
+              <p class="cp-nota" data-micras-nota aria-hidden="true">Barniz: unas 50 micras más. Un folio, más o menos</p>
+              <ol class="cp-pasos">
+                {
+                  pasos.map((p, i) => (
+                    <li data-paso>
+                      <span class="cp-n">{String(i + 1).padStart(2, '0')}</span>
+                      <h3>{p.titulo}</h3>
+                      <p>{p.texto}</p>
+                    </li>
+                  ))
+                }
+              </ol>
+              <div class="cp-avance" aria-hidden="true">
+                <span data-paso-n>7 / 7</span>
+                <i><b data-capas-barra></b></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {
+        n.reservas?.activas && (
+          <section class="sec presupuesto" id="presupuesto">
+            <div class="env">
+              <header class="ps-cabeza">
+                <p class="etq"><span>04</span>{n.reservas.titulo || 'Presupuesto'}</p>
+                <h2 data-revelar>Señala dónde ha sido.</h2>
+                <p class="entr" data-revelar>{n.reservas.texto}</p>
+              </header>
+              <form class="ps-grid" data-golpe data-wa={waBase} data-tel={tel} novalidate>
+                <div class="ps-coche">
+                  <div class="ps-marco">
+                    <Coche />
+                    <span class="ps-etiqueta" data-etiqueta hidden />
+                  </div>
+                  <p class="ps-marcadas" data-marcadas aria-hidden="true">Toca las piezas con daños</p>
+                </div>
+                <div class="ps-pasos">
+                  <fieldset class="ps-paso">
+                    <legend>
+                      <span class="ps-num">1</span>Dónde <span class="ps-cuenta" data-cuenta />
+                    </legend>
+                    <ul class="ps-zonas" data-zonas aria-live="polite" />
+                    <label class="chip chip-suave">
+                      <input type="checkbox" name="nose" value="1" />
+                      <span>No sé qué pieza es</span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="ps-paso">
+                    <legend>
+                      <span class="ps-num">2</span>Qué le ha pasado
+                    </legend>
+                    <div class="chips">
+                      {(n.reservas.opciones ?? []).map((o) => (
+                        <label class="chip">
+                          <input type="radio" name="dano" value={o} />
+                          <span>{o}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+                  <fieldset class="ps-paso">
+                    <legend>
+                      <span class="ps-num">3</span>¿Va por el seguro?
+                    </legend>
+                    <div class="chips">
+                      {['Sí', 'No', 'No lo sé'].map((o) => (
+                        <label class="chip">
+                          <input type="radio" name="seguro" value={o} />
+                          <span>{o}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+                  <div class="ps-campos">
+                    <label>
+                      <span>Tu nombre</span>
+                      <input name="nombre" autocomplete="given-name" placeholder="Opcional" />
+                    </label>
+                    <label>
+                      <span>El coche</span>
+                      <input name="coche" placeholder="Marca, modelo y color" />
+                    </label>
+                  </div>
+                  <div class="ps-envio">
+                    <div class="burbuja">
+                      <p class="burbuja-cab">Así le llega a {n.nombre}</p>
+                      <pre data-mensaje />
+                      <span class="burbuja-hora" aria-hidden="true">ahora ✓✓</span>
+                    </div>
+                    <p class="ps-aviso" data-aviso role="alert" hidden />
+                    <button class="btn btn-luz ps-enviar" type="submit">
+                      {waBase ? 'Abrir WhatsApp con este mensaje' : 'Llamar'}
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
+                    </button>
+                    <p class="ps-ayuda">No se envía nada solo: se abre WhatsApp y ahí adjuntas las fotos.</p>
+                  </div>
+                </div>
+              </form>
+
+              <div class="ps-fotos">
+                <h3>Con tres fotos te decimos algo</h3>
+                <ol>
+                  <li>
+                    <svg viewBox="0 0 120 80" aria-hidden="true">
+                      <rect x="4" y="4" width="112" height="72" rx="6" class="foto-marco" />
+                      <path d="M24 52c4-10 12-14 22-15l10-9h22l12 9c6 1 10 4 10 10v5H24Z" class="foto-coche" />
+                      <circle cx="40" cy="55" r="6" class="foto-rueda" />
+                      <circle cx="82" cy="55" r="6" class="foto-rueda" />
+                    </svg>
+                    <b>De lejos</b>
+                    <span>Que se vea el coche entero o la pieza completa.</span>
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 120 80" aria-hidden="true">
+                      <rect x="4" y="4" width="112" height="72" rx="6" class="foto-marco" />
+                      <path d="M14 30c20-8 70-8 92 0v36H14Z" class="foto-coche" />
+                      <path d="M46 44c6-6 22-6 28 0-6 6-22 6-28 0Z" class="foto-dano" />
+                      <path d="M40 22h-8v8M80 22h8v8M40 66h-8v-8M80 66h8v-8" class="foto-mira" />
+                    </svg>
+                    <b>De cerca</b>
+                    <span>El daño en el centro, sin zoom: mejor acercarse.</span>
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 120 80" aria-hidden="true">
+                      <rect x="4" y="4" width="112" height="72" rx="6" class="foto-marco" />
+                      <path d="M10 56 110 40" class="foto-luz" />
+                      <path d="M14 60c26-6 38-2 46 2s22 2 46-8v18H14Z" class="foto-coche" />
+                      <path d="M52 58c6 4 12 5 18 3" class="foto-dano-linea" />
+                    </svg>
+                    <b>De lado</b>
+                    <span>Con la luz rozando la chapa: así se ven los bollos.</span>
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      {
+        ((n.resenas?.length ?? 0) > 0 || v) && (
+          <section class="sec opiniones" id="opiniones">
+            <div class="env op-grid">
+              <header class="op-cabeza">
+                <p class="etq"><span>05</span>Opiniones</p>
+                <h2 data-revelar>
+                  Todos acaban hablando de <mark>Dani</mark>.
+                </h2>
+                {v && (
+                  <div class="op-nota" data-revelar>
+                    <b>{nota}</b>
+                    <div>
+                      <span class="op-estrellas" style={`--nota:${v.nota}`} role="img" aria-label={`${nota} de 5 estrellas`} />
+                      <p>
+                        {v.total} reseñas en Google{v.cinco ? ` · ${v.cinco} de cinco estrellas` : ''}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {n.enlaceResenas && (
+                  <a class="btn btn-linea" href={n.enlaceResenas} target="_blank" rel="noopener">
+                    Leerlas en Google Maps
+                  </a>
+                )}
+              </header>
+              <div class="op-citas">
+                {(n.resenas ?? []).map((r, i) => (
+                  <figure class={`op-cita op-cita-${i}`} data-revelar>
+                    {r.estrellas && <span class="op-mini" aria-label={`${r.estrellas} de 5 estrellas`}>{'★'.repeat(r.estrellas)}</span>}
+                    <blockquote set:html={`«${conDani(r.texto)}»`} />
+                    <figcaption>{r.autor} · reseña en Google</figcaption>
+                  </figure>
+                ))}
+                {(n.frasesResenas?.length ?? 0) > 0 && (
+                  <ul class="op-frases" data-revelar>
+                    {n.frasesResenas!.map((f) => (
+                      <li set:html={`«${conDani(f)}»`} />
+                    ))}
+                  </ul>
+                )}
+              </div>
+              {terminado && (
+                <figure class="op-foto" data-revelar>
+                  <img src={medio(terminado.foto)} alt={terminado.texto} loading="lazy" width="1000" height="1333" />
+                  <figcaption>Recién terminado, con la placa de la casa.</figcaption>
+                </figure>
+              )}
+            </div>
+          </section>
+        )
+      }
+
+      <section class="sec horario" id="horario">
+        <div class="env hr-grid">
+          <header class="hr-cabeza">
+            <p class="etq"><span>06</span>Horario</p>
+            <h2 data-revelar>{apertura ? <>Abrimos a las <span data-apertura>{apertura}</span>.</> : 'Cuándo abrimos'}</h2>
+            {n.horarioNota && <p class="entr" data-revelar>{n.horarioNota}</p>}
+            <p class="estado estado-grande" data-estado hidden><i aria-hidden="true"></i><span data-estado-texto></span></p>
+          </header>
+          <div class="hr-linea" data-linea set:html={htmlLinea(semana)} />
+        </div>
+      </section>
+
+      <section class="sec donde" id="donde">
+        <div class="env dn-grid">
+          <div class="dn-texto">
+            <p class="etq"><span>07</span>Dónde</p>
+            <h2 data-revelar>{n.direccion.calle}</h2>
+            <p class="dn-zona" data-revelar>{n.direccion.zona} · {n.direccion.cp} {n.direccion.ciudad}</p>
+            {n.direccion.comoLlegar && <p class="entr" data-revelar>{n.direccion.comoLlegar}</p>}
+            <div class="dn-botones">
+              <a class="btn btn-luz" href={ruta} target="_blank" rel="noopener">
+                Cómo llegar
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
+              </a>
+              {n.direccion.mapa && <a class="btn btn-linea" href={n.direccion.mapa} target="_blank" rel="noopener">Ver la ficha en Google Maps</a>}
+            </div>
+          </div>
+          <a class="dn-mapa" href={ruta} target="_blank" rel="noopener" aria-label={`Abrir la ruta a ${n.nombre} en Google Maps`}>
+            <iframe src={mapa} title={`Mapa de la zona de ${n.nombre}`} loading="lazy" referrerpolicy="no-referrer" tabindex="-1" />
+            <span class="dn-pin" aria-hidden="true">
+              <Logo id="lg-pin" solo />
+            </span>
+            <span class="dn-pie">© OpenStreetMap</span>
+          </a>
+        </div>
+      </section>
+
+      {
+        (n.faq?.length ?? 0) > 0 && (
+          <section class="sec dudas" id="dudas">
+            <div class="env fq-grid">
+              <header>
+                <p class="etq"><span>08</span>Dudas</p>
+                <h2 data-revelar>Lo que más se pregunta.</h2>
+              </header>
+              <div class="fq-lista">
+                {n.faq!.map((f) => (
+                  <details>
+                    <summary>
+                      {f.pregunta}
+                      <i aria-hidden="true" />
+                    </summary>
+                    <p>{f.respuesta}</p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      <section class="cierre">
+        <div class="cierre-tubos" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="env cierre-in">
+          <h2 data-revelar>¿Te han dado un golpe?<br />Mándanos una foto.</h2>
+          <div class="hero-botones">
+            {wa && <a class="btn btn-luz" href={wa} target="_blank" rel="noopener">Escribir por WhatsApp</a>}
+            {tel && <a class="btn btn-linea" href={tel}>Llamar · <span data-campo="telefono">{n.contacto.telefono}</span></a>}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pie">
+      <div class="env">
+        <Logo id="lg-pie" class="pie-logo" />
+        <div class="pie-filas">
+          <p>
+            <b>{n.nombre}</b> · {n.bajoRotulo}<br />
+            {n.direccion.calle} · {n.direccion.zona}<br />
+            {n.direccion.cp} {n.direccion.ciudad}
+            {n.contacto.telefono && <> · <a href={tel} data-campo="telefono">{n.contacto.telefono}</a></>}
+          </p>
+          {n.demo && <p class="pie-nota">Web de muestra preparada con datos públicos de la ficha de Google del taller. No es la web oficial del negocio ni implica relación con él. Mapa © colaboradores de OpenStreetMap.</p>}
+          <p><a href={url(`/demo/${SLUG}/admin/`)}>{n.demo ? 'Prueba el panel de edición' : 'Panel de edición'}</a></p>
+        </div>
+      </div>
+    </footer>
+
+    <nav class="barra-movil" aria-label="Contacto rápido">
+      {tel && <a href={tel}>Llamar</a>}
+      {wa && <a href={wa} target="_blank" rel="noopener">WhatsApp</a>}
+      <a class="fuerte" href="#presupuesto">Presupuesto</a>
+    </nav>
+
+    <script type="application/json" id="datos-negocio" set:html={JSON.stringify({ slug: SLUG, horario: n.horario, nombre: n.nombre, admin: url(`/demo/${SLUG}/admin/`) })} />
+    <script>
+      import { porDia, estadoApertura, ahoraEnMadrid } from '../../../lib/horario';
+      import { marcarHoy } from '../../../lib/vista-horario';
+      import { aplicarPrueba } from '../../../scripts/prueba';
+      import { htmlLinea, aperturaHabitual, posicion } from '../../../scripts/taller-es/linea-horario';
+      import { iniciarPulido } from '../../../scripts/taller-es/pulido';
+      import { iniciarCapas } from '../../../scripts/taller-es/capas';
+      import { iniciarGolpe } from '../../../scripts/taller-es/golpe';
+      import { iniciarPagina } from '../../../scripts/taller-es/pagina';
+
+      const datos = JSON.parse(document.getElementById('datos-negocio')!.textContent!);
+      const linea = document.querySelector<HTMLElement>('[data-linea]')!;
+      const horarioOriginal = JSON.stringify(datos.horario);
+      await aplicarPrueba(datos);
+      if (JSON.stringify(datos.horario) !== horarioOriginal) {
+        const semana = porDia(datos.horario);
+        linea.innerHTML = htmlLinea(semana);
+        document.querySelectorAll('[data-apertura]').forEach((el) => (el.textContent = aperturaHabitual(semana)));
+      }
+
+      function pintarHorario() {
+        const semana = porDia(datos.horario);
+        if (!datos.horario.length) return;
+        const { abierto, texto } = estadoApertura(semana);
+        document.querySelectorAll<HTMLElement>('[data-estado]').forEach((el) => {
+          el.dataset.abierto = String(abierto);
+          el.querySelector('[data-estado-texto]')!.textContent = texto;
+          const corto = el.querySelector('[data-estado-corto]');
+          if (corto) corto.textContent = texto.split(' · ')[0];
+          el.hidden = false;
+        });
+        const { dia, minuto } = ahoraEnMadrid();
+        marcarHoy(linea, dia, semana);
+        const ahora = linea.querySelector<HTMLElement>('[data-ahora]');
+        const x = posicion(minuto, semana);
+        if (ahora) {
+          ahora.hidden = x < 0 || x > 100;
+          ahora.style.setProperty('--x', String(x / 100));
+          ahora.querySelector('[data-ahora-texto]')!.textContent = `Ahora · ${Math.floor(minuto / 60)}:${String(minuto % 60).padStart(2, '0')}`;
+        }
+      }
+      pintarHorario();
+      setInterval(pintarHorario, 30_000);
+
+      const hero = document.querySelector<HTMLElement>('[data-hero]')!;
+      const pct = document.querySelector<HTMLElement>('[data-pulido-pct]')!;
+      const conWebgl = iniciarPulido(hero, hero.querySelector('[data-pulido]')!, {
+        alPulir: (p) => {
+          pct.textContent = p >= 85 ? `Pulido al ${p} %. Así sale de aquí.` : `Pulido al ${p} %`;
+          hero.classList.toggle('pulida', p >= 85);
+        },
+      });
+      hero.classList.toggle('sin-webgl', !conWebgl);
+
+      const capas = document.querySelector<HTMLElement>('[data-capas]');
+      if (capas) iniciarCapas(capas);
+      const golpe = document.querySelector<HTMLFormElement>('[data-golpe]');
+      if (golpe) iniciarGolpe(golpe, datos.nombre);
+      iniciarPagina();
+    </script>
+  </body>
+</html>

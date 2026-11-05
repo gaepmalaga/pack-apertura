@@ -1,0 +1,26 @@
+---
+// Logo de Taller.Es redibujado en vectorial a partir de su placa: el chevrón
+// cromado en azul y el nombre en letra cuadrada. `id` evita que dos logos en la
+// misma página compartan degradados.
+interface Props {
+  id: string;
+  class?: string;
+  /** Solo el chevrón, sin el nombre. */
+  solo?: boolean;
+}
+const { id, class: clase, solo = false } = Astro.props;
+---
+
+<svg class:list={['logo', clase]} viewBox={solo ? '-2 -2 104 154' : '-2 -2 640 154'} role="img" aria-label="Taller.Es">
+  <defs>
+    <linearGradient id={`${id}-a`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset=".5" stop-color="#10166b" /><stop offset=".55" stop-color="#2c36e6" /><stop offset=".6" stop-color="#f4f5ff" /><stop offset=".64" stop-color="#6d68ff" /><stop offset=".74" stop-color="#121873" />
+    </linearGradient>
+    <linearGradient id={`${id}-b`} x1="0" y1="1" x2="1" y2="0">
+      <stop offset=".5" stop-color="#10166b" /><stop offset=".55" stop-color="#2c36e6" /><stop offset=".6" stop-color="#f4f5ff" /><stop offset=".64" stop-color="#6d68ff" /><stop offset=".74" stop-color="#121873" />
+    </linearGradient>
+  </defs>
+  <path fill={`url(#${id}-a)`} d="M0 75Q46 40 92 0Q64 40 44 75Z" />
+  <path fill={`url(#${id}-b)`} d="M0 75Q48 110 96 150Q66 112 44 75Z" />
+  {!solo && <text x="130" y="113" class="logo-texto" textLength="504" lengthAdjust="spacing">TALLER.ES</text>}
+</svg>

@@ -2,6 +2,7 @@
 // La web de un negocio, generada entera desde su JSON. Cada bloque aparece solo
 // si el negocio tiene datos para él: un bar enseña carta y combos, un taller
 // servicios y preguntas, y todos horario, reservas y cómo llegar.
+import { existsSync } from 'node:fs';
 import Demo from '../../../layouts/Demo.astro';
 import Portada from '../../../components/Portada.astro';
 import Mapa from '../../../components/Mapa.astro';
@@ -21,8 +22,12 @@ import {
 } from '../../../lib/negocios';
 import { porDia, agrupar, resumenCorto, DIAS, NOMBRE_DIA, formatoTramo } from '../../../lib/horario';
 
+// Un negocio con web a medida (src/pages/demo/<slug>/index.astro) no pasa por la
+// plantilla: su página lee el mismo JSON, así que panel y landing siguen igual.
 export function getStaticPaths() {
-  return negocios.map((negocio) => ({ params: { slug: negocio.slug }, props: { negocio } }));
+  return negocios
+    .filter((negocio) => !existsSync(`src/pages/demo/${negocio.slug}/index.astro`))
+    .map((negocio) => ({ params: { slug: negocio.slug }, props: { negocio } }));
 }
 
 interface Props {
