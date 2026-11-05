@@ -50,6 +50,15 @@ de cabina que crece hasta pantalla completa; y un dibujo del coche para marcar
 dónde ha sido el golpe que abre WhatsApp con el mensaje escrito. Su código está en `src/scripts/taller-es/`,
 `src/components/taller-es/` y `src/styles/taller-es.css`.
 
+Otro: **`telecastillo`** (castillos hinchables). Letras de «¡A botar!» que caen,
+rebotan y saltan al tocarlas; un castillo que se infla al verse; «¿Cabe en tu
+jardín?», que con el largo, el ancho y la altura libre dibuja a escala qué
+hinchables caben (43 modelos con sus medidas reales, en
+`src/datos/telecastillo-hinchables.json`); anclaje según el suelo, calendario de
+temporadas, vídeos de su canal, mapa de la provincia
+(`src/datos/telecastillo-mapa.json`) y reserva por WhatsApp con los hinchables
+elegidos. Su código está en `src/scripts/telecastillo/` y `src/styles/telecastillo.css`.
+
 Para una taberna que ya tenga su `contenido.json` en webtaller:
 
 ```sh
@@ -125,6 +134,10 @@ npm run build
   (vía [rembg](https://github.com/danielgatis/rembg)) y con la profundidad de
   [Depth Anything V2 Small](https://github.com/DepthAnything/Depth-Anything-V2),
   procesadas una vez en local; la web solo carga la imagen y su mapa de profundidad.
+- Telecastillo: datos, fotos, reseñas citadas y medidas de telecastillo.com; fotos
+  de los hinchables recortadas con BiRefNet; miniaturas de su canal de YouTube
+  (los vídeos se cargan desde youtube-nocookie al pulsar); contorno de la
+  provincia y localidades de OpenStreetMap (ODbL).
 - Vídeos de platos de la demo de El Ojopatio: [Mixkit](https://mixkit.co/license/#videoFree)
   (licencia gratuita, uso comercial). Las fotos de platos y del local, el logo y
   la carta son públicos de su web.
