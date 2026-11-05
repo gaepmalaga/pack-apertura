@@ -1,15 +1,75 @@
 // Detalles de la página de Taller.Es que no son de ninguna sección en concreto:
 // la cabecera que se oscurece al bajar, los textos que aparecen al llegar a
-// ellos, los números de la foto de la cabina y la pulidora que sigue al ratón.
+// ellos, los números de la foto de la cabina y el vídeo.
 
 const reducir = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function cabecera() {
   const cab = document.querySelector<HTMLElement>('[data-cabecera]');
   if (!cab) return;
-  const mirar = () => cab.classList.toggle('solida', window.scrollY > 24);
-  window.addEventListener('scroll', mirar, { passive: true });
+  const progreso = cab.querySelector<HTMLElement>('[data-progreso]');
+  let pendiente = false;
+  const mirar = () => {
+    pendiente = false;
+    cab.classList.toggle('solida', window.scrollY > 24);
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    progreso?.style.setProperty('--progreso', String(Math.min(1, window.scrollY / Math.max(1, total))));
+  };
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!pendiente) {
+        pendiente = true;
+        requestAnimationFrame(mirar);
+      }
+    },
+    { passive: true },
+  );
   mirar();
+
+  // La sección en la que estás se marca en el menú con un tubo de luz debajo.
+  const menu = cab.querySelector<HTMLElement>('[data-menu]');
+  const luz = cab.querySelector<HTMLElement>('[data-menu-luz]');
+  const enlaces = [...(menu?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]') ?? [])];
+  const marcar = (id: string) => {
+    let actual: HTMLAnchorElement | undefined;
+    for (const a of enlaces) {
+      const es = a.hash === `#${id}`;
+      a.setAttribute('aria-current', String(es));
+      if (es) actual = a;
+    }
+    if (!luz) return;
+    if (!actual) {
+      luz.style.opacity = '0';
+      return;
+    }
+    luz.style.opacity = '1';
+    luz.style.width = `${actual.offsetWidth - 22}px`;
+    luz.style.transform = `translateX(${actual.offsetLeft + 11}px)`;
+  };
+  const secciones = enlaces.map((a) => document.querySelector<HTMLElement>(a.hash)).filter((x): x is HTMLElement => !!x);
+  const visibles = new Map<string, boolean>();
+  const obs = new IntersectionObserver(
+    (entradas) => {
+      for (const e of entradas) visibles.set(e.target.id, e.isIntersecting);
+      const primera = secciones.find((sec) => visibles.get(sec.id));
+      marcar(primera?.id ?? '');
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
+  secciones.forEach((sec) => obs.observe(sec));
+
+  // Menú del móvil: un <dialog> a pantalla completa (Esc y foco, de serie).
+  const dialogo = document.querySelector<HTMLDialogElement>('[data-menu-movil]');
+  const abrir = cab.querySelector<HTMLButtonElement>('[data-abrir-menu]');
+  if (dialogo && abrir) {
+    abrir.addEventListener('click', () => {
+      dialogo.showModal();
+      abrir.setAttribute('aria-expanded', 'true');
+    });
+    dialogo.addEventListener('close', () => abrir.setAttribute('aria-expanded', 'false'));
+    dialogo.querySelectorAll('[data-cerrar-menu]').forEach((el) => el.addEventListener('click', () => dialogo.close()));
+  }
 }
 
 function revelar() {
@@ -63,49 +123,6 @@ function cabina() {
   }
 }
 
-/** Disco de pulidora que sigue al ratón por la portada (solo con ratón). */
-function pulidora() {
-  const hero = document.querySelector<HTMLElement>('[data-hero]');
-  const disco = hero?.querySelector<HTMLElement>('[data-pulidora]');
-  if (!hero || !disco || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  let x = 0;
-  let y = 0;
-  let ax = 0;
-  let ay = 0;
-  let giro = 0;
-  let marco = 0;
-  const mover = () => {
-    marco = 0;
-    const dx = x - ax;
-    const dy = y - ay;
-    ax += dx * 0.35;
-    ay += dy * 0.35;
-    giro += Math.min(40, Math.hypot(dx, dy) * 0.9);
-    disco.style.transform = `translate(${ax}px, ${ay}px)`;
-    disco.style.setProperty('--giro', `${giro}deg`);
-    if (Math.abs(dx) + Math.abs(dy) > 0.3) marco = requestAnimationFrame(mover);
-  };
-  hero.addEventListener('pointermove', (e) => {
-    if (e.pointerType !== 'mouse') return;
-    const caja = hero.getBoundingClientRect();
-    x = e.clientX - caja.left;
-    y = e.clientY - caja.top;
-    const sobreBoton = !!(e.target as Element).closest('a, button');
-    disco.classList.toggle('oculta', sobreBoton);
-    hero.classList.toggle('puliendo', !sobreBoton);
-    if (!disco.classList.contains('vista')) {
-      ax = x;
-      ay = y;
-      disco.classList.add('vista');
-    }
-    if (!marco) marco = requestAnimationFrame(mover);
-  });
-  hero.addEventListener('pointerleave', () => {
-    disco.classList.remove('vista');
-    hero.classList.remove('puliendo');
-  });
-}
-
 /** El vídeo de la cabina: suena solo (sin sonido) cuando se ve, se para al salir
  *  y se puede pausar. Con «reducir movimiento» no arranca solo. */
 function video() {
@@ -122,6 +139,15 @@ function video() {
   v.addEventListener('play', pintar);
   v.addEventListener('pause', pintar);
   const reproducir = () => v.play().catch(() => pintar());
+  // Pantalla completa (en iPhone, el reproductor propio del sistema).
+  const completa = document.querySelector<HTMLButtonElement>('[data-video-completa]');
+  completa?.addEventListener('click', () => {
+    const iphone = v as HTMLVideoElement & { webkitEnterFullscreen?: () => void };
+    if (v.requestFullscreen) v.requestFullscreen().catch(() => iphone.webkitEnterFullscreen?.());
+    else iphone.webkitEnterFullscreen?.();
+    pausadoAMano = false;
+    reproducir();
+  });
   boton.addEventListener('click', () => {
     if (v.paused) {
       pausadoAMano = false;
@@ -144,6 +170,5 @@ export function iniciarPagina() {
   cabecera();
   revelar();
   cabina();
-  pulidora();
   video();
 }

@@ -42,11 +42,12 @@ leyendo su JSON de `src/negocios/`, así que el panel de prueba, el panel real y
 la landing funcionan igual.
 
 Ejemplo: **`taller-es`** (chapa y pintura). Portada en WebGL con una chapa negra
-bajo los tubos de la cabina que el visitante pule con el ratón o el dedo (de
-«piel de naranja» a espejo), un corte de la chapa que se enmasilla, se pinta y
-se pule al hacer scroll, la foto de su cabina con puntos explicados, y un
-dibujo del coche para marcar dónde ha sido el golpe que abre WhatsApp con el
-mensaje escrito. Su código está en `src/scripts/taller-es/`,
+bajo los tubos de la cabina que se pule sola al entrar (de «piel de naranja» a
+espejo) y cuyos reflejos se mueven con el scroll, el ratón o el móvil; una moto
+de sus fotos en 3D que se gira; un corte de la chapa que se enmasilla, se pinta
+y se pule al hacer scroll; la foto de su cabina con puntos explicados; su vídeo
+de cabina que crece hasta pantalla completa; y un dibujo del coche para marcar
+dónde ha sido el golpe que abre WhatsApp con el mensaje escrito. Su código está en `src/scripts/taller-es/`,
 `src/components/taller-es/` y `src/styles/taller-es.css`.
 
 Para una taberna que ya tenga su `contenido.json` en webtaller:
@@ -118,8 +119,12 @@ npm run build
 - Carta desde JSON, propuestas para indecisos y lista de lo que te vas a pedir:
   de las **tabernas de webtaller**.
 - Aviso de demo, `noindex` y estructura de datos de negocio: nuevos.
-- Fotos de Taller.Es: las públicas de su ficha de Google Maps. El logo está
-  redibujado en vectorial a partir de su placa. Mapa de OpenStreetMap.
+- Fotos y vídeo de Taller.Es: los públicos de su ficha de Google Maps. El logo
+  está redibujado en vectorial a partir de su placa. Mapa de OpenStreetMap.
+- Moto en 3D de Taller.Es: recortada con [BiRefNet](https://github.com/ZhengPeng7/BiRefNet)
+  (vía [rembg](https://github.com/danielgatis/rembg)) y con la profundidad de
+  [Depth Anything V2 Small](https://github.com/DepthAnything/Depth-Anything-V2),
+  procesadas una vez en local; la web solo carga la imagen y su mapa de profundidad.
 - Vídeos de platos de la demo de El Ojopatio: [Mixkit](https://mixkit.co/license/#videoFree)
   (licencia gratuita, uso comercial). Las fotos de platos y del local, el logo y
   la carta son públicos de su web.

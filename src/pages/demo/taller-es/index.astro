@@ -76,6 +76,22 @@ const jsonLd = {
   openingHoursSpecification: n.horario.map((h) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: dias[h.dia], opens: h.abre, closes: h.cierra })),
 };
 const titulo = `${n.nombre} · Chapa y pintura en Málaga`;
+const secciones = [
+  { id: 'servicios', texto: 'Servicios' },
+  { id: 'motos', texto: 'Motos' },
+  { id: 'cabina', texto: 'Cabina' },
+  { id: 'proceso', texto: 'Proceso' },
+  { id: 'trabajos', texto: 'Trabajos' },
+  { id: 'opiniones', texto: 'Opiniones' },
+  { id: 'horario', texto: 'Horario' },
+  { id: 'donde', texto: 'Dónde' },
+];
+// Iconos de línea para los botones de contacto.
+const ICONO = {
+  tel: 'M6.6 3.5h2.9l1.4 4.1-2 1.4a12 12 0 0 0 6.1 6.1l1.4-2 4.1 1.4v2.9a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z',
+  wa: 'M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2Zm-3 5.1c.3 0 .5 0 .7.5l.8 1.8c.1.3 0 .5-.1.7l-.5.6c-.2.2-.2.4 0 .7a7 7 0 0 0 3.3 2.9c.3.1.5.1.7-.1l.7-.8c.2-.3.4-.3.7-.2l1.7.8c.3.2.5.3.5.5a2.4 2.4 0 0 1-1.7 2.1c-.8.2-2 .1-4-1-2.5-1.4-4-3.9-4.1-4.3-.2-.4-.9-1.5-.9-2.6 0-1.2.6-1.8.9-2 .2-.3.6-.4.8-.4Z',
+  foto: 'M4 8.5A2.5 2.5 0 0 1 6.5 6h1.7l1.3-2h5l1.3 2h1.7A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5ZM12 16.2a3.4 3.4 0 1 0 0-6.8 3.4 3.4 0 0 0 0 6.8Z',
+};
 const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
 ---
 
@@ -106,32 +122,59 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
     {
       n.demo && (
         <p class="aviso-demo">
-          Propuesta de web para {n.nombre}, preparada con los datos de su ficha de Google. Aún no está publicada como web oficial. <a href={url('/')}>¿Quieres una así?</a>
+          <span>Propuesta de web<span class="aviso-largo"> para {n.nombre}, con los datos de su ficha de Google</span> · aún no es la web oficial</span>
+          <a href={url('/')}>¿Quieres una así?</a>
         </p>
       )
     }
 
     <header class="cabecera" data-cabecera>
-      <div class="env cab-in">
+      <div class="cab-in">
         <a class="marca" href="#inicio" aria-label={`${n.nombre}, ir al inicio`}><Logo id="lg-cab" /></a>
-        <nav class="menu" aria-label="Secciones">
-          <a href="#servicios">Servicios</a>
-          <a href="#cabina">Cabina</a>
-          <a href="#proceso">Proceso</a>
-          <a href="#trabajos">Trabajos</a>
-          <a href="#opiniones">Opiniones</a>
-          <a href="#horario">Horario</a>
-          <a href="#donde">Dónde</a>
+        <nav class="menu" aria-label="Secciones" data-menu>
+          {secciones.map((x) => <a href={`#${x.id}`}>{x.texto}</a>)}
+          <span class="menu-luz" data-menu-luz aria-hidden="true"></span>
         </nav>
         <p class="estado" data-estado hidden><i aria-hidden="true"></i><span class="estado-largo" data-estado-texto></span><span class="estado-corto" data-estado-corto></span></p>
+        {tel && (
+          <a class="cab-llamar" href={tel} aria-label={`Llamar al ${n.contacto.telefono}`}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.tel} /></svg>
+          </a>
+        )}
         <a class="btn btn-luz btn-chico" href="#presupuesto">Presupuesto</a>
+        <button type="button" class="cab-menu" data-abrir-menu aria-label="Abrir el menú" aria-controls="menu-movil" aria-expanded="false">
+          <i></i><i></i>
+        </button>
+        <span class="cab-progreso" aria-hidden="true"><b data-progreso></b></span>
       </div>
     </header>
+
+    <dialog class="menu-movil" id="menu-movil" data-menu-movil aria-label="Menú">
+      <div class="mm-cab">
+        <Logo id="lg-menu" />
+        <button type="button" class="mm-cerrar" data-cerrar-menu aria-label="Cerrar el menú"><i></i><i></i></button>
+      </div>
+      <nav class="mm-enlaces" aria-label="Secciones">
+        {secciones.map((x, i) => (
+          <a href={`#${x.id}`} data-cerrar-menu style={`--i:${i}`}>
+            <span>{String(i + 1).padStart(2, '0')}</span>
+            {x.texto}
+          </a>
+        ))}
+      </nav>
+      <div class="mm-pie">
+        <p class="estado" data-estado hidden><i aria-hidden="true"></i><span data-estado-texto></span></p>
+        <p class="mm-dir">{n.direccion.calle} · {n.direccion.zona}</p>
+        <div class="mm-botones">
+          {tel && <a class="bm bm-llamar" href={tel}><svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.tel} /></svg>Llamar</a>}
+          {wa && <a class="bm bm-wa" href={wa} target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.wa} /></svg>WhatsApp</a>}
+        </div>
+      </div>
+    </dialog>
 
     <main id="contenido">
       <section class="hero" id="inicio" data-hero style={`--respaldo:url('${medio('negocios/taller-es/cabina-movil.webp')}')`}>
         <canvas class="hero-lienzo" data-pulido aria-hidden="true"></canvas>
-        <div class="pulidora" data-pulidora aria-hidden="true"><i></i></div>
         <div class="env hero-in">
           <p class="sobre"><span>Chapa y pintura</span><span>Carretera de Cádiz</span><span>Málaga</span></p>
           <h1 data-campo="eslogan" data-reflejo>{n.eslogan}</h1>
@@ -144,13 +187,6 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
             {tel && <a class="btn btn-linea" href={tel}>Llamar · <span data-campo="telefono">{n.contacto.telefono}</span></a>}
           </div>
         </div>
-        <aside class="hero-pista" data-pista aria-hidden="true">
-          <p class="pista-titulo"><b data-pulido-pct>Pule la chapa</b></p>
-          <p class="pista-texto">
-            <span class="solo-raton">Pasa el ratón por encima.</span><span class="solo-dedo">Desliza el dedo de lado.</span>{' '}
-            <span class="pista-explica">Lo rugoso es <em>piel de naranja</em>; pulido, la luz se refleja recta, como en un espejo.</span>
-          </p>
-        </aside>
         <ul class="hero-datos env" aria-label="En resumen">
           {
             v && (
@@ -181,14 +217,10 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
             <p class="etq"><span>01</span>Qué arreglamos</p>
             <h2 data-revelar>Del roce de parking al golpe gordo.</h2>
             <p class="entr" data-revelar>Si tiene arreglo, se arregla. Si no compensa, te lo decimos antes de empezar.</p>
-            {
-              moto && (
-                <figure class="sv-foto" data-revelar>
-                  <img src={medio(moto.foto)} alt={moto.texto} loading="lazy" width="1400" height="788" />
-                  <figcaption>{moto.texto}.</figcaption>
-                </figure>
-              )
-            }
+            <a class="btn btn-luz sv-cta" href="#presupuesto" data-revelar>
+              Mandar fotos del golpe
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
+            </a>
           </header>
           <ol class="sv-lista">
             {
@@ -204,12 +236,30 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
         </div>
       </section>
 
+      <section class="motos" id="motos" data-moto>
+        <div class="mt-luz" aria-hidden="true"></div>
+        <div class="env mt-texto">
+          <p class="etq"><span>02</span>Motos también</p>
+          <h2 data-revelar>También entran motos.</h2>
+          <p class="entr" data-revelar>Depósitos, carenados y guardabarros, en la misma cabina y con el mismo cuidado. Esta Ducati Scrambler pasó por el taller.</p>
+          <p class="mt-pista" aria-hidden="true">
+            <svg viewBox="0 0 48 16"><path d="M7 3 2 8l5 5M41 3l5 5-5 5M2 8h44" /></svg>
+            <span class="solo-raton">Muévete por encima o arrastra para girarla</span><span class="solo-dedo">Arrastra o inclina el móvil para girarla</span>
+          </p>
+        </div>
+        <div class="mt-escena" data-moto-escena>
+          <span class="mt-sombra" aria-hidden="true"></span>
+          {moto && <img class="mt-foto" src={medio('negocios/taller-es/ducati.webp')} alt={`${moto.texto}, recortada sobre fondo oscuro`} width="1600" height="1203" loading="lazy" />}
+          <canvas class="mt-lienzo" data-moto-lienzo aria-hidden="true"></canvas>
+        </div>
+      </section>
+
       {
         cabina && (
           <section class="sec cabina" id="cabina" data-cabina>
             <div class="env cb-grid">
               <div class="cb-texto">
-                <p class="etq"><span>02</span>La cabina</p>
+                <p class="etq"><span>03</span>La cabina</p>
                 <h2 data-revelar>Aquí se gana el acabado.</h2>
                 <p class="entr" data-revelar>
                   Pintar bien no es solo tener buena mano: es pintar sin polvo, con el aire bajando hacia el suelo y con luz para ver cualquier fallo antes que tú. Esta es la cabina de {n.nombre}. Toca los números.
@@ -248,7 +298,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
         <div class="cp-pegado">
           <div class="env cp-grid">
             <header class="cp-cabeza">
-              <p class="etq"><span>03</span>Cómo se arregla un golpe</p>
+              <p class="etq"><span>04</span>Cómo se arregla un golpe</p>
               <h2>Un golpe se arregla por capas.</h2>
               <p class="entr cp-entr">Lo que ves al recoger el coche son unas 130 micras de pintura: más o menos lo que mide un folio. Baja despacio y míralas una a una.</p>
             </header>
@@ -328,23 +378,37 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
         </div>
       </section>
 
-      <section class="sec reciente" id="trabajos">
-        <div class="env">
-          <header class="rc-cabeza">
-            <p class="etq"><span>04</span>Recién salido de cabina</p>
-            <h2 data-revelar>Así se ve de verdad.</h2>
-            <p class="entr" data-revelar>Arriba lo has pulido tú. Esto es un negro recién barnizado en su cabina: los tubos se reflejan rectos y, al final, hasta el logo de la pared.</p>
-          </header>
-          <div class="rc-rejilla">
-            <figure class="rc-video" data-revelar>
-              <video data-video muted loop playsinline preload="none" poster={video.poster} aria-label="Vídeo: recorrido por el lateral de un coche negro recién pintado en la cabina de Taller.Es">
-                <source src={video.mp4} type="video/mp4" />
-              </video>
-              <button type="button" class="rc-play" data-video-boton aria-label="Reproducir el vídeo">
+      <section class="cine" id="trabajos" data-cine>
+        <div class="cine-pegado">
+          <canvas class="cine-ambiente" data-cine-ambiente aria-hidden="true"></canvas>
+          <figure class="cine-marco">
+            <video data-video muted loop playsinline preload="none" poster={video.poster} aria-label="Vídeo: recorrido por el lateral de un coche negro recién pintado en la cabina de Taller.Es">
+              <source src={video.mp4} type="video/mp4" />
+            </video>
+            <div class="cine-controles">
+              <button type="button" class="cine-boton" data-video-boton aria-label="Reproducir el vídeo">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path class="ico-play" d="M8 5v14l11-7Z" /><path class="ico-pausa" d="M7 5h4v14H7zM13 5h4v14h-4z" /></svg>
               </button>
-              <figcaption>En cabina · recién barnizado</figcaption>
-            </figure>
+              <button type="button" class="cine-boton" data-video-completa aria-label="Ver el vídeo a pantalla completa">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" /></svg>
+              </button>
+            </div>
+          </figure>
+          <div class="cine-texto">
+            <p class="etq"><span>05</span>Recién salido de cabina</p>
+            <h2>Así se ve de verdad.</h2>
+            <p class="entr">Un negro recién barnizado en su cabina. Los tubos se reflejan rectos y, al final, hasta el logo de la pared.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec reciente" id="recien">
+        <div class="env">
+          <header class="rc-cabeza">
+            <h2 data-revelar>Y así salen.</h2>
+            <p class="entr" data-revelar>Del rojo todavía enmascarado en la cabina al Audi listo para entregar, con la placa de la casa.</p>
+          </header>
+          <div class="rc-rejilla">
             {
               rojo && (
                 <figure class="rc-foto rc-rojo" data-revelar>
@@ -380,7 +444,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
           <section class="sec presupuesto" id="presupuesto">
             <div class="env">
               <header class="ps-cabeza">
-                <p class="etq"><span>05</span>{n.reservas.titulo || 'Presupuesto'}</p>
+                <p class="etq"><span>06</span>{n.reservas.titulo || 'Presupuesto'}</p>
                 <h2 data-revelar>Señala dónde ha sido.</h2>
                 <p class="entr" data-revelar>{n.reservas.texto}</p>
               </header>
@@ -500,7 +564,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
           <section class="sec opiniones" id="opiniones">
             <div class="env op-grid">
               <header class="op-cabeza">
-                <p class="etq"><span>06</span>Opiniones</p>
+                <p class="etq"><span>07</span>Opiniones</p>
                 <h2 data-revelar>
                   Todos acaban hablando de <mark>Dani</mark>.
                 </h2>
@@ -551,7 +615,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
       <section class="sec horario" id="horario">
         <div class="env hr-grid">
           <header class="hr-cabeza">
-            <p class="etq"><span>07</span>Horario</p>
+            <p class="etq"><span>08</span>Horario</p>
             <h2 data-revelar>{apertura ? <>Abrimos a las <span data-apertura>{apertura}</span>.</> : 'Cuándo abrimos'}</h2>
             {n.horarioNota && <p class="entr" data-revelar>{n.horarioNota}</p>}
             <p class="estado estado-grande" data-estado hidden><i aria-hidden="true"></i><span data-estado-texto></span></p>
@@ -563,7 +627,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
       <section class="sec donde" id="donde">
         <div class="env dn-grid">
           <div class="dn-texto">
-            <p class="etq"><span>08</span>Dónde</p>
+            <p class="etq"><span>09</span>Dónde</p>
             <h2 data-revelar>{n.direccion.calle}</h2>
             <p class="dn-zona" data-revelar>{n.direccion.zona} · {n.direccion.cp} {n.direccion.ciudad}</p>
             {n.direccion.comoLlegar && <p class="entr" data-revelar>{n.direccion.comoLlegar}</p>}
@@ -600,7 +664,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
           <section class="sec dudas" id="dudas">
             <div class="env fq-grid">
               <header>
-                <p class="etq"><span>09</span>Dudas</p>
+                <p class="etq"><span>10</span>Dudas</p>
                 <h2 data-revelar>Lo que más se pregunta.</h2>
               </header>
               <div class="fq-lista">
@@ -648,9 +712,9 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
     </footer>
 
     <nav class="barra-movil" aria-label="Contacto rápido">
-      {tel && <a href={tel}>Llamar</a>}
-      {wa && <a href={wa} target="_blank" rel="noopener">WhatsApp</a>}
-      <a class="fuerte" href="#presupuesto">Presupuesto</a>
+      {tel && <a class="bm bm-llamar" href={tel}><svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.tel} /></svg>Llamar</a>}
+      {wa && <a class="bm bm-wa" href={wa} target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.wa} /></svg>WhatsApp</a>}
+      <a class="bm bm-presu" href="#presupuesto"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.foto} /></svg>Presupuesto</a>
     </nav>
 
     <script type="application/json" id="datos-negocio" set:html={JSON.stringify({ slug: SLUG, horario: n.horario, nombre: n.nombre, admin: url(`/demo/${SLUG}/admin/`) })} />
@@ -663,6 +727,8 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
       import { iniciarCapas } from '../../../scripts/taller-es/capas';
       import { iniciarGolpe } from '../../../scripts/taller-es/golpe';
       import { iniciarPagina } from '../../../scripts/taller-es/pagina';
+      import { iniciarMoto } from '../../../scripts/taller-es/moto3d';
+      import { iniciarCine } from '../../../scripts/taller-es/cine';
 
       const datos = JSON.parse(document.getElementById('datos-negocio')!.textContent!);
       const linea = document.querySelector<HTMLElement>('[data-linea]')!;
@@ -677,7 +743,9 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
       function pintarHorario() {
         const semana = porDia(datos.horario);
         if (!datos.horario.length) return;
-        const { abierto, texto } = estadoApertura(semana);
+        const estado = estadoApertura(semana);
+        const abierto = estado.abierto;
+        const texto = estado.texto.replace(/\b0(\d):/g, '$1:');
         document.querySelectorAll<HTMLElement>('[data-estado]').forEach((el) => {
           el.dataset.abierto = String(abierto);
           el.querySelector('[data-estado-texto]')!.textContent = texto;
@@ -699,13 +767,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
       setInterval(pintarHorario, 30_000);
 
       const hero = document.querySelector<HTMLElement>('[data-hero]')!;
-      const pct = document.querySelector<HTMLElement>('[data-pulido-pct]')!;
-      const conWebgl = iniciarPulido(hero, hero.querySelector('[data-pulido]')!, {
-        alPulir: (p) => {
-          pct.textContent = p >= 85 ? `Pulido al ${p} %. Así sale de aquí.` : `Pulido al ${p} %`;
-          hero.classList.toggle('pulida', p >= 85);
-        },
-      });
+      const conWebgl = iniciarPulido(hero, hero.querySelector('[data-pulido]')!);
       hero.classList.toggle('sin-webgl', !conWebgl);
 
       const capas = document.querySelector<HTMLElement>('[data-capas]');
@@ -713,6 +775,26 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
       const golpe = document.querySelector<HTMLFormElement>('[data-golpe]');
       if (golpe) iniciarGolpe(golpe, datos.nombre);
       iniciarPagina();
+      const cine = document.querySelector<HTMLElement>('[data-cine]');
+      if (cine) iniciarCine(cine);
+
+      // La moto en 3D se carga cuando su sección se acerca, para no frenar la entrada.
+      const moto = document.querySelector<HTMLElement>('[data-moto-escena]');
+      if (moto) {
+        const obs = new IntersectionObserver(
+          ([e]) => {
+            if (!e.isIntersecting) return;
+            obs.disconnect();
+            const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+            iniciarMoto(moto, moto.querySelector('[data-moto-lienzo]')!, {
+              color: `${base}/negocios/taller-es/ducati.webp`,
+              profundidad: `${base}/negocios/taller-es/ducati-profundidad.png`,
+            });
+          },
+          { rootMargin: '600px 0px' },
+        );
+        obs.observe(moto);
+      }
     </script>
   </body>
 </html>
