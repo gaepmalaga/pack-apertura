@@ -1,0 +1,204 @@
+{
+  "demo": true,
+  "sector": "taller",
+  "nombre": "Taller.Es",
+  "rotulo": "TALLER.ES",
+  "bajoRotulo": "Chapa y pintura",
+  "eslogan": "Como si nunca hubiera pasado.",
+  "descripcion": "Taller de chapa y pintura en la Carretera de Cádiz, Málaga, con cabina de pintura propia. Mándanos una foto del golpe por WhatsApp y te decimos qué tiene y cuánto puede costar.",
+  "logo": "negocios/taller-es/logo.svg",
+  "fotoPortada": "negocios/taller-es/cabina.webp",
+  "galeria": [
+    {
+      "foto": "negocios/taller-es/cabina.webp",
+      "texto": "Cabina de pintura con un coche negro recién barnizado y enmascarado"
+    },
+    {
+      "foto": "negocios/taller-es/rojo-cabina.webp",
+      "texto": "Coche rojo recién pintado en la cabina, todavía enmascarado"
+    },
+    {
+      "foto": "negocios/taller-es/audi-detras.webp",
+      "texto": "Audi SQ5 terminado, visto desde atrás, con la placa de Taller.Es"
+    },
+    {
+      "foto": "negocios/taller-es/audi-delante.webp",
+      "texto": "Audi SQ5 terminado, de frente, con la placa de Taller.Es"
+    },
+    {
+      "foto": "negocios/taller-es/llanta.webp",
+      "texto": "Llanta del Audi SQ5 con la pinza de freno roja"
+    },
+    {
+      "foto": "negocios/taller-es/fachada.webp",
+      "texto": "Fachada de Taller.Es con el logo y el rótulo «Car repair center»"
+    },
+    {
+      "foto": "negocios/taller-es/moto.webp",
+      "texto": "Ducati Scrambler dentro del taller"
+    }
+  ],
+  "tema": {
+    "estilo": "moderno",
+    "fondo": "#060709",
+    "tinta": "#f5f7fb",
+    "acento": "#3446ff",
+    "sobreAcento": "#ffffff",
+    "secundario": "#8b7cff",
+    "portada": "cine",
+    "adorno": "ninguno",
+    "forma": "recto",
+    "horario": "filas",
+    "mapa": "grande",
+    "secciones": "aire"
+  },
+  "contacto": {
+    "telefono": "696 32 28 66",
+    "whatsapp": "696 32 28 66",
+    "email": "",
+    "instagram": "",
+    "facebook": ""
+  },
+  "direccion": {
+    "calle": "Pje. Amantillo, 7",
+    "zona": "Polígono Santa Bárbara, Carretera de Cádiz",
+    "cp": "29004",
+    "ciudad": "Málaga",
+    "comoLlegar": "En el polígono Santa Bárbara, entre la calle Hermanos Lumière y la MA-20. Si es tu primera vez, abre la ruta en el móvil y te deja en la puerta.",
+    "mapa": "https://maps.app.goo.gl/5G9JGiCj7NJtVbJT9",
+    "geo": {
+      "lat": 36.69225,
+      "lng": -4.46294
+    }
+  },
+  "horario": [
+    {
+      "dia": "lunes",
+      "abre": "07:30",
+      "cierra": "15:30"
+    },
+    {
+      "dia": "martes",
+      "abre": "07:30",
+      "cierra": "15:30"
+    },
+    {
+      "dia": "miercoles",
+      "abre": "07:30",
+      "cierra": "15:30"
+    },
+    {
+      "dia": "jueves",
+      "abre": "07:30",
+      "cierra": "15:30"
+    },
+    {
+      "dia": "viernes",
+      "abre": "07:00",
+      "cierra": "15:00"
+    }
+  ],
+  "horarioNota": "Puedes dejar el coche de camino al trabajo. Sábados y domingos, cerrado.",
+  "valoracion": {
+    "nota": 4.5,
+    "total": 17,
+    "cinco": 15
+  },
+  "servicios": [
+    {
+      "nombre": "Golpes y abolladuras",
+      "descripcion": "Del toque de aparcamiento al golpe gordo. Se repara la pieza si se puede y se cambia si no compensa, y eso te lo decimos antes de empezar."
+    },
+    {
+      "nombre": "Arañazos y rozaduras",
+      "descripcion": "Si no ha pasado del barniz, muchas veces sale puliendo. Si ha llegado a la chapa, se repinta la zona para que no se oxide."
+    },
+    {
+      "nombre": "Paragolpes y plásticos",
+      "descripcion": "Grietas, pestañas rotas y rozaduras de bordillo. Muchos paragolpes se reparan sin tener que comprar uno nuevo."
+    },
+    {
+      "nombre": "Pintura por piezas o completa",
+      "descripcion": "Con el código de color de tu coche y ajustado a su tono de hoy, que el sol de Málaga también pinta."
+    },
+    {
+      "nombre": "Pulido y abrillantado",
+      "descripcion": "Quita las marcas finas, los hologramas y el velo que deja el túnel de lavado. El brillo vuelve."
+    },
+    {
+      "nombre": "Partes con el seguro",
+      "descripcion": "Si tu póliza tiene libre elección de taller, puedes traerlo aquí. Trae el número de siniestro y lo vemos con el perito."
+    },
+    {
+      "nombre": "Motos",
+      "descripcion": "Depósitos, carenados y guardabarros: las motos también entran en cabina."
+    },
+    {
+      "nombre": "Mecánica",
+      "descripcion": "Revisiones y averías mecánicas en el mismo taller, para no tener que llevar el coche a dos sitios."
+    }
+  ],
+  "reservas": {
+    "activas": true,
+    "titulo": "Presupuesto por foto",
+    "texto": "Marca en el dibujo la parte dañada, dinos qué le ha pasado y se abre WhatsApp con el mensaje escrito. Tú solo añades las fotos.",
+    "opciones": [
+      "Arañazo o rozadura",
+      "Bollo sin daño en la pintura",
+      "Golpe con la pintura dañada",
+      "Pieza rota o rajada",
+      "Pintura quemada o descascarillada",
+      "Otra cosa"
+    ],
+    "personas": false
+  },
+  "resenas": [
+    {
+      "autor": "Adrián",
+      "texto": "Dani trabaja muy bien y por lo menos en el trabajo que le encargué fue bastante rápido. Además se le ve muy buen tío. Buen servicio y buena atención, lo recomendaría a cualquier persona",
+      "estrellas": 5
+    },
+    {
+      "autor": "Sebas",
+      "texto": "Daniel aparte de ser un excelente mecánico excelente persona siempre resuelve todos los problemas muy atento en general un taller súper recomendable",
+      "estrellas": 5
+    },
+    {
+      "autor": "Tito",
+      "texto": "Encantado con el trabajo de Daniel, maravillosa persona y profesional! Lo recomiendo 100%",
+      "estrellas": 5
+    }
+  ],
+  "frasesResenas": [
+    "Muy buena atención, buen trabajo, rapidez y buen precio.",
+    "Me atendieron de lujo, Daniel me dejó el coche de lujo.",
+    "Magníficos profesionales dirigidos por Dany el Jefe del taller."
+  ],
+  "enlaceResenas": "https://maps.app.goo.gl/5G9JGiCj7NJtVbJT9",
+  "faq": [
+    {
+      "pregunta": "¿Mi seguro me deja traerlo aquí?",
+      "respuesta": "Depende de la póliza. Si tiene libre elección de taller, sí. Si no lo tienes claro, mándanos una foto de la póliza o el número de siniestro y lo miramos contigo."
+    },
+    {
+      "pregunta": "¿Cuánto tiempo voy a estar sin coche?",
+      "respuesta": "Depende del daño y de si hay que pedir piezas. Con las fotos te damos una idea antes de que lo traigas, y así puedes organizarte."
+    },
+    {
+      "pregunta": "¿Se va a notar la diferencia de color?",
+      "respuesta": "No debería. El color se prepara con el código de tu coche y se ajusta a su tono actual. Cuando hace falta, se difumina sobre la pieza de al lado para que el paso de una a otra no se vea."
+    },
+    {
+      "pregunta": "¿Un arañazo tiene arreglo sin pintar?",
+      "respuesta": "Haz la prueba de la uña: si al pasarla por encima no se engancha, lo normal es que se quede en el barniz y salga puliendo. Si se engancha, ha llegado más abajo y hay que pintar la zona."
+    },
+    {
+      "pregunta": "¿Dónde está el código de color de mi coche?",
+      "respuesta": "En una pegatina o placa que suele estar en el marco de la puerta del conductor, bajo el capó o en el hueco de la rueda de repuesto. Si no lo encuentras, lo sacamos con el número de bastidor."
+    },
+    {
+      "pregunta": "¿Tengo que pedir cita?",
+      "respuesta": "Para que le echemos un vistazo, no: pásate de lunes a viernes por la mañana o mándanos fotos. Para dejarlo en el taller, mejor quedamos un día."
+    }
+  ]
+}

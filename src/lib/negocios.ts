@@ -94,6 +94,10 @@ export type Negocio = {
     personas?: boolean;
   };
   resenas?: { autor: string; texto: string; estrellas?: number }[];
+  /** Frases sueltas de reseñas (las que Google destaca), sin autor. */
+  frasesResenas?: string[];
+  /** Nota media en Google, número de reseñas y cuántas son de cinco estrellas. */
+  valoracion?: { nota: number; total: number; cinco?: number };
   enlaceResenas?: string;
   faq?: { pregunta: string; respuesta: string }[];
 };

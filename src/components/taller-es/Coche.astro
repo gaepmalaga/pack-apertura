@@ -1,0 +1,83 @@
+---
+// Coche visto desde arriba, con el morro hacia arriba, para marcar dónde ha sido
+// el golpe. Cada pieza es una casilla (role="checkbox") que se marca con el dedo,
+// el ratón o el teclado; el script scripts/taller-es/golpe.ts lleva la cuenta.
+// Izquierda y derecha son las del conductor sentado: en España, el conductor va
+// a la izquierda.
+type Zona = { id: string; nombre: string; d?: string; rect?: [number, number, number, number] };
+
+const zonas: Zona[] = [
+  { id: 'llanta-di', nombre: 'Llanta delantera izquierda', rect: [38, 116, 22, 72] },
+  { id: 'llanta-dd', nombre: 'Llanta delantera derecha', rect: [260, 116, 22, 72] },
+  { id: 'llanta-ti', nombre: 'Llanta trasera izquierda', rect: [38, 484, 22, 72] },
+  { id: 'llanta-td', nombre: 'Llanta trasera derecha', rect: [260, 484, 22, 72] },
+  { id: 'paragolpes-delantero', nombre: 'Paragolpes delantero', d: 'M70 92C66 60 98 34 160 34S254 60 250 92Z' },
+  { id: 'capo', nombre: 'Capó', d: 'M94 92H226L230 232C196 222 124 222 90 232Z' },
+  { id: 'aleta-di', nombre: 'Aleta delantera izquierda', d: 'M70 92H94L90 232 60 236C56 200 52 130 70 92Z' },
+  { id: 'aleta-dd', nombre: 'Aleta delantera derecha', d: 'M250 92H226L230 232 260 236C264 200 268 130 250 92Z' },
+  { id: 'retrovisor-i', nombre: 'Retrovisor izquierdo', d: 'M60 246 40 240C33 246 33 258 40 263L59 260Z' },
+  { id: 'retrovisor-d', nombre: 'Retrovisor derecho', d: 'M260 246 280 240C287 246 287 258 280 263L261 260Z' },
+  { id: 'puerta-di', nombre: 'Puerta delantera izquierda', d: 'M60 236 90 232 98 292V350H58C57 310 58 270 60 236Z' },
+  { id: 'puerta-dd', nombre: 'Puerta delantera derecha', d: 'M260 236 230 232 222 292V350H262C263 310 262 270 260 236Z' },
+  { id: 'techo', nombre: 'Techo', d: 'M98 292C128 286 192 286 222 292V448C192 454 128 454 98 448Z' },
+  { id: 'puerta-ti', nombre: 'Puerta trasera izquierda', d: 'M58 350H98V448L92 470 60 466C57 430 57 390 58 350Z' },
+  { id: 'puerta-td', nombre: 'Puerta trasera derecha', d: 'M262 350H222V448L228 470 260 466C263 430 263 390 262 350Z' },
+  { id: 'aleta-ti', nombre: 'Aleta trasera izquierda', d: 'M60 466 92 470V496L70 572C54 545 52 500 60 466Z' },
+  { id: 'aleta-td', nombre: 'Aleta trasera derecha', d: 'M260 466 228 470V496L250 572C266 545 268 500 260 466Z' },
+  { id: 'maletero', nombre: 'Maletero o portón', d: 'M92 496C126 504 194 504 228 496L250 572H70Z' },
+  { id: 'paragolpes-trasero', nombre: 'Paragolpes trasero', d: 'M70 572H250C254 600 222 628 160 628S66 600 70 572Z' },
+];
+---
+
+<svg class="coche" viewBox="0 0 320 660" role="group" aria-label="Dibujo del coche visto desde arriba: marca las piezas dañadas">
+  <defs>
+    <pattern id="cinta" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="9" height="9" class="cinta-fondo" />
+      <rect width="4" height="9" class="cinta-raya" />
+    </pattern>
+    <linearGradient id="cristal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2140" />
+      <stop offset="1" stop-color="#0b0e1c" />
+    </linearGradient>
+  </defs>
+
+  <text class="coche-rotulo" x="160" y="18" text-anchor="middle">Delante</text>
+  <text class="coche-rotulo" x="160" y="652" text-anchor="middle">Detrás</text>
+  <text class="coche-rotulo" transform="translate(16 330) rotate(-90)" text-anchor="middle">Izquierda · conductor</text>
+  <text class="coche-rotulo" transform="translate(304 330) rotate(90)" text-anchor="middle">Derecha · copiloto</text>
+
+  {
+    zonas.map((z) =>
+      z.rect ? (
+        <rect
+          class="zona llanta"
+          x={z.rect[0]}
+          y={z.rect[1]}
+          width={z.rect[2]}
+          height={z.rect[3]}
+          rx="7"
+          data-zona={z.id}
+          data-nombre={z.nombre}
+          role="checkbox"
+          aria-checked="false"
+          aria-label={z.nombre}
+          tabindex="0"
+        />
+      ) : (
+        <path class="zona" d={z.d} data-zona={z.id} data-nombre={z.nombre} role="checkbox" aria-checked="false" aria-label={z.nombre} tabindex="0" />
+      ),
+    )
+  }
+
+  <g class="coche-cristal" aria-hidden="true">
+    <path d="M90 232C124 222 196 222 230 232L222 292C192 286 128 286 98 292Z" />
+    <path d="M98 448C128 454 192 454 222 448L228 470V496C194 504 126 504 92 496V470Z" />
+  </g>
+  <g class="coche-detalle" aria-hidden="true">
+    <path d="M78 98C88 86 106 82 122 86L118 97C104 96 90 98 80 104Z" />
+    <path d="M242 98C232 86 214 82 198 86L202 97C216 96 230 98 240 104Z" />
+    <path d="M76 566C86 574 104 578 120 576L118 586C102 586 88 582 78 576Z" />
+    <path d="M244 566C234 574 216 578 200 576L202 586C218 586 232 582 242 576Z" />
+    <path d="M160 100V214M128 104 124 212M192 104 196 212" class="coche-nervio" />
+  </g>
+</svg>

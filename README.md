@@ -33,6 +33,22 @@ Publicada en GitHub Pages: `https://gaepmalaga.github.io/pack-apertura/`.
    `public/capturas/<negocio>.jpg`). Sin captura, la landing pinta su rótulo.
 7. Haz push a `main`. En un par de minutos está publicada y aparece sola en la landing.
 
+### Webs a medida
+
+Cuando un negocio merece algo más que la plantilla, su web va en
+`src/pages/demo/<negocio>/index.astro`. En cuanto existe ese archivo, la
+plantilla deja de generar esa dirección y la página a medida manda. Sigue
+leyendo su JSON de `src/negocios/`, así que el panel de prueba, el panel real y
+la landing funcionan igual.
+
+Ejemplo: **`taller-es`** (chapa y pintura). Portada en WebGL con una chapa negra
+bajo los tubos de la cabina que el visitante pule con el ratón o el dedo (de
+«piel de naranja» a espejo), un corte de la chapa que se enmasilla, se pinta y
+se pule al hacer scroll, la foto de su cabina con puntos explicados, y un
+dibujo del coche para marcar dónde ha sido el golpe que abre WhatsApp con el
+mensaje escrito. Su código está en `src/scripts/taller-es/`,
+`src/components/taller-es/` y `src/styles/taller-es.css`.
+
 Para una taberna que ya tenga su `contenido.json` en webtaller:
 
 ```sh
@@ -102,6 +118,8 @@ npm run build
 - Carta desde JSON, propuestas para indecisos y lista de lo que te vas a pedir:
   de las **tabernas de webtaller**.
 - Aviso de demo, `noindex` y estructura de datos de negocio: nuevos.
+- Fotos de Taller.Es: las públicas de su ficha de Google Maps. El logo está
+  redibujado en vectorial a partir de su placa. Mapa de OpenStreetMap.
 - Vídeos de platos de la demo de El Ojopatio: [Mixkit](https://mixkit.co/license/#videoFree)
   (licencia gratuita, uso comercial). Las fotos de platos y del local, el logo y
   la carta son públicos de su web.
