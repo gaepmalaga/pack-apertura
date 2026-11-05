@@ -1,0 +1,680 @@
+---
+// Web a medida de Telecastillo (alquiler de castillos hinchables y animaciones en
+// Málaga y la Costa del Sol). No usa la plantilla común, pero lee los datos de
+// src/negocios/telecastillo.json, así que el panel de prueba, el panel real y la
+// landing funcionan igual que con el resto de demos. El catálogo con medidas está
+// en src/datos/telecastillo-hinchables.json y el mapa en telecastillo-mapa.json.
+import '@fontsource-variable/fredoka/wdth.css';
+import '@fontsource-variable/figtree';
+import '../../../styles/telecastillo.css';
+import { negocios, telHref, waHref, url, medio } from '../../../lib/negocios';
+import catalogo from '../../../datos/telecastillo-hinchables.json';
+import mapa from '../../../datos/telecastillo-mapa.json';
+
+const SLUG = 'telecastillo';
+const n = negocios.find((x) => x.slug === SLUG)!;
+const tel = telHref(n);
+const waBase = waHref(n);
+const wa = waHref(n, `Hola ${n.nombre}, vengo de vuestra web. `);
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+const conLudo = (s: string) => esc(s).replace(/\b(Ludo)\b/g, '<mark>$1</mark>');
+const metros = (x: number | null) => (x === null ? '' : x.toLocaleString('es-ES', { maximumFractionDigits: 1 }));
+
+const CATEGORIAS = [
+  { id: 'todos', texto: 'Todos' },
+  { id: 'mini', texto: 'Para peques' },
+  { id: 'castillo', texto: 'Castillos y toboganes' },
+  { id: 'agua', texto: 'Con agua' },
+  { id: 'pista', texto: 'Pistas americanas' },
+  { id: 'juego', texto: 'Juegos y retos' },
+];
+const NOMBRE_CAT = Object.fromEntries(CATEGORIAS.map((c) => [c.id, c.texto]));
+const hinchables = [...catalogo].sort((a, b) => b.largo * b.ancho - a.largo * a.ancho);
+const foto = (id: string) => catalogo.find((h) => h.id === id)!;
+const portada = foto('castillo-hinchable-halloween-doble-tobogan');
+const tiburon = foto('tobogan-deslizador-acuatico-hinchable');
+
+const pasos = [
+  { t: 'Nos escribes', x: 'Fecha, pueblo y cuántos niños vienen. Te decimos qué modelos quedan libres ese día y te confirmamos el precio con el transporte.' },
+  { t: 'Llegamos y anclamos', x: 'Con tiempo antes de la fiesta. El anclaje depende del suelo: elige el tuyo aquí al lado.' },
+  { t: 'Lo enchufamos', x: 'Solo hace falta un enchufe normal a menos de 25-50 metros. El motor sopla todo el rato para que el castillo esté siempre firme.' },
+  { t: '¡A botar!', x: 'Un adulto vigilando siempre y respetando el aforo. Los castillos son para niños de hasta unos 12 años o 1,50 m.' },
+  { t: 'Lo recogemos', x: 'Al terminar desmontamos y nos lo llevamos. Tú solo te quedas con las fotos.' },
+];
+const suelos = [
+  { id: 'cesped', t: 'Césped o tierra', x: 'Piquetas de acero de alta resistencia, clavadas a fondo en el terreno.', icono: 'piqueta' },
+  { id: 'artificial', t: 'Césped artificial', x: 'También con piquetas, por los agujeros de drenaje del propio césped. No lo estropea y el hinchable no se mueve.', icono: 'piqueta' },
+  { id: 'duro', t: 'Hormigón, piedra o baldosa', x: 'Tacos de 10 mm, que es lo más seguro según la normativa. Al desmontar quedan los agujeritos del taladro.', icono: 'taco' },
+];
+
+const MESES = ['E', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+const NOMBRE_MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+const temporadas = [
+  { t: 'Cumpleaños', x: 'Mini castillos para casa y castillos con tobogán para jardines y urbanizaciones.', meses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], foto: 'castillo-hinchable-dragon-malaga', color: 'rojo' },
+  { t: 'Comuniones', x: 'Castillos con tobogán y animación para que los niños estén entretenidos toda la celebración.', meses: [4, 5, 6], foto: 'castillo-hinchable-tarta-malaga', color: 'rosa' },
+  { t: 'Verano y fiestas del agua', x: 'Toboganes acuáticos, deslizadores, hinchables para piscina y fiesta de la espuma.', meses: [6, 7, 8, 9], foto: 'tobogan-acuatico-palmeras-malaga', color: 'azul' },
+  { t: 'Fin de curso', x: 'Pistas americanas, fiestas del agua y gymkanas para colegios y AMPAs.', meses: [6], foto: 'pista-americana-azul-hinchable', color: 'verde' },
+  { t: 'Halloween', x: 'Hinchables, pintacaras, gymkanas y minidisco para colegios, ayuntamientos y hoteles.', meses: [10], foto: 'castillo-hinchable-halloween-doble-tobogan', color: 'naranja' },
+  { t: 'Puente de diciembre y Navidad', x: 'Cañón de nieve artificial, castillo de Navidad y animaciones para encendidos y fiestas.', meses: [12], foto: 'castillo-hinchable-de-navidad-con-tobogan', color: 'morado' },
+];
+const grupos = [
+  { t: 'Colegios y AMPAs', x: 'Fiestas del agua, fin de curso y jornadas con pistas americanas, juegos deportivos y monitores.', foto: 'pista-americana-azul-hinchable' },
+  { t: 'Empresas y hoteles', x: 'Team building con la pista Wipeout, futbolín humano y retos de humor amarillo por equipos.', foto: 'pista-americana-wipeout-xxl' },
+  { t: 'Ayuntamientos', x: 'Navidad, Halloween y fiestas de barrio: cañón de nieve, hinchables y animación para plazas.', foto: 'castillo-hinchable-de-navidad-con-tobogan' },
+];
+const videos = [
+  { id: 'ZwWb-AGFhok', t: 'Tobogán acuático gigante' },
+  { id: 'g5bvaniRBGk', t: 'Fiesta del agua en piscina' },
+  { id: 'ZR8ZMXQH7tM', t: 'Pista americana de 18 × 8 m' },
+  { id: 'E122hS8itNM', t: 'Castillo Dragón' },
+  { id: 'J1DNqCLS8p4', t: 'Deslizador de 18 m' },
+];
+const ZONAS: Record<string, string> = { centro: 'Málaga y alrededores', occidental: 'Costa del Sol occidental', oriental: 'Costa del Sol oriental', interior: 'Interior y Guadalhorce' };
+const pueblos = mapa.pueblos;
+
+const secciones = [
+  { id: 'jardin', texto: 'Hinchables' },
+  { id: 'montaje', texto: 'Cómo funciona' },
+  { id: 'temporadas', texto: 'Temporadas' },
+  { id: 'videos', texto: 'Vídeos' },
+  { id: 'zona', texto: 'Zona' },
+  { id: 'opiniones', texto: 'Opiniones' },
+];
+const ICONO = {
+  tel: 'M6.6 3.5h2.9l1.4 4.1-2 1.4a12 12 0 0 0 6.1 6.1l1.4-2 4.1 1.4v2.9a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z',
+  wa: 'M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2Zm-3 5.1c.3 0 .5 0 .7.5l.8 1.8c.1.3 0 .5-.1.7l-.5.6c-.2.2-.2.4 0 .7a7 7 0 0 0 3.3 2.9c.3.1.5.1.7-.1l.7-.8c.2-.3.4-.3.7-.2l1.7.8c.3.2.5.3.5.5a2.4 2.4 0 0 1-1.7 2.1c-.8.2-2 .1-4-1-2.5-1.4-4-3.9-4.1-4.3-.2-.4-.9-1.5-.9-2.6 0-1.2.6-1.8.9-2 .2-.3.6-.4.8-.4Z',
+  fiesta: 'M4 20 9 7l8 8-13 5ZM14 3v2M19 5l-1.5 1.5M21 10h-2M16 8.5c1-1 1-2.5 0-3.5',
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: n.nombre,
+  description: n.descripcion,
+  telephone: '+34666144334',
+  email: n.contacto.email,
+  foundingDate: '2009',
+  priceRange: 'Desde 90 €',
+  image: new URL(url('/negocios/telecastillo/og.jpg'), Astro.site).href,
+  address: { '@type': 'PostalAddress', streetAddress: n.direccion.calle, addressLocality: n.direccion.ciudad, addressRegion: 'Málaga', addressCountry: 'ES' },
+  areaServed: pueblos.map((p) => p.nombre),
+  sameAs: ['https://www.instagram.com/telecastillo/', 'https://www.facebook.com/telecastillo/', 'https://www.youtube.com/@LudoTelecastillo'],
+};
+const titulo = `${n.nombre} · Castillos hinchables en Málaga`;
+const ogImagen = new URL(url('/negocios/telecastillo/og.jpg'), Astro.site).href;
+const LETRAS = [...'¡A botar!'];
+const COLORES_LETRA = ['rojo', 'amarillo', 'azul', 'verde', 'naranja', 'rojo', 'azul', 'amarillo', 'verde'];
+---
+
+<!doctype html>
+<html lang="es" class="tc">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{titulo}</title>
+    <meta name="description" content={n.descripcion} />
+    {n.demo && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#fff7ea" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={n.descripcion} />
+    <meta property="og:image" content={ogImagen} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href={url('/negocios/telecastillo/icono.png')} type="image/png" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    {
+      n.demo && (
+        <p class="aviso-demo">
+          <span>Propuesta de nueva web<span class="aviso-largo"> para {n.nombre}, hecha con los datos y fotos de su web actual</span> · no es la web oficial</span>
+          <a href={url('/')}>¿Quieres una así?</a>
+        </p>
+      )
+    }
+
+    <header class="cabecera" data-cabecera>
+      <div class="cab-in">
+        <a class="marca" href="#inicio" aria-label={`${n.nombre}, ir al inicio`}>
+          <img src={medio(n.logo)} alt="" width="319" height="272" />
+        </a>
+        <nav class="menu" aria-label="Secciones">
+          {secciones.map((x) => <a href={`#${x.id}`}>{x.texto}</a>)}
+        </nav>
+        {wa && (
+          <a class="cab-wa" href={wa} target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.wa} /></svg>
+          </a>
+        )}
+        <a class="boton boton-rojo boton-chico" href="#reserva">Reservar</a>
+        <button type="button" class="cab-menu" data-abrir-menu aria-label="Abrir el menú" aria-controls="menu-movil" aria-expanded="false"><i></i><i></i><i></i></button>
+      </div>
+    </header>
+
+    <dialog class="menu-movil" id="menu-movil" data-menu-movil aria-label="Menú">
+      <div class="mm-cab">
+        <img src={medio(n.logo)} alt={n.nombre} width="319" height="272" />
+        <button type="button" class="mm-cerrar" data-cerrar-menu aria-label="Cerrar el menú"><i></i><i></i></button>
+      </div>
+      <nav class="mm-enlaces" aria-label="Secciones">
+        {
+          [...secciones, { id: 'reserva', texto: 'Reservar' }].map((x, i) => (
+            <a href={`#${x.id}`} data-cerrar-menu style={`--i:${i}`}>
+              {x.texto}
+            </a>
+          ))
+        }
+      </nav>
+      <div class="mm-botones">
+        {tel && <a class="bm bm-llamar" href={tel}><svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.tel} /></svg>Llamar</a>}
+        {wa && <a class="bm bm-wa" href={wa} target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.wa} /></svg>WhatsApp</a>}
+      </div>
+    </dialog>
+
+    <main id="contenido">
+      <section class="hero" id="inicio">
+        <div class="cielo" aria-hidden="true">
+          <span class="sol"></span>
+          <span class="nube n1"></span><span class="nube n2"></span><span class="nube n3"></span>
+        </div>
+        <div class="env hero-grid">
+          <div class="hero-texto">
+            <h1>
+              <span class="kicker">Castillos hinchables en Málaga · desde 2009</span>
+              <span class="botes" data-botes aria-label="¡A botar!">
+                {
+                  LETRAS.map((l, i) =>
+                    l === ' ' ? (
+                      <span class="hueco" aria-hidden="true"> </span>
+                    ) : (
+                      <span class={`letra ${COLORES_LETRA[i % COLORES_LETRA.length]}`} data-letra aria-hidden="true">
+                        {l}
+                      </span>
+                    ),
+                  )
+                }
+              </span>
+            </h1>
+            <p class="hero-sub" data-campo="eslogan">{n.eslogan}</p>
+            <div class="hero-botones">
+              <a class="boton boton-amarillo" href="#jardin">¿Cabe en mi jardín?</a>
+              {wa && (
+                <a class="boton boton-verde" href={wa} target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.wa} /></svg>
+                  WhatsApp · <span data-campo="telefono">{n.contacto.telefono}</span>
+                </a>
+              )}
+            </div>
+            <ul class="sellos" aria-label="Lo que incluye">
+              <li><b>Desde 90 €</b> con montaje</li>
+              <li><b>Seguro</b> de responsabilidad civil</li>
+              <li><b>+15 años</b> de fiestas</li>
+            </ul>
+          </div>
+          <div class="escena" aria-hidden="true">
+            <span class="cesped"></span>
+            <img class="inflable tiburon" src={medio(tiburon.foto)} alt="" width="760" height={Math.round(760 / tiburon.proporcion)} />
+            <img class="inflable castillo" src={medio(portada.foto)} alt="" width="760" height={Math.round(760 / portada.proporcion)} fetchpriority="high" />
+          </div>
+        </div>
+      </section>
+
+      <section class="sec jardin" id="jardin" data-jardin>
+        <div class="env">
+          <header class="cabeza">
+            <p class="etq">Más de 40 hinchables, con sus medidas reales</p>
+            <h2 data-revelar>¿Cabe en tu jardín?</h2>
+            <p class="entr" data-revelar>Pon el largo y el ancho de tu sitio. Te decimos cuáles caben, dejando 1 metro libre alrededor para el anclaje y el motor, y te lo dibujamos a escala.</p>
+          </header>
+          <div class="jd-grid">
+            <div class="jd-panel">
+              <div class="jd-controles">
+                <label class="jd-medida">
+                  <span>Largo <b><output data-largo-n>12</output> m</b></span>
+                  <input type="range" name="largo" min="3" max="25" step="0.5" value="12" data-largo aria-label="Largo del jardín en metros" />
+                </label>
+                <label class="jd-medida">
+                  <span>Ancho <b><output data-ancho-n>8</output> m</b></span>
+                  <input type="range" name="ancho" min="3" max="15" step="0.5" value="8" data-ancho aria-label="Ancho del jardín en metros" />
+                </label>
+                <fieldset class="jd-alto">
+                  <legend>¿Techo, árboles o cables encima?</legend>
+                  <div class="chips">
+                    <label class="chip"><input type="radio" name="alto" value="libre" checked /><span>Nada, al aire libre</span></label>
+                    <label class="chip"><input type="radio" name="alto" value="3" /><span>Hasta 3 m</span></label>
+                    <label class="chip"><input type="radio" name="alto" value="4" /><span>Hasta 4 m</span></label>
+                  </div>
+                </fieldset>
+              </div>
+              <figure class="jd-plano">
+                <svg data-plano role="img" aria-label="Plano a escala del jardín y del hinchable elegido"></svg>
+                <figcaption><span class="ley-margen"></span>1 m libre alrededor <span class="ley-cuadro"></span>cada cuadro, 1 m</figcaption>
+              </figure>
+              <p class="jd-resumen" data-resumen aria-live="polite"></p>
+            </div>
+
+            <div class="jd-catalogo">
+              <div class="chips jd-tipos" role="radiogroup" aria-label="Tipo de hinchable">
+                {
+                  CATEGORIAS.map((c, i) => (
+                    <label class={`chip chip-${c.id}`}>
+                      <input type="radio" name="tipo" value={c.id} checked={i === 0} />
+                      <span>{c.texto}</span>
+                    </label>
+                  ))
+                }
+              </div>
+              <ul class="jd-lista">
+                {
+                  hinchables.map((h) => (
+                    <li class={`hc cat-${h.categoria}`} data-id={h.id}>
+                      <div class="hc-foto">
+                        <img src={medio(h.foto)} alt={h.nombre} loading="lazy" width="380" height={Math.round(380 / h.proporcion)} />
+                        <span class="hc-encaje" data-encaje>Cabe</span>
+                      </div>
+                      <div class="hc-texto">
+                        <span class="hc-cat">{NOMBRE_CAT[h.categoria]}</span>
+                        <h3>{h.nombre}</h3>
+                        <p class="hc-medidas">
+                          {metros(h.largo)} × {metros(h.ancho)} m{h.alto !== null && <> · {metros(h.alto)} m de alto</>}
+                        </p>
+                        <p class="hc-edad">{h.edad}</p>
+                      </div>
+                      <div class="hc-botones">
+                        <button type="button" class="hc-ver" data-ver>Ver en mi jardín</button>
+                        <button type="button" class="hc-anadir" data-anadir aria-pressed="false">
+                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                          <span>Añadir</span>
+                        </button>
+                      </div>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+          <div class="jd-fiesta" data-lista hidden>
+            <p>
+              <b>Tu fiesta: <span data-lista-n>0</span></b> <span class="jd-nombres" data-lista-nombres></span>
+            </p>
+            <a class="boton boton-rojo" href="#reserva">Reservar con esto</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec montaje" id="montaje">
+        <div class="env">
+          <header class="cabeza">
+            <p class="etq">Transporte, montaje y recogida incluidos</p>
+            <h2 data-revelar>Tú pones el sitio. Nosotros, todo lo demás.</h2>
+          </header>
+          <div class="mt-grid">
+            <ol class="mt-pasos">
+              {
+                pasos.map((p, i) => (
+                  <li data-revelar style={`--i:${i}`}>
+                    <span class="mt-n">{i + 1}</span>
+                    <div>
+                      <h3>{p.t}</h3>
+                      <p>{p.x}</p>
+                    </div>
+                  </li>
+                ))
+              }
+            </ol>
+            <div class="suelo" data-revelar>
+              <h3>¿Qué suelo tienes?</h3>
+              <div class="chips suelo-chips">
+                {
+                  suelos.map((s, i) => (
+                    <label class="chip">
+                      <input type="radio" name="suelo" value={s.id} checked={i === 0} />
+                      <span>{s.t}</span>
+                    </label>
+                  ))
+                }
+              </div>
+              {
+                suelos.map((s) => (
+                  <div class={`suelo-panel suelo-${s.id}`}>
+                    <svg viewBox="0 0 220 120" aria-hidden="true" class={`ilus ilus-${s.icono}`}>
+                      <rect x="0" y="78" width="220" height="42" class={`ilus-suelo ${s.id}`} />
+                      <path d="M14 78c4-34 20-52 58-56 38 4 54 22 58 56Z" class="ilus-lona" />
+                      <path d="M120 54 172 78" class="ilus-cinta" />
+                      {s.icono === 'piqueta' ? (
+                        <g class="ilus-anclaje">
+                          <path d="M176 68v40" />
+                          <path d="M166 68h20" />
+                          <path d="m176 112-5-9h10Z" />
+                        </g>
+                      ) : (
+                        <g class="ilus-anclaje">
+                          <rect x="170" y="78" width="12" height="26" rx="2" class="ilus-taco" />
+                          <circle cx="176" cy="74" r="6" />
+                        </g>
+                      )}
+                      <path d="M0 78h220" class="ilus-linea" />
+                    </svg>
+                    <p>{s.x}</p>
+                  </div>
+                ))
+              }
+              <p class="suelo-nota">Con viento fuerte, tormenta o lluvia intensa, el hinchable se para por seguridad. Siempre.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec temporadas" id="temporadas" data-temporadas>
+        <div class="env">
+          <header class="cabeza">
+            <p class="etq">Todo el año hay algo que celebrar</p>
+            <h2 data-revelar>Cada época, su fiesta.</h2>
+            <p class="entr" data-revelar>De mayo a agosto los fines de semana vuelan: si ya tienes fecha, resérvala cuanto antes.</p>
+          </header>
+          <ol class="tp-meses" aria-label="Meses del año">
+            {MESES.map((m, i) => <li data-mes={i + 1} title={NOMBRE_MES[i]}>{m}</li>)}
+          </ol>
+          <p class="tp-ahora" data-ahora aria-live="polite"></p>
+          <ul class="tp-lista">
+            {
+              temporadas.map((t) => (
+                <li class={`tp color-${t.color}`} data-meses={t.meses.join(',')} data-revelar>
+                  <img src={medio(foto(t.foto).foto)} alt="" loading="lazy" width="380" height={Math.round(380 / foto(t.foto).proporcion)} />
+                  <div>
+                    <h3>{t.t}</h3>
+                    <p>{t.x}</p>
+                    <span class="tp-barra" aria-label={t.meses.length === 12 ? 'Todo el año' : t.meses.map((x) => NOMBRE_MES[x - 1]).join(', ')}>
+                      {MESES.map((_, i) => <i class={t.meses.includes(i + 1) ? 'si' : ''} />)}
+                    </span>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+          <ul class="grupos">
+            {
+              grupos.map((g) => (
+                <li data-revelar>
+                  <img src={medio(foto(g.foto).foto)} alt="" loading="lazy" width="380" height={Math.round(380 / foto(g.foto).proporcion)} />
+                  <h3>{g.t}</h3>
+                  <p>{g.x}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      <section class="sec videos" id="videos">
+        <div class="env">
+          <header class="cabeza">
+            <p class="etq">De su canal de YouTube</p>
+            <h2 data-revelar>Míralos en acción.</h2>
+          </header>
+        </div>
+        <ul class="vd-tira">
+          {
+            videos.map((v) => (
+              <li>
+                <button type="button" class="vd" data-yt={v.id} aria-label={`Ver el vídeo: ${v.t}`}>
+                  <img src={medio(`negocios/telecastillo/v/${v.id}.webp`)} alt="" loading="lazy" width="540" height="960" />
+                  <span class="vd-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7Z" /></svg></span>
+                  <span class="vd-titulo">{v.t}</span>
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="sec zona" id="zona" data-mapa>
+        <div class="env zn-grid">
+          <header class="cabeza">
+            <p class="etq">Toda la provincia de Málaga</p>
+            <h2 data-revelar>Vamos nosotros.</h2>
+            <p class="entr" data-revelar>{n.direccion.comoLlegar}</p>
+            <ul class="zn-zonas">
+              {
+                Object.entries(ZONAS).map(([z, nombre]) => (
+                  <li>
+                    <h3>{nombre}</h3>
+                    <p>
+                      {pueblos
+                        .filter((p) => p.zona === z)
+                        .map((p, i, arr) => (
+                          <>
+                            <button type="button" data-pueblo={p.nombre}>
+                              {p.nombre}
+                            </button>
+                            {i < arr.length - 1 ? ' · ' : ''}
+                          </>
+                        ))}
+                    </p>
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="zn-otro">¿No ves tu pueblo? <a href={wa} target="_blank" rel="noopener">Pregúntanos</a>: probablemente también lleguemos.</p>
+          </header>
+          <figure class="zn-mapa" data-revelar>
+            <svg viewBox={`0 0 ${mapa.ancho} ${mapa.alto}`} role="img" aria-label="Mapa de la provincia de Málaga con los pueblos donde montamos">
+              <defs>
+                <radialGradient id="brillo-isla" cx="35%" cy="30%" r="80%">
+                  <stop offset="0" stop-color="#fff3c4" />
+                  <stop offset="1" stop-color="#ffd25c" />
+                </radialGradient>
+              </defs>
+              <path d={mapa.provincia} class="zn-sombra" />
+              <path d={mapa.provincia} class="zn-isla" fill="url(#brillo-isla)" />
+              <path d={mapa.provincia} class="zn-costura" />
+              {
+                pueblos.map((p) => (
+                  <g class={`zn-pueblo z-${p.zona}`} data-pueblo={p.nombre} transform={`translate(${p.x} ${p.y})`} tabindex="0">
+                    <circle r="9" />
+                    <text y="-16">{p.nombre}</text>
+                  </g>
+                ))
+              }
+              <g class="zn-base" transform={`translate(${mapa.base.x} ${mapa.base.y})`}>
+                <circle r="22" class="zn-onda" />
+                <circle r="13" />
+                <text y="40">Nuestra base</text>
+              </g>
+              <text x="540" y={mapa.alto - 18} class="zn-mar">Mar Mediterráneo</text>
+            </svg>
+            <figcaption>{mapa.fuente}</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="sec opiniones" id="opiniones">
+        <div class="env">
+          <header class="cabeza">
+            <p class="etq">Reseñas de Google que citan en su web</p>
+            <h2 data-revelar>Cumpleaños tras cumpleaños.</h2>
+          </header>
+          <div class="op-grid">
+            {
+              (n.resenas ?? []).map((r, i) => (
+                <figure class={`op op-${i}`} data-revelar>
+                  <span class="op-estrellas" aria-label={`${r.estrellas} de 5 estrellas`}>★★★★★</span>
+                  <blockquote set:html={`«${conLudo(r.texto)}»`} />
+                  <figcaption>{r.autor} · reseña en Google</figcaption>
+                </figure>
+              ))
+            }
+          </div>
+          {n.enlaceResenas && (
+            <p class="op-mas">
+              <a class="boton boton-blanco" href={n.enlaceResenas} target="_blank" rel="noopener">Ver todas en Google</a>
+            </p>
+          )}
+        </div>
+      </section>
+
+      <section class="sec reserva" id="reserva">
+        <div class="env rs-grid">
+          <header class="cabeza">
+            <p class="etq">{n.reservas?.titulo}</p>
+            <h2 data-revelar>¿Qué día es la fiesta?</h2>
+            <p class="entr" data-revelar>{n.reservas?.texto}</p>
+            <p class="rs-tel">
+              ¿Prefieres hablar? <a href={tel}>Llama al <span data-campo="telefono">{n.contacto.telefono}</span></a>
+            </p>
+          </header>
+          <form class="rs-form" data-reserva data-wa={waBase} data-tel={tel} novalidate>
+            <div class="rs-campos">
+              <label>
+                <span>Fecha</span>
+                <input type="date" name="fecha" />
+              </label>
+              <label>
+                <span>Pueblo</span>
+                <select name="pueblo">
+                  <option value="">Elige…</option>
+                  {Object.entries(ZONAS).map(([z, nombre]) => (
+                    <optgroup label={nombre}>
+                      {pueblos.filter((p) => p.zona === z).map((p) => <option>{p.nombre}</option>)}
+                    </optgroup>
+                  ))}
+                  <option value="Otro pueblo (lo digo en el chat)">Otro</option>
+                </select>
+              </label>
+              <label>
+                <span>Niños, más o menos</span>
+                <select name="ninos">
+                  <option value="">Elige…</option>
+                  <option>menos de 10</option>
+                  <option>entre 10 y 25</option>
+                  <option>entre 25 y 50</option>
+                  <option>más de 50</option>
+                </select>
+              </label>
+              <label>
+                <span>Tu nombre</span>
+                <input name="nombre" autocomplete="given-name" placeholder="Opcional" />
+              </label>
+            </div>
+            <fieldset class="rs-evento">
+              <legend>Qué celebras</legend>
+              <div class="chips">
+                {(n.reservas?.opciones ?? []).map((o) => (
+                  <label class="chip">
+                    <input type="radio" name="evento" value={o} />
+                    <span>{o}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <div class="rs-elegidos">
+              <span>Hinchables elegidos</span>
+              <p data-elegidos class="vacio">Ninguno todavía: puedes añadirlos arriba, en «¿Cabe en tu jardín?», o decidirlo con nosotros.</p>
+            </div>
+            <div class="burbuja">
+              <p class="burbuja-cab">Así le llega a {n.nombre}</p>
+              <pre data-mensaje></pre>
+              <span class="burbuja-hora" aria-hidden="true">ahora ✓✓</span>
+            </div>
+            <p class="rs-aviso" data-aviso role="alert" hidden></p>
+            <button class="boton boton-verde rs-enviar" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.wa} /></svg>
+              Enviar por WhatsApp
+            </button>
+            <p class="rs-ayuda">Se abre WhatsApp con el mensaje escrito. La reserva queda hecha cuando te contestamos.</p>
+          </form>
+        </div>
+      </section>
+
+      <section class="sec dudas" id="dudas">
+        <div class="env fq-grid">
+          <header class="cabeza">
+            <p class="etq">Preguntas frecuentes</p>
+            <h2 data-revelar>Lo que todo el mundo pregunta.</h2>
+          </header>
+          <div class="fq-lista">
+            {
+              (n.faq ?? []).map((f) => (
+                <details>
+                  <summary>
+                    {f.pregunta}
+                    <i aria-hidden="true" />
+                  </summary>
+                  <p>{f.respuesta}</p>
+                </details>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pie">
+      <div class="env pie-grid">
+        <div class="pie-marca">
+          <img src={medio(n.logo)} alt={n.nombre} width="319" height="272" loading="lazy" />
+          <p>Castillos hinchables y animaciones en Málaga y la Costa del Sol desde 2009.</p>
+        </div>
+        <div>
+          <h3>Contacto</h3>
+          <p>
+            <a href={tel}>Tel. <span data-campo="telefono">{n.contacto.telefono}</span></a><br />
+            <a href={wa} target="_blank" rel="noopener">WhatsApp</a><br />
+            <a href={`mailto:${n.contacto.email}`}>{n.contacto.email}</a>
+          </p>
+        </div>
+        <div>
+          <h3>Síguelos</h3>
+          <p>
+            <a href="https://www.instagram.com/telecastillo/" target="_blank" rel="noopener">Instagram</a><br />
+            <a href="https://www.youtube.com/@LudoTelecastillo" target="_blank" rel="noopener">YouTube</a><br />
+            <a href="https://www.facebook.com/telecastillo/" target="_blank" rel="noopener">Facebook</a>
+          </p>
+        </div>
+        <div>
+          <h3>También</h3>
+          <p>
+            <a href="https://www.telecastillo.com/venta-castillos-hinchables/" target="_blank" rel="noopener">Venta de castillos hinchables</a><br />
+            <a href="https://www.telecastillo.com/team-building-en-malaga/" target="_blank" rel="noopener">Team building en Málaga</a>
+          </p>
+        </div>
+      </div>
+      <div class="env pie-nota">
+        {n.demo && <p>Propuesta de web preparada con los datos, fotos y vídeos públicos de telecastillo.com y su canal de YouTube. No es la web oficial del negocio ni implica relación con él. Mapa: © colaboradores de OpenStreetMap.</p>}
+        <p><a href={url(`/demo/${SLUG}/admin/`)}>{n.demo ? 'Prueba el panel de edición' : 'Panel de edición'}</a></p>
+      </div>
+    </footer>
+
+    <nav class="barra-movil" aria-label="Contacto rápido">
+      {tel && <a class="bm bm-llamar" href={tel}><svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.tel} /></svg>Llamar</a>}
+      {wa && <a class="bm bm-wa" href={wa} target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.wa} /></svg>WhatsApp</a>}
+      <a class="bm bm-reserva" href="#reserva"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONO.fiesta} /></svg>Reservar</a>
+    </nav>
+
+    <script type="application/json" id="datos-negocio" set:html={JSON.stringify({ slug: SLUG, horario: n.horario, nombre: n.nombre, admin: url(`/demo/${SLUG}/admin/`) })} />
+    <script type="application/json" id="datos-catalogo" set:html={JSON.stringify(catalogo.map(({ id, nombre, categoria, largo, ancho, alto, edad }) => ({ id, nombre, categoria, largo, ancho, alto, edad })))} />
+    <script>
+      import { aplicarPrueba } from '../../../scripts/prueba';
+      import { iniciarBotes } from '../../../scripts/telecastillo/botes';
+      import { iniciarJardin, type Hinchable } from '../../../scripts/telecastillo/jardin';
+      import { iniciarReserva } from '../../../scripts/telecastillo/reserva';
+      import { iniciarPagina } from '../../../scripts/telecastillo/pagina';
+
+      const datos = JSON.parse(document.getElementById('datos-negocio')!.textContent!);
+      const catalogo: Hinchable[] = JSON.parse(document.getElementById('datos-catalogo')!.textContent!);
+      await aplicarPrueba(datos);
+      iniciarPagina();
+      const botes = document.querySelector<HTMLElement>('[data-botes]');
+      if (botes) iniciarBotes(botes);
+      const reserva = document.querySelector<HTMLFormElement>('[data-reserva]');
+      if (reserva) iniciarReserva(reserva, datos.nombre);
+      const jardin = document.querySelector<HTMLElement>('[data-jardin]');
+      if (jardin) iniciarJardin(jardin, catalogo);
+    </script>
+  </body>
+</html>

@@ -21,7 +21,7 @@ export type Negocio = {
   demo: boolean;
   /** Negocio inventado para enseñar un sector: los avisos lo dicen en lugar de hablar de «datos públicos». */
   ficticio?: boolean;
-  sector: 'bar' | 'taller' | 'estetica' | 'salud' | 'veterinaria' | 'tienda' | 'otro';
+  sector: 'bar' | 'taller' | 'estetica' | 'salud' | 'veterinaria' | 'tienda' | 'eventos' | 'otro';
   nombre: string;
   rotulo?: string;
   bajoRotulo?: string;
@@ -140,6 +140,7 @@ export const NOMBRE_SECTOR: Record<Negocio['sector'], string> = {
   estetica: 'Estética y peluquería',
   salud: 'Salud',
   veterinaria: 'Veterinaria',
+  eventos: 'Fiestas y eventos',
   tienda: 'Tienda',
   otro: 'Negocio local',
 };

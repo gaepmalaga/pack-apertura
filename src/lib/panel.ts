@@ -24,6 +24,7 @@ export const camposNegocio = (slug: string) => [
       { label: 'Estética o peluquería', value: 'estetica' },
       { label: 'Salud', value: 'salud' },
       { label: 'Veterinaria', value: 'veterinaria' },
+      { label: 'Fiestas y eventos', value: 'eventos' },
       { label: 'Tienda', value: 'tienda' },
       { label: 'Otro', value: 'otro' },
     ],

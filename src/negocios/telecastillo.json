@@ -1,0 +1,73 @@
+{
+  "demo": true,
+  "sector": "eventos",
+  "nombre": "Telecastillo",
+  "rotulo": "TeleCastillo",
+  "bajoRotulo": "Castillos hinchables y animaciones",
+  "eslogan": "Castillos hinchables, toboganes de agua y animación en Málaga y la Costa del Sol. Lo llevamos, lo montamos y lo recogemos.",
+  "descripcion": "Alquiler de castillos hinchables, toboganes acuáticos, pistas americanas y animación infantil en Málaga y la Costa del Sol desde 2009. Montaje y recogida incluidos.",
+  "logo": "negocios/telecastillo/logo.webp",
+  "tema": {
+    "estilo": "moderno",
+    "fondo": "#fff7ea",
+    "tinta": "#132044",
+    "acento": "#e5372b",
+    "sobreAcento": "#ffffff",
+    "secundario": "#1e9bea",
+    "portada": "banda",
+    "adorno": "ninguno",
+    "forma": "redondo",
+    "horario": "agrupado",
+    "mapa": "tarjeta",
+    "secciones": "bandas"
+  },
+  "contacto": {
+    "telefono": "666 144 334",
+    "whatsapp": "666 144 334",
+    "email": "info@telecastillo.com",
+    "instagram": "telecastillo",
+    "facebook": "telecastillo"
+  },
+  "direccion": {
+    "calle": "Av. de José Ortega y Gasset",
+    "zona": "Base en Málaga capital",
+    "ciudad": "Málaga",
+    "comoLlegar": "No hace falta venir: llevamos, montamos y recogemos en toda la provincia de Málaga. Según la distancia puede haber un suplemento de desplazamiento, que se confirma antes de reservar.",
+    "mapa": "https://www.google.com/maps/search/?api=1&query=Telecastillo+castillos+hinchables+M%C3%A1laga",
+    "geo": { "lat": 36.7061, "lng": -4.4598 }
+  },
+  "horario": [],
+  "servicios": [
+    { "nombre": "Castillos hinchables", "descripcion": "Para cumpleaños, comuniones y fiestas en casa: de mini castillos para los más peques a castillos con tobogán y obstáculos." },
+    { "nombre": "Toboganes y castillos acuáticos", "descripcion": "Deslizadores, toboganes con piscina y parques acuáticos para el verano, piscinas, hoteles y colegios." },
+    { "nombre": "Pistas americanas", "descripcion": "Circuitos de obstáculos de hasta 18 metros para colegios, campamentos y eventos grandes." },
+    { "nombre": "Humor amarillo y juegos deportivos", "descripcion": "Futbolín humano, sumo, luchadores y portería gigante para empresas, colegios y grupos." },
+    { "nombre": "Animación infantil", "descripcion": "Juegos dirigidos, música, bailes y pintacaras para cumpleaños, comuniones, colegios y hoteles." },
+    { "nombre": "Fiesta de la espuma", "descripcion": "Cañón de espuma profesional con espuma biodegradable; montamos y lo manejamos durante la fiesta." },
+    { "nombre": "Cañón de nieve", "descripcion": "Nevada artificial para encendidos de Navidad, colegios, centros comerciales y fiestas privadas." },
+    { "nombre": "Team building", "descripcion": "Pistas americanas, futbolín humano y retos por equipos para empresas y hoteles." }
+  ],
+  "reservas": {
+    "activas": true,
+    "titulo": "Reserva por WhatsApp",
+    "texto": "Dinos la fecha, el sitio y cuántos niños vienen. Te contestamos con los modelos libres para ese día.",
+    "opciones": ["Cumpleaños", "Comunión", "Colegio o AMPA", "Fin de curso", "Empresa", "Hotel o urbanización", "Ayuntamiento", "Otro"],
+    "personas": false
+  },
+  "resenas": [
+    { "autor": "Isabel M.", "texto": "Como en todos nuestros cumpleaños hemos confiado en Telecastillo. Este último ha sido en agosto, por lo que nos hemos decidido por uno de agua. Todo genial. Los niños lo pasaron muy bien y con todas las facilidades. Repetiremos seguro.", "estrellas": 5 },
+    { "autor": "Nuria O.", "texto": "Ya son dos los cursos que hacemos la fiesta del agua con ellos en un cole bastante grande y cada año se superan, tanto por sus castillos e hinchables como por el equipo, ya que son atentos, siempre están al pie del cañón y dan todas las facilidades. Sin duda repetiremos el curso que viene. ¡Gracias, Ludo, por todo!", "estrellas": 5 },
+    { "autor": "Lorena A.", "texto": "¡Todo genial! Reparto y recogida adaptados perfectamente a las necesidades del cumple. Montadores muy amables. Los peques disfrutaron muchísimo. ¡Gracias! Muy recomendable.", "estrellas": 5 },
+    { "autor": "Jesús D.", "texto": "Muy contentos con el servicio, rápido, formales y seguro. Los niños disfrutaron muchísimo. Muy recomendable.", "estrellas": 5 }
+  ],
+  "enlaceResenas": "https://www.google.com/maps/search/?api=1&query=Telecastillo+castillos+hinchables+M%C3%A1laga",
+  "faq": [
+    { "pregunta": "¿Cuánto cuesta alquilar un castillo hinchable?", "respuesta": "Depende del modelo, el tamaño, las horas y el sitio. Hay opciones desde 90 €, con montaje y recogida incluidos. El transporte depende de la localidad y siempre se confirma antes de reservar." },
+    { "pregunta": "¿El alquiler incluye seguro?", "respuesta": "Sí: seguro de responsabilidad civil profesional. Los hinchables están certificados, se revisan periódicamente y se comprueban antes de cada montaje." },
+    { "pregunta": "¿Tiene que haber un adulto vigilando?", "respuesta": "Sí, siempre. Un adulto responsable tiene que estar pendiente del hinchable todo el tiempo y respetar el aforo. Si lo prefieres, también ponemos monitores." },
+    { "pregunta": "¿Qué necesito tener preparado?", "respuesta": "Un terreno lo más llano posible (césped, asfalto o tierra compacta, sin objetos punzantes) y un enchufe normal a menos de 25-50 metros." },
+    { "pregunta": "¿Y si hace viento o llueve?", "respuesta": "La seguridad va primero. Con lluvia fuerte, tormenta o viento que comprometa la estabilidad, el montaje se aplaza o el hinchable se para y se desaloja." },
+    { "pregunta": "¿Pueden subir adultos?", "respuesta": "Los castillos son para uso infantil, normalmente hasta los 12 años o 1,50 m. Para adultos tenemos atracciones especiales, como la pista Wipeout o el futbolín humano: pregúntanos." },
+    { "pregunta": "¿Con cuánta antelación reservo?", "respuesta": "En cuanto sepas la fecha. Los fines de semana de mayo a agosto son los primeros en llenarse." }
+  ]
+}
