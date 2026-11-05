@@ -14,8 +14,24 @@
       "texto": "Cabina de pintura con un coche negro recién barnizado y enmascarado"
     },
     {
-      "foto": "negocios/taller-es/terminado.webp",
-      "texto": "Skoda Octavia negro terminado, con la placa de Taller.Es"
+      "foto": "negocios/taller-es/rojo-cabina.webp",
+      "texto": "Coche rojo recién pintado en la cabina, todavía enmascarado"
+    },
+    {
+      "foto": "negocios/taller-es/audi-detras.webp",
+      "texto": "Audi SQ5 terminado, visto desde atrás, con la placa de Taller.Es"
+    },
+    {
+      "foto": "negocios/taller-es/audi-delante.webp",
+      "texto": "Audi SQ5 terminado, de frente, con la placa de Taller.Es"
+    },
+    {
+      "foto": "negocios/taller-es/llanta.webp",
+      "texto": "Llanta del Audi SQ5 con la pinza de freno roja"
+    },
+    {
+      "foto": "negocios/taller-es/fachada.webp",
+      "texto": "Fachada de Taller.Es con el logo y el rótulo «Car repair center»"
     },
     {
       "foto": "negocios/taller-es/moto.webp",
@@ -56,11 +72,31 @@
     }
   },
   "horario": [
-    { "dia": "lunes", "abre": "07:30", "cierra": "15:30" },
-    { "dia": "martes", "abre": "07:30", "cierra": "15:30" },
-    { "dia": "miercoles", "abre": "07:30", "cierra": "15:30" },
-    { "dia": "jueves", "abre": "07:30", "cierra": "15:30" },
-    { "dia": "viernes", "abre": "07:00", "cierra": "15:00" }
+    {
+      "dia": "lunes",
+      "abre": "07:30",
+      "cierra": "15:30"
+    },
+    {
+      "dia": "martes",
+      "abre": "07:30",
+      "cierra": "15:30"
+    },
+    {
+      "dia": "miercoles",
+      "abre": "07:30",
+      "cierra": "15:30"
+    },
+    {
+      "dia": "jueves",
+      "abre": "07:30",
+      "cierra": "15:30"
+    },
+    {
+      "dia": "viernes",
+      "abre": "07:00",
+      "cierra": "15:00"
+    }
   ],
   "horarioNota": "Puedes dejar el coche de camino al trabajo. Sábados y domingos, cerrado.",
   "valoracion": {
@@ -96,6 +132,10 @@
     {
       "nombre": "Motos",
       "descripcion": "Depósitos, carenados y guardabarros: las motos también entran en cabina."
+    },
+    {
+      "nombre": "Mecánica",
+      "descripcion": "Revisiones y averías mecánicas en el mismo taller, para no tener que llevar el coche a dos sitios."
     }
   ],
   "reservas": {

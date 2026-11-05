@@ -106,9 +106,44 @@ function pulidora() {
   });
 }
 
+/** El vídeo de la cabina: suena solo (sin sonido) cuando se ve, se para al salir
+ *  y se puede pausar. Con «reducir movimiento» no arranca solo. */
+function video() {
+  const v = document.querySelector<HTMLVideoElement>('[data-video]');
+  const boton = document.querySelector<HTMLButtonElement>('[data-video-boton]');
+  if (!v || !boton) return;
+  const marco = v.closest('figure')!;
+  let pausadoAMano = reducir();
+  const pintar = () => {
+    const sonando = !v.paused;
+    marco.classList.toggle('sonando', sonando);
+    boton.setAttribute('aria-label', sonando ? 'Pausar el vídeo' : 'Reproducir el vídeo');
+  };
+  v.addEventListener('play', pintar);
+  v.addEventListener('pause', pintar);
+  const reproducir = () => v.play().catch(() => pintar());
+  boton.addEventListener('click', () => {
+    if (v.paused) {
+      pausadoAMano = false;
+      reproducir();
+    } else {
+      pausadoAMano = true;
+      v.pause();
+    }
+  });
+  new IntersectionObserver(
+    ([e]) => {
+      if (e.isIntersecting && !pausadoAMano) reproducir();
+      else if (!e.isIntersecting && !v.paused) v.pause();
+    },
+    { threshold: 0.35 },
+  ).observe(v);
+}
+
 export function iniciarPagina() {
   cabecera();
   revelar();
   cabina();
   pulidora();
+  video();
 }

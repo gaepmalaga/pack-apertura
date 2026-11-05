@@ -24,8 +24,14 @@ const nota = v ? v.nota.toLocaleString('es-ES') : '';
 const apertura = aperturaHabitual(semana);
 const fotos = Object.fromEntries((n.galeria ?? []).map((g) => [g.foto.split('/').pop()!.replace(/\.\w+$/, ''), g]));
 const cabina = fotos['cabina'];
-const terminado = fotos['terminado'];
 const moto = fotos['moto'];
+const rojo = fotos['rojo-cabina'];
+const audiDetras = fotos['audi-detras'];
+const audiDelante = fotos['audi-delante'];
+const llanta = fotos['llanta'];
+const fachada = fotos['fachada'];
+// Vídeo de su ficha de Google: el lateral de un negro recién barnizado en la cabina.
+const video = { mp4: medio('negocios/taller-es/reflejos.mp4'), poster: medio('negocios/taller-es/reflejos.webp') };
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 /** En las reseñas, el nombre de Dani se marca: es de quien habla todo el mundo. */
@@ -110,8 +116,9 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
         <a class="marca" href="#inicio" aria-label={`${n.nombre}, ir al inicio`}><Logo id="lg-cab" /></a>
         <nav class="menu" aria-label="Secciones">
           <a href="#servicios">Servicios</a>
-          <a href="#cabina">La cabina</a>
-          <a href="#proceso">Cómo se pinta</a>
+          <a href="#cabina">Cabina</a>
+          <a href="#proceso">Proceso</a>
+          <a href="#trabajos">Trabajos</a>
           <a href="#opiniones">Opiniones</a>
           <a href="#horario">Horario</a>
           <a href="#donde">Dónde</a>
@@ -321,12 +328,59 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
         </div>
       </section>
 
+      <section class="sec reciente" id="trabajos">
+        <div class="env">
+          <header class="rc-cabeza">
+            <p class="etq"><span>04</span>Recién salido de cabina</p>
+            <h2 data-revelar>Así se ve de verdad.</h2>
+            <p class="entr" data-revelar>Arriba lo has pulido tú. Esto es un negro recién barnizado en su cabina: los tubos se reflejan rectos y, al final, hasta el logo de la pared.</p>
+          </header>
+          <div class="rc-rejilla">
+            <figure class="rc-video" data-revelar>
+              <video data-video muted loop playsinline preload="none" poster={video.poster} aria-label="Vídeo: recorrido por el lateral de un coche negro recién pintado en la cabina de Taller.Es">
+                <source src={video.mp4} type="video/mp4" />
+              </video>
+              <button type="button" class="rc-play" data-video-boton aria-label="Reproducir el vídeo">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path class="ico-play" d="M8 5v14l11-7Z" /><path class="ico-pausa" d="M7 5h4v14H7zM13 5h4v14h-4z" /></svg>
+              </button>
+              <figcaption>En cabina · recién barnizado</figcaption>
+            </figure>
+            {
+              rojo && (
+                <figure class="rc-foto rc-rojo" data-revelar>
+                  <img src={medio(rojo.foto)} alt={rojo.texto} loading="lazy" width="1200" height="1600" />
+                  <figcaption>Rojo recién pintado, aún enmascarado</figcaption>
+                </figure>
+              )
+            }
+            <div class="rc-columna" data-revelar>
+              {
+                audiDetras && (
+                  <figure class="rc-foto">
+                    <img src={medio(audiDetras.foto)} alt={audiDetras.texto} loading="lazy" width="1400" height="1050" />
+                    <figcaption>Audi SQ5, listo para entregar</figcaption>
+                  </figure>
+                )
+              }
+              {
+                llanta && (
+                  <figure class="rc-foto rc-llanta">
+                    <img src={medio(llanta.foto)} alt={llanta.texto} loading="lazy" width="1000" height="1333" />
+                    <figcaption>El detalle también cuenta</figcaption>
+                  </figure>
+                )
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
       {
         n.reservas?.activas && (
           <section class="sec presupuesto" id="presupuesto">
             <div class="env">
               <header class="ps-cabeza">
-                <p class="etq"><span>04</span>{n.reservas.titulo || 'Presupuesto'}</p>
+                <p class="etq"><span>05</span>{n.reservas.titulo || 'Presupuesto'}</p>
                 <h2 data-revelar>Señala dónde ha sido.</h2>
                 <p class="entr" data-revelar>{n.reservas.texto}</p>
               </header>
@@ -446,7 +500,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
           <section class="sec opiniones" id="opiniones">
             <div class="env op-grid">
               <header class="op-cabeza">
-                <p class="etq"><span>05</span>Opiniones</p>
+                <p class="etq"><span>06</span>Opiniones</p>
                 <h2 data-revelar>
                   Todos acaban hablando de <mark>Dani</mark>.
                 </h2>
@@ -483,10 +537,10 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
                   </ul>
                 )}
               </div>
-              {terminado && (
+              {audiDelante && (
                 <figure class="op-foto" data-revelar>
-                  <img src={medio(terminado.foto)} alt={terminado.texto} loading="lazy" width="1000" height="1333" />
-                  <figcaption>Recién terminado, con la placa de la casa.</figcaption>
+                  <img src={medio(audiDelante.foto)} alt={audiDelante.texto} loading="lazy" width="1000" height="1333" />
+                  <figcaption>Audi SQ5 terminado, con la placa de la casa.</figcaption>
                 </figure>
               )}
             </div>
@@ -497,7 +551,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
       <section class="sec horario" id="horario">
         <div class="env hr-grid">
           <header class="hr-cabeza">
-            <p class="etq"><span>06</span>Horario</p>
+            <p class="etq"><span>07</span>Horario</p>
             <h2 data-revelar>{apertura ? <>Abrimos a las <span data-apertura>{apertura}</span>.</> : 'Cuándo abrimos'}</h2>
             {n.horarioNota && <p class="entr" data-revelar>{n.horarioNota}</p>}
             <p class="estado estado-grande" data-estado hidden><i aria-hidden="true"></i><span data-estado-texto></span></p>
@@ -509,7 +563,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
       <section class="sec donde" id="donde">
         <div class="env dn-grid">
           <div class="dn-texto">
-            <p class="etq"><span>07</span>Dónde</p>
+            <p class="etq"><span>08</span>Dónde</p>
             <h2 data-revelar>{n.direccion.calle}</h2>
             <p class="dn-zona" data-revelar>{n.direccion.zona} · {n.direccion.cp} {n.direccion.ciudad}</p>
             {n.direccion.comoLlegar && <p class="entr" data-revelar>{n.direccion.comoLlegar}</p>}
@@ -521,13 +575,23 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
               {n.direccion.mapa && <a class="btn btn-linea" href={n.direccion.mapa} target="_blank" rel="noopener">Ver la ficha en Google Maps</a>}
             </div>
           </div>
-          <a class="dn-mapa" href={ruta} target="_blank" rel="noopener" aria-label={`Abrir la ruta a ${n.nombre} en Google Maps`}>
-            <iframe src={mapa} title={`Mapa de la zona de ${n.nombre}`} loading="lazy" referrerpolicy="no-referrer" tabindex="-1" />
-            <span class="dn-pin" aria-hidden="true">
-              <Logo id="lg-pin" solo />
-            </span>
-            <span class="dn-pie">© OpenStreetMap</span>
-          </a>
+          <div class={fachada ? 'dn-visual con-fachada' : 'dn-visual'}>
+            {
+              fachada && (
+                <figure class="dn-fachada" data-revelar>
+                  <img src={medio(fachada.foto)} alt={fachada.texto} loading="lazy" width="1200" height="1600" />
+                  <figcaption>Busca esta fachada: el logo grande y «Car repair center».</figcaption>
+                </figure>
+              )
+            }
+            <a class="dn-mapa" href={ruta} target="_blank" rel="noopener" aria-label={`Abrir la ruta a ${n.nombre} en Google Maps`}>
+              <iframe src={mapa} title={`Mapa de la zona de ${n.nombre}`} loading="lazy" referrerpolicy="no-referrer" tabindex="-1" />
+              <span class="dn-pin" aria-hidden="true">
+                <Logo id="lg-pin" solo />
+              </span>
+              <span class="dn-pie">© OpenStreetMap</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -536,7 +600,7 @@ const ogImagen = new URL(url('/negocios/taller-es/og.jpg'), Astro.site).href;
           <section class="sec dudas" id="dudas">
             <div class="env fq-grid">
               <header>
-                <p class="etq"><span>08</span>Dudas</p>
+                <p class="etq"><span>09</span>Dudas</p>
                 <h2 data-revelar>Lo que más se pregunta.</h2>
               </header>
               <div class="fq-lista">

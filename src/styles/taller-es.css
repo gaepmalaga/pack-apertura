@@ -1124,7 +1124,115 @@ html:not(.js) .cp-nota {
   display: none;
 }
 
-/* ——— 04 Presupuesto por foto ——— */
+/* ——— 04 Recién salido: su vídeo y sus fotos ——— */
+.rc-cabeza {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px 56px;
+  align-items: end;
+  margin-bottom: clamp(36px, 5vw, 56px);
+}
+.rc-cabeza .etq {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+.rc-cabeza .entr {
+  margin-top: 0;
+}
+/* Tres columnas cuyos altos casan solos: vídeo 9:16, foto 3:4 y dos fotos 4:3. */
+.rc-rejilla {
+  display: grid;
+  grid-template-areas: 'video rojo columna';
+  grid-template-columns: 34fr 45fr 38fr;
+  gap: 14px;
+}
+.rc-video,
+.rc-foto {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--laca-2);
+}
+.rc-video {
+  grid-area: video;
+  aspect-ratio: 9 / 16;
+  border: 1px solid var(--linea-2);
+  box-shadow: 0 30px 80px -30px rgb(80 90 255 / 0.35);
+}
+.rc-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rc-rojo {
+  grid-area: rojo;
+}
+.rc-columna {
+  display: grid;
+  grid-area: columna;
+  grid-template-rows: 1fr 1fr;
+  gap: 14px;
+  min-height: 0;
+}
+.rc-foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.4s var(--facil);
+}
+.rc-llanta img {
+  object-position: 50% 40%;
+}
+.rc-foto:hover img {
+  transform: scale(1.035);
+}
+.rc-video figcaption,
+.rc-foto figcaption {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1;
+  padding: 6px 8px;
+  background: rgb(0 0 0 / 0.62);
+  color: #fff;
+  font: 500 10px/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.rc-play {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.5);
+  color: #fff;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.rc-play svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+.rc-play .ico-pausa,
+.rc-video.sonando .rc-play .ico-play {
+  display: none;
+}
+.rc-video.sonando .rc-play .ico-pausa {
+  display: inline;
+}
+
+/* ——— 05 Presupuesto por foto ——— */
 .ps-cabeza {
   max-width: 780px;
 }
@@ -1794,6 +1902,34 @@ html:not(.js) .cp-nota {
   gap: 12px;
   margin-top: 34px;
 }
+.dn-visual {
+  position: relative;
+}
+.dn-fachada {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--linea);
+}
+.dn-fachada img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50% 58%;
+}
+.dn-fachada figcaption {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  max-width: 250px;
+  padding: 8px 10px;
+  background: rgb(0 0 0 / 0.66);
+  color: #fff;
+  font: 500 10.5px/1.45 var(--mono);
+  letter-spacing: 0.04em;
+}
 .dn-mapa {
   position: relative;
   display: block;
@@ -1801,6 +1937,20 @@ html:not(.js) .cp-nota {
   overflow: hidden;
   border: 1px solid var(--linea-2);
   background: #0b0d12;
+}
+/* Con fachada, el mapa va como una tarjeta encima de la esquina de la foto. */
+.con-fachada .dn-mapa {
+  position: absolute;
+  bottom: -36px;
+  left: -40px;
+  width: 46%;
+  aspect-ratio: 1 / 1;
+  border-color: rgb(255 255 255 / 0.3);
+  box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.85);
+}
+.con-fachada .dn-pin {
+  width: 38px;
+  height: 38px;
 }
 .dn-mapa iframe {
   position: absolute;
@@ -2043,6 +2193,16 @@ html.js [data-revelar].visto {
   .op-foto {
     max-width: 460px;
   }
+  .rc-cabeza {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .con-fachada {
+    max-width: 640px;
+  }
+  .con-fachada .dn-mapa {
+    left: auto;
+    right: -12px;
+  }
   .cp-grid {
     grid-template-areas:
       'cabeza'
@@ -2184,6 +2344,47 @@ html.js [data-revelar].visto {
   }
   .ps-campos {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .rc-rejilla {
+    grid-template-areas:
+      'video video'
+      'rojo columna';
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+  }
+  .rc-video {
+    aspect-ratio: 4 / 5;
+  }
+  .rc-rojo {
+    aspect-ratio: 3 / 4;
+  }
+  .rc-columna {
+    gap: 10px;
+  }
+  .rc-video figcaption,
+  .rc-foto figcaption {
+    right: 10px;
+    font-size: 9px;
+  }
+  .rc-columna figcaption,
+  .rc-rojo figcaption {
+    display: none;
+  }
+  .con-fachada .dn-mapa {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    margin-top: 10px;
+    aspect-ratio: 4 / 3;
+  }
+  .dn-fachada figcaption {
+    top: auto;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    max-width: none;
   }
   .ps-fotos ol {
     grid-template-columns: minmax(0, 1fr);
